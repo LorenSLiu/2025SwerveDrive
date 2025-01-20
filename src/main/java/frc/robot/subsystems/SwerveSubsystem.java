@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -11,6 +12,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class SwerveSubsystem extends SubsystemBase {
     CommandXboxController m_driverController;
+
+
 
     //define each module
     SwerveModule frontLeftModule  = new SwerveModule(frc.robot.Constants.DriveConstants.kFrontLeftDrivingID, 
@@ -34,12 +37,6 @@ public class SwerveSubsystem extends SubsystemBase {
     Translation2d m_backRightLocation = new Translation2d(-frc.robot.Constants.DriveConstants.kmDriveWidth / 2, 
                                                             -frc.robot.Constants.DriveConstants.kmDriveLength / 2);
 
-
-    public SwerveSubsystem(CommandXboxController driverController) {
-        m_driverController = driverController;
-        System.out.println("SwerveSubsystem constructor");
-    }
-
     //define a kinematics object
     SwerveDriveKinematics m_Kinematics = new SwerveDriveKinematics(
         m_frontLeftLocation, 
@@ -47,6 +44,14 @@ public class SwerveSubsystem extends SubsystemBase {
         m_backLeftLocation, 
         m_backRightLocation
     );
+
+
+    public SwerveSubsystem(CommandXboxController driverController) {
+        m_driverController = driverController;
+        System.out.println("SwerveSubsystem constructor");
+    }
+
+    
 
     public void setChassisSpeeds(ChassisSpeeds desired){
         SwerveModuleState[] swerveModuleStates = m_Kinematics.toSwerveModuleStates(desired);
@@ -76,10 +81,13 @@ public class SwerveSubsystem extends SubsystemBase {
             m_driverController.getRightX()
         );
 
+        System.out.println(m_chassisSpeeds);
         setChassisSpeeds(m_chassisSpeeds);
 
 
 
+
+        //advantage scope stuff
         // This method will be called once per scheduler run
         double loginstate[] = {
             frontLeftModule.getSwerveModuleState().angle.getDegrees(),
