@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -8,13 +10,13 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.AnalogInput;
+import frc.robot.Constants.ModuleConstants;
 @SuppressWarnings("all")
 
 public class SwerveModule {
     private TalonFX m_drivingKraken;
     private TalonFX m_turningFalcon;
 
-    private final double m_turningEncoderOffset;//check the offset value
     private final AnalogInput m_absoluteEncoder;//check the port number
     private final boolean m_turningEncoderReversed;//check if the encoder is reversed
     private final double m_absoluteEncoderOffsetRadians;//check the offset value
@@ -27,7 +29,7 @@ public class SwerveModule {
     private SwerveModuleState m_moduleCurrentState;//contain the speed and angle of the module
     private SwerveModuleState m_moduleDesiredState;//contain the speed and angle of the module
 
-    public SwerveModule(int drivingKrakenID, int turningFalconID, double turningEncoderOffset, int absoluteEncoderID, double absoluteEncoderOffsetRadians, boolean turningEncoderReversed){ 
+    public SwerveModule(int drivingKrakenID, int turningFalconID, int absoluteEncoderID, double absoluteEncoderOffsetRadians, boolean turningEncoderReversed){ 
         m_drivingKraken = new TalonFX(drivingKrakenID);
         m_turningFalcon = new TalonFX(turningFalconID);
 
@@ -36,10 +38,22 @@ public class SwerveModule {
         m_moduleCurrentState = new SwerveModuleState();
         m_moduleDesiredState = new SwerveModuleState();
 
-        m_turningEncoderOffset = turningEncoderOffset;
         m_absoluteEncoder = new AnalogInput(absoluteEncoderID);
         m_absoluteEncoderOffsetRadians = absoluteEncoderOffsetRadians;
         m_turningEncoderReversed = turningEncoderReversed;
+
+        var slot0Configs = new Slot0Configs();
+        slot0Configs.kS = ModuleConstants.kDrivingFF; // Add 0.25 V output to overcome static friction
+        slot0Configs.kP = ModuleConstants.kDrivingP; // A position error of 2.5 rotations results in 12 V output
+        slot0Configs.kI = ModuleConstants.kDrivingI; // no output for integrated error
+        slot0Configs.kD = ModuleConstants.kDrivingD; // A velocity error of 1 rps results in 0.1 V output
+
+        var currentConfig = new CurrentLimitsConfigs();
+        currentConfig.StatorCurrentLimit = frc.robot.Constants.ModuleConstants.kDrivingMotorCurrentLimit;
+        currentConfig.StatorCurrentLimitEnable = true;
+
+        m_drivingKraken.getConfigurator().apply(slot0Configs);
+        m_drivingKraken.getConfigurator().apply(currentConfig);
     }
 
     public SwerveModuleState setDesiredState(SwerveModuleState newState){

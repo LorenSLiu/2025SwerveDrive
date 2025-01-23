@@ -5,37 +5,59 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
+import com.ctre.phoenix6.configs.Slot0Configs;
+
+
 public class SwerveSubsystem extends SubsystemBase {
     CommandXboxController m_driverController;
 
-
-
     //define each module
-    SwerveModule frontLeftModule  = new SwerveModule(frc.robot.Constants.DriveConstants.kFrontLeftDrivingID, 
-                                              frc.robot.Constants.DriveConstants.kFrontLeftTurningID);
-    SwerveModule frontRightModule = new SwerveModule(frc.robot.Constants.DriveConstants.kFrontRightDrivingID, 
-                                               frc.robot.Constants.DriveConstants.kFrontRightTurningID);
-    SwerveModule backLeftModule   = new SwerveModule(frc.robot.Constants.DriveConstants.kBackLeftDrivingID,
-                                               frc.robot.Constants.DriveConstants.kBackLeftTurningID);
-    SwerveModule backRightModule  = new SwerveModule(frc.robot.Constants.DriveConstants.kBackRightDrivingID,
-                                               frc.robot.Constants.DriveConstants.kBackRightTurningID);  
+    SwerveModule frontLeftModule  = new SwerveModule(
+        frc.robot.Constants.DriveConstants.kFrontLeftDrivingID, 
+        frc.robot.Constants.DriveConstants.kFrontLeftTurningID,
+        frc.robot.Constants.DriveConstants.kFrontLeftTurningEncoderID,
+        frc.robot.Constants.DriveConstants.kFrontLeftAbsoluteEncoderOffsetRadians,
+        frc.robot.Constants.DriveConstants.kFrontLeftTurningEncoderReversed);
 
+    SwerveModule frontRightModule = new SwerveModule(
+        frc.robot.Constants.DriveConstants.kFrontRightDrivingID, 
+        frc.robot.Constants.DriveConstants.kFrontRightTurningID,
+        frc.robot.Constants.DriveConstants.kFrontRightTurningEncoderID,
+        frc.robot.Constants.DriveConstants.kFrontRightAbsoluteEncoderOffsetRadians,
+        frc.robot.Constants.DriveConstants.kFrontRightTurningEncoderReversed);
+
+    SwerveModule backLeftModule   = new SwerveModule(
+        frc.robot.Constants.DriveConstants.kBackLeftDrivingID,
+        frc.robot.Constants.DriveConstants.kBackLeftTurningID,
+        frc.robot.Constants.DriveConstants.kBackLeftTurningEncoderID,
+        frc.robot.Constants.DriveConstants.kBackLeftAbsoluteEncoderOffsetRadians,
+        frc.robot.Constants.DriveConstants.kBackLeftTurningEncoderReversed);
+
+    SwerveModule backRightModule  = new SwerveModule(
+        frc.robot.Constants.DriveConstants.kBackRightDrivingID,
+        frc.robot.Constants.DriveConstants.kBackRightTurningID,
+        frc.robot.Constants.DriveConstants.kBackRightTurningEncoderID,
+        frc.robot.Constants.DriveConstants.kBackRightAbsoluteEncoderOffsetRadians,
+        frc.robot.Constants.DriveConstants.kBackRightTurningEncoderReversed);  
 
     //Translation 2d for the swerve drive/kinematics, kinematics need to the each module's location relative to the center 
     //of the robot and then the kinematics object will calculate the speed and angle for each module
-    Translation2d m_frontLeftLocation = new Translation2d((frc.robot.Constants.DriveConstants.kmDriveWidth) / 2, 
-                                                          frc.robot.Constants.DriveConstants.kmDriveLength / 2);
-    Translation2d m_frontRightLocation = new Translation2d(frc.robot.Constants.DriveConstants.kmDriveWidth / 2, 
-                                                           -frc.robot.Constants.DriveConstants.kmDriveLength / 2);
-    Translation2d m_backLeftLocation = new Translation2d(-frc.robot.Constants.DriveConstants.kmDriveWidth / 2, 
-                                                            frc.robot.Constants.DriveConstants.kmDriveLength / 2);
-    Translation2d m_backRightLocation = new Translation2d(-frc.robot.Constants.DriveConstants.kmDriveWidth / 2, 
-                                                            -frc.robot.Constants.DriveConstants.kmDriveLength / 2);
+    Translation2d m_frontLeftLocation = new Translation2d(
+        (frc.robot.Constants.DriveConstants.kmDriveWidth) / 2, 
+        frc.robot.Constants.DriveConstants.kmDriveLength / 2);
+    Translation2d m_frontRightLocation = new Translation2d(
+        frc.robot.Constants.DriveConstants.kmDriveWidth / 2, 
+        -frc.robot.Constants.DriveConstants.kmDriveLength / 2);
+    Translation2d m_backLeftLocation = new Translation2d(
+        -frc.robot.Constants.DriveConstants.kmDriveWidth / 2, 
+        frc.robot.Constants.DriveConstants.kmDriveLength / 2);
+    Translation2d m_backRightLocation = new Translation2d(
+        -frc.robot.Constants.DriveConstants.kmDriveWidth / 2, 
+        -frc.robot.Constants.DriveConstants.kmDriveLength / 2);
 
     //define a kinematics object
     SwerveDriveKinematics m_Kinematics = new SwerveDriveKinematics(
@@ -51,7 +73,6 @@ public class SwerveSubsystem extends SubsystemBase {
         System.out.println("SwerveSubsystem constructor");
     }
 
-    
 
     public void setChassisSpeeds(ChassisSpeeds desired){
         SwerveModuleState[] swerveModuleStates = m_Kinematics.toSwerveModuleStates(desired);
@@ -60,12 +81,6 @@ public class SwerveSubsystem extends SubsystemBase {
         backLeftModule.setDesiredState(swerveModuleStates[2]);
         backRightModule.setDesiredState(swerveModuleStates[3]);
     }
-
-
-
-
-  
-
 
     //jsut for the information for advantage scope, you might want to consider:, as the array is not a struct and it will be removed in 2026
     //StructArrayPublisher<SwerveModuleState> publisher = NetworkTableInstance.getDefault()

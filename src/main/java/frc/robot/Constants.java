@@ -18,6 +18,31 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+  public static class ModuleConstants{
+    public static final double kTurningEncoderPositionFactor = (2 * Math.PI); // radians
+    public static final double kTurningEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per second
+
+    public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
+    public static final double kTurningEncoderPositionPIDMaxInput = kTurningEncoderPositionFactor; // radians
+
+    public static final double kDrivingP = 0.001;
+    public static final double kDrivingI = 0;
+    public static final double kDrivingD = 0;
+    public static final double kDrivingFF = 1 / 2;//kDriveWheelFreeSpeedRps;
+    public static final double kDrivingMinOutput = -1;
+    public static final double kDrivingMaxOutput = 1;
+
+    public static final double kTurningP = 1;
+    public static final double kTurningI = 0;
+    public static final double kTurningD = 0;
+    public static final double kTurningFF = 0;
+    public static final double kTurningMinOutput = -1;
+    public static final double kTurningMaxOutput = 1;
+
+
+    public static final int kDrivingMotorCurrentLimit = 50; // amps
+    public static final int kTurningMotorCurrentLimit = 20; // amps
+  }
   public static class DriveConstants {
     //CAN bus ID
     public static final int kFrontLeftTurningID = 1;
@@ -28,6 +53,23 @@ public final class Constants {
     public static final int kBackLeftDrivingID = 6;
     public static final int kBackRightTurningID = 7;
     public static final int kBackRightDrivingID = 8;
+    public static final int kFrontLeftTurningEncoderID = 9;
+    public static final int kFrontRightTurningEncoderID = 10;
+    public static final int kBackLeftTurningEncoderID = 11;
+    public static final int kBackRightTurningEncoderID = 12;
+
+    //Module offsets
+    public static final double kFrontLeftAbsoluteEncoderOffsetRadians = 0;
+    public static final double kFrontRightAbsoluteEncoderOffsetRadians = 0;
+    public static final double kBackLeftAbsoluteEncoderOffsetRadians = 0;
+    public static final double kBackRightAbsoluteEncoderOffsetRadians = 0;
+
+    //Moudle reversed or nah
+    public static final boolean kFrontLeftTurningEncoderReversed  = true;
+    public static final boolean kFrontRightTurningEncoderReversed = true;
+    public static final boolean kBackLeftTurningEncoderReversed   = true;
+    public static final boolean kBackRightTurningEncoderReversed  = true;
+
 
     //frame size
     public static final double kmDriveWidth = Units.inchesToMeters(26.5);
