@@ -54,6 +54,22 @@ public class SwerveModule {
 
         m_drivingKraken.getConfigurator().apply(slot0Configs);
         m_drivingKraken.getConfigurator().apply(currentConfig);
+
+
+        //following are the turning motor configurations
+        var turningSlot0Configs = new Slot0Configs();
+        slot0Configs.kS = ModuleConstants.kTurningFF; // Add 0.25 V output to overcome static friction
+        slot0Configs.kP = ModuleConstants.kTurningP; // A position error of 2.5 rotations results in 12 V output
+        slot0Configs.kI = ModuleConstants.kTurningI; // no output for integrated error
+        slot0Configs.kD = ModuleConstants.kTurningD; // A velocity error of 1 rps results in 0.1 V output
+  
+      
+        var turningCurrentConfig = new CurrentLimitsConfigs();
+        currentConfig.StatorCurrentLimit = ModuleConstants.kTurningMotorCurrentLimit;
+        currentConfig.StatorCurrentLimitEnable = true;
+  
+        m_turningFalcon.getConfigurator().apply(slot0Configs);
+        m_turningFalcon.getConfigurator().apply(currentConfig);
     }
 
     public SwerveModuleState setDesiredState(SwerveModuleState newState){
