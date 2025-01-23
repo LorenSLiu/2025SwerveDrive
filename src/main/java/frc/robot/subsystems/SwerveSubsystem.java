@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
 
+@SuppressWarnings("all")//you know we all hate this
 
 public class SwerveSubsystem extends SubsystemBase {
     CommandXboxController m_driverController;

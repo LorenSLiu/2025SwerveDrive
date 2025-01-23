@@ -11,7 +11,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.AnalogInput;
 import frc.robot.Constants.ModuleConstants;
-@SuppressWarnings("all")
+@SuppressWarnings("all")//hater just be hating
 
 public class SwerveModule {
     private TalonFX m_drivingKraken;
