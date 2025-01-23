@@ -2,14 +2,17 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ModuleConstants;
 @SuppressWarnings("all")//hater just be hating
 
@@ -17,7 +20,6 @@ public class SwerveModule {
     private TalonFX m_drivingKraken;
     private TalonFX m_turningFalcon;
 
-    private final AnalogInput m_absoluteEncoder;//check the port number
     private final boolean m_turningEncoderReversed;//check if the encoder is reversed
     private final double m_absoluteEncoderOffsetRadians;//check the offset value
 
@@ -26,21 +28,23 @@ public class SwerveModule {
     PIDController m_drivePIDController = new PIDController(0.1, 0, 0);//Double check the PID values
     PIDController m_turnPIDController = new PIDController(0.1, 0, 0);//same as above
 
+    private VelocityDutyCycle m_velocityDutyCycle;
+
     private SwerveModuleState m_moduleCurrentState;//contain the speed and angle of the module
     private SwerveModuleState m_moduleDesiredState;//contain the speed and angle of the module
 
     public SwerveModule(int drivingKrakenID, int turningFalconID, int absoluteEncoderID, double absoluteEncoderOffsetRadians, boolean turningEncoderReversed){ 
         m_drivingKraken = new TalonFX(drivingKrakenID);
         m_turningFalcon = new TalonFX(turningFalconID);
-
-        m_turningEncoder = new CANcoder(m_turningFalcon.getDeviceID());//check if the ID is same as the turningFalconID
+        m_turningEncoder = new CANcoder(absoluteEncoderID);//check if the ID is same as the turningFalconID
 
         m_moduleCurrentState = new SwerveModuleState();
         m_moduleDesiredState = new SwerveModuleState();
 
-        m_absoluteEncoder = new AnalogInput(absoluteEncoderID);
         m_absoluteEncoderOffsetRadians = absoluteEncoderOffsetRadians;
         m_turningEncoderReversed = turningEncoderReversed;
+
+        m_velocityDutyCycle = new VelocityDutyCycle(0);
 
         var slot0Configs = new Slot0Configs();
         slot0Configs.kS = ModuleConstants.kDrivingFF; // Add 0.25 V output to overcome static friction
@@ -70,10 +74,19 @@ public class SwerveModule {
   
         m_turningFalcon.getConfigurator().apply(slot0Configs);
         m_turningFalcon.getConfigurator().apply(currentConfig);
+
+        m_drivingKraken.setPosition(0);
+        m_drivingKraken.setNeutralMode(NeutralModeValue.Brake);
+
     }
 
-    public SwerveModuleState setDesiredState(SwerveModuleState newState){
-        m_moduleDesiredState = newState;
+    public SwerveModuleState setDesiredState(SwerveModuleState moduleDesiredState){
+        m_moduleDesiredState = moduleDesiredState;
+        m_moduleDesiredState.optimize(moduleDesiredState.angle);
+
+        //m_drivingKraken.setControl(m_velocityDutyCycle.withVelocity(m_moduleDesiredState.speedMetersPerSecond * ModuleConstants.kDrivingEncoderVelocityFactor));
+        m_drivingKraken.setControl(m_velocityDutyCycle.withVelocity(m_moduleDesiredState.speedMetersPerSecond));
+
         return m_moduleDesiredState;
     }
     
@@ -82,6 +95,8 @@ public class SwerveModule {
     }
 
     public void periodic(){
-
+        SmartDashboard.putNumber("Driving Kraken velocity CAN ID: "+m_drivingKraken.getDeviceID(), m_drivingKraken.getVelocity().getValueAsDouble());
+        SmartDashboard.putNumber("Turning Falcon velocity CAN ID: "+m_turningFalcon.getDeviceID(), m_turningFalcon.getVelocity().getValueAsDouble());
+        
     }
 }

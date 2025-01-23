@@ -21,6 +21,15 @@ public final class Constants {
 
   
   public static class ModuleConstants{
+    // Calculations required for driving motor conversion factors and feed forward
+    public static final double kDrivingMotorFreeSpeedRps = 6000 / 60;//what the hell is this
+    public static final double kWheelDiameterMeters = 0.0762;
+    public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
+
+    // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15
+    // teeth on the bevel pinion
+    public static final double kDrivingMotorReduction = 3.56;//need to change it, talk with Stanford
+
     public static final double kTurningEncoderPositionFactor = (2 * Math.PI); // radians
     public static final double kTurningEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per second
 
@@ -44,6 +53,10 @@ public final class Constants {
 
     public static final int kDrivingMotorCurrentLimit = 80; // amps
     public static final int kTurningMotorCurrentLimit = 50; // amps
+
+
+    public static final double kDrivingEncoderVelocityFactor = ((kWheelDiameterMeters * Math.PI)
+    / kDrivingMotorReduction); // meters per second
   }
   public static class DriveConstants {
     //CAN bus ID
