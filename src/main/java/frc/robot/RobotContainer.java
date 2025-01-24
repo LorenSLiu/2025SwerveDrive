@@ -24,6 +24,7 @@ public class RobotContainer {
   public RobotContainer() {
     driverController.a().onTrue(new RunCommand(() -> {
       System.out.println("A button pressed");
+      System.out.println("end");
     }));
   }
 
