@@ -85,8 +85,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
 
 
-    public SwerveSubsystem(CommandXboxController driverController) {
-        m_driverController = driverController; // Set the controller
+    public SwerveSubsystem() {
+       // m_driverController = driverController; // Set the controller
         pigeon = new Pigeon2(frc.robot.Constants.OperatorConstants.GYRO_ID);//add id later
         yaw = pigeon.getYaw();
         yawVelocity = pigeon.getAngularVelocityZWorld();

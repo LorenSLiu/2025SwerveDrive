@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
+import frc.robot.commands.Test;
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -22,12 +23,13 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
   CommandXboxController driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
+  SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
 
   public RobotContainer() {
-    driverController.a().onTrue(Commands.runOnce(() -> {
-      System.out.println("A button pressed");
-      System.out.println("end");
-    }));
+
+
+
+    driverController.a().onTrue(new Test());
   }
 
   
