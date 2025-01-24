@@ -1,20 +1,34 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ModuleConstants;
 
+import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.hardware.Pigeon2;
 
 @SuppressWarnings("all")//you know we all hate this
 
 public class SwerveSubsystem extends SubsystemBase {
+    private double m_currentRotation = 0.0;
     CommandXboxController m_driverController;
-
+    private final Pigeon2 pigeon;
+    private final StatusSignal<Angle> yaw;
+    private final StatusSignal<AngularVelocity> yawVelocity;
     //define each module
     SwerveModule frontLeftModule  = new SwerveModule(
         frc.robot.Constants.DriveConstants.kFrontLeftDrivingID, 
@@ -66,10 +80,23 @@ public class SwerveSubsystem extends SubsystemBase {
         m_backLeftLocation, 
         m_backRightLocation
     );
+    public PIDController m_botAnglePID = new PIDController(ModuleConstants.kTurningP, ModuleConstants.kTurningI, ModuleConstants.kTurningD);
+
+
 
 
     public SwerveSubsystem(CommandXboxController driverController) {
-        m_driverController = driverController;
+        m_driverController = driverController; // Set the controller
+        pigeon = new Pigeon2(frc.robot.Constants.OperatorConstants.GYRO_ID);//add id later
+        yaw = pigeon.getYaw();
+        yawVelocity = pigeon.getAngularVelocityZWorld();
+
+        pigeon.getConfigurator().apply(new Pigeon2Configuration());
+        pigeon.getConfigurator().setYaw(0.0);
+        yaw.setUpdateFrequency(100);//Hz booom
+        yawVelocity.setUpdateFrequency(100.0);
+        pigeon.optimizeBusUtilization();
+        //m_driverController = driverController;
         System.out.println("SwerveSubsystem constructor");
     }
 
@@ -82,11 +109,17 @@ public class SwerveSubsystem extends SubsystemBase {
         backRightModule.setDesiredState(swerveModuleStates[3]);
     }
 
-    //jsut for the information for advantage scope, you might want to consider:, as the array is not a struct and it will be removed in 2026
-    //StructArrayPublisher<SwerveModuleState> publisher = NetworkTableInstance.getDefault()
-    //.getStructArrayTopic("MyStates", SwerveModuleState.struct).publish();
-    @Override
-    public void periodic() {
+    public void drive(double xSpeed, double ySpeed, double rot) {
+        xSpeed = applyDeadband(xSpeed, 0.1);
+        ySpeed = applyDeadband(ySpeed, 0.1);
+        rot = applyDeadband(rot, 0.1);
+
+        double xSpeedCommanded;
+        double ySpeedCommanded;
+        xSpeedCommanded = xSpeed;
+        ySpeedCommanded = ySpeed;
+        m_currentRotation = rot;
+
         ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(
             //leftside pushing forward will make robot move forward
             m_driverController.getLeftY(),
@@ -95,9 +128,41 @@ public class SwerveSubsystem extends SubsystemBase {
             //rightside pushing right will make robot turn right
             m_driverController.getRightX()
         );
-
-        System.out.println(m_chassisSpeeds);
         setChassisSpeeds(m_chassisSpeeds);
+
+
+    }
+    private double applyDeadband(double value, double deadband) {
+        return Math.abs(value) > deadband ? value : 0.0;
+    }
+    
+    // public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean rateLimit) {
+    //     // Optional: Implement rate limiting here if needed
+    //     ChassisSpeeds chassisSpeeds = fieldRelative
+    //         ? ChassisSpeeds.fromFieldRelativeSpeeds(
+    //               xSpeed, ySpeed, rot, Rotation2d.fromDegrees(yaw.getValue().getDegrees()))
+    //         : new ChassisSpeeds(xSpeed, ySpeed, rot);
+    
+    //     setChassisSpeeds(chassisSpeeds);
+    // }
+    
+
+    //jsut for the information for advantage scope, you might want to consider:, as the array is not a struct and it will be removed in 2026
+    //StructArrayPublisher<SwerveModuleState> publisher = NetworkTableInstance.getDefault()
+    //.getStructArrayTopic("MyStates", SwerveModuleState.struct).publish();
+    @Override
+    public void periodic() {
+        // ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(
+        //     //leftside pushing forward will make robot move forward
+        //     m_driverController.getLeftY(),
+        //     //leftside pushing right will make robot move right
+        //     m_driverController.getLeftX(),
+        //     //rightside pushing right will make robot turn right
+        //     m_driverController.getRightX()
+        // );
+
+        // System.out.println(m_chassisSpeeds);
+        // setChassisSpeeds(m_chassisSpeeds);
 
 
 
@@ -128,5 +193,6 @@ public class SwerveSubsystem extends SubsystemBase {
         };
         SmartDashboard.putNumberArray("SwerveState", loginstate);
     }
+    
     
 }

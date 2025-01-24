@@ -17,8 +17,15 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+    public static final int GYRO_ID = 0;
   }
 
+  
+  public static final class OIConstants {
+    public static final int kDriverControllerPort = 0;
+    public static final int kAuxControllerPort = 1;
+    public static final double kDriveDeadband = 0.1;
+  }
   
   public static class ModuleConstants{
     // Calculations required for driving motor conversion factors and feed forward
