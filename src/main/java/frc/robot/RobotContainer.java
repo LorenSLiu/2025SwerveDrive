@@ -29,7 +29,7 @@ public class RobotContainer {
 
 
 
-    driverController.a().onTrue(new Test());
+    driverController.a().whileTrue(new Test());
   }
 
   
