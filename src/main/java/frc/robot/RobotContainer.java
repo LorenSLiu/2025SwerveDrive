@@ -12,6 +12,8 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -22,7 +24,7 @@ public class RobotContainer {
   CommandXboxController driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
 
   public RobotContainer() {
-    driverController.a().onTrue(new RunCommand(() -> {
+    driverController.a().onTrue(Commands.runOnce(() -> {
       System.out.println("A button pressed");
       System.out.println("end");
     }));
