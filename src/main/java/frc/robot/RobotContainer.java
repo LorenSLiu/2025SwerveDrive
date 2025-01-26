@@ -29,7 +29,7 @@ public class RobotContainer {
   public RobotContainer() {
 
 
-
+    configureBindings();
     //driverController.a().whileTrue(new Test());
   }
 
@@ -40,7 +40,7 @@ public class RobotContainer {
           () -> swerveSubsystem.setChassisSpeeds(getChassisSpeedsFromController()), swerveSubsystem
         )
     );
-    driverController.getLeftX();
+    //driverController.getLeftX();
   }
 
  
