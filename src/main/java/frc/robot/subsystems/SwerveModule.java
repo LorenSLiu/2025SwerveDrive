@@ -20,7 +20,6 @@ public class SwerveModule {
     private TalonFX m_drivingKraken;
     private TalonFX m_turningFalcon;
 
-    private final boolean m_turningEncoderReversed;//check if the encoder is reversed
     private final double m_absoluteEncoderOffsetRadians;//check the offset value
 
     private final CANcoder m_turningEncoder;
@@ -33,7 +32,7 @@ public class SwerveModule {
     private SwerveModuleState m_moduleCurrentState;//contain the speed and angle of the module
     private SwerveModuleState m_moduleDesiredState;//contain the speed and angle of the module
 
-    public SwerveModule(int drivingKrakenID, int turningFalconID, int absoluteEncoderID, double absoluteEncoderOffsetRadians, boolean turningEncoderReversed){ 
+    public SwerveModule(int drivingKrakenID, int turningFalconID, int absoluteEncoderID, double absoluteEncoderOffsetRadians){ 
         m_drivingKraken = new TalonFX(drivingKrakenID);
         m_turningFalcon = new TalonFX(turningFalconID);
         m_turningEncoder = new CANcoder(absoluteEncoderID);//check if the ID is same as the turningFalconID
@@ -42,7 +41,7 @@ public class SwerveModule {
         m_moduleDesiredState = new SwerveModuleState();
 
         m_absoluteEncoderOffsetRadians = absoluteEncoderOffsetRadians;
-        m_turningEncoderReversed = turningEncoderReversed;
+//        m_turningEncoderReversed = turningEncoderReversed;
 
         m_velocityDutyCycle = new VelocityDutyCycle(0);
 
@@ -86,6 +85,7 @@ public class SwerveModule {
 
         //m_drivingKraken.setControl(m_velocityDutyCycle.withVelocity(m_moduleDesiredState.speedMetersPerSecond * ModuleConstants.kDrivingEncoderVelocityFactor));
         m_drivingKraken.setControl(m_velocityDutyCycle.withVelocity(m_moduleDesiredState.speedMetersPerSecond));
+        m_turningFalcon.setControl(m_velocityDutyCycle.withVelocity(m_moduleDesiredState.angle.getRadians() * ModuleConstants.kTurningEncoderVelocityFactor));
 
         return m_moduleDesiredState;
     }

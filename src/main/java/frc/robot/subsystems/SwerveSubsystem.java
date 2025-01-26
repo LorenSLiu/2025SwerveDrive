@@ -34,29 +34,25 @@ public class SwerveSubsystem extends SubsystemBase {
         frc.robot.Constants.DriveConstants.kFrontLeftDrivingID, 
         frc.robot.Constants.DriveConstants.kFrontLeftTurningID,
         frc.robot.Constants.DriveConstants.kFrontLeftTurningEncoderID,
-        frc.robot.Constants.DriveConstants.kFrontLeftAbsoluteEncoderOffsetRadians,
-        frc.robot.Constants.DriveConstants.kFrontLeftTurningEncoderReversed);
+        frc.robot.Constants.DriveConstants.kFrontLeftAbsoluteEncoderOffsetRadians);
 
     SwerveModule frontRightModule = new SwerveModule(
         frc.robot.Constants.DriveConstants.kFrontRightDrivingID, 
         frc.robot.Constants.DriveConstants.kFrontRightTurningID,
         frc.robot.Constants.DriveConstants.kFrontRightTurningEncoderID,
-        frc.robot.Constants.DriveConstants.kFrontRightAbsoluteEncoderOffsetRadians,
-        frc.robot.Constants.DriveConstants.kFrontRightTurningEncoderReversed);
+        frc.robot.Constants.DriveConstants.kFrontRightAbsoluteEncoderOffsetRadians);
 
     SwerveModule backLeftModule   = new SwerveModule(
         frc.robot.Constants.DriveConstants.kBackLeftDrivingID,
         frc.robot.Constants.DriveConstants.kBackLeftTurningID,
         frc.robot.Constants.DriveConstants.kBackLeftTurningEncoderID,
-        frc.robot.Constants.DriveConstants.kBackLeftAbsoluteEncoderOffsetRadians,
-        frc.robot.Constants.DriveConstants.kBackLeftTurningEncoderReversed);
+        frc.robot.Constants.DriveConstants.kBackLeftAbsoluteEncoderOffsetRadians);
 
     SwerveModule backRightModule  = new SwerveModule(
         frc.robot.Constants.DriveConstants.kBackRightDrivingID,
         frc.robot.Constants.DriveConstants.kBackRightTurningID,
         frc.robot.Constants.DriveConstants.kBackRightTurningEncoderID,
-        frc.robot.Constants.DriveConstants.kBackRightAbsoluteEncoderOffsetRadians,
-        frc.robot.Constants.DriveConstants.kBackRightTurningEncoderReversed);  
+        frc.robot.Constants.DriveConstants.kBackRightAbsoluteEncoderOffsetRadians);  
 
     //Translation 2d for the swerve drive/kinematics, kinematics need to the each module's location relative to the center 
     //of the robot and then the kinematics object will calculate the speed and angle for each module
@@ -120,17 +116,12 @@ public class SwerveSubsystem extends SubsystemBase {
         ySpeedCommanded = ySpeed;
         m_currentRotation = rot;
 
-        ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(
-            //leftside pushing forward will make robot move forward
-            m_driverController.getLeftY(),
-            //leftside pushing right will make robot move right
-            m_driverController.getLeftX(),
-            //rightside pushing right will make robot turn right
-            m_driverController.getRightX()
-        );
-        setChassisSpeeds(m_chassisSpeeds);
+        setChassisSpeeds(new ChassisSpeeds(xSpeedCommanded, ySpeedCommanded, m_currentRotation));
 
+    }
 
+    public void zeroChassisSpeeds(){
+        setChassisSpeeds(new ChassisSpeeds(0, 0, 0));
     }
     private double applyDeadband(double value, double deadband) {
         return Math.abs(value) > deadband ? value : 0.0;
@@ -152,22 +143,22 @@ public class SwerveSubsystem extends SubsystemBase {
     //.getStructArrayTopic("MyStates", SwerveModuleState.struct).publish();
     @Override
     public void periodic() {
-        // ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(
-        //     //leftside pushing forward will make robot move forward
-        //     m_driverController.getLeftY(),
-        //     //leftside pushing right will make robot move right
-        //     m_driverController.getLeftX(),
-        //     //rightside pushing right will make robot turn right
-        //     m_driverController.getRightX()
-        // );
+        ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(
+            //leftside pushing forward will make robot move forward
+            m_driverController.getLeftY(),
+            //leftside pushing right will make robot move right
+            m_driverController.getLeftX(),
+            //rightside pushing right will make robot turn right
+            m_driverController.getRightX()
+        );
 
-        // System.out.println(m_chassisSpeeds);
-        // setChassisSpeeds(m_chassisSpeeds);
-
-
+        System.out.println(m_chassisSpeeds);
+        setChassisSpeeds(m_chassisSpeeds);
 
 
-        //advantage scope stuff
+
+
+        //advantage scope stuffS
         // This method will be called once per scheduler run
         double loginstate[] = {
             frontLeftModule.getSwerveModuleState().angle.getDegrees(),
