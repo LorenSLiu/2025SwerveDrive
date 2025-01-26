@@ -52,6 +52,7 @@ public class RobotContainer {
     double xSpeed = -driverController.getLeftY(); // Forward/backward
     double ySpeed = -driverController.getLeftX(); // Strafe left/right
     double rot = -driverController.getRightX();   // Rotation (CW/CCW)
+    System.out.println("X: " + xSpeed + " Y: " + ySpeed + " Rot: " + rot);
 
     // Apply deadband (optional, prevents drift from small joystick values)
     xSpeed = Math.abs(xSpeed) > 0.1 ? xSpeed : 0.0;
