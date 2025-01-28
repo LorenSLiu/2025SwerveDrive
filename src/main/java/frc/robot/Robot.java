@@ -86,9 +86,9 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
-    if (RobotContainer.driverController.isConnected()&&RobotContainer.driverController.getLeftX()>0.1) {
-      System.out.println(RobotContainer.driverController.getLeftX());
-    }
+    // if (RobotContainer.driverController.isConnected()&&RobotContainer.driverController.getLeftX()>0.1) {
+    //   System.out.println(RobotContainer.driverController.getLeftX());
+    // }
   }
 
   /** This function is called once when the robot is first started up. */

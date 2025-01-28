@@ -84,7 +84,6 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void setChassisSpeeds(ChassisSpeeds desired) {
-        System.out.println("SwerveSubsystem setChassisSpeeds");
         SwerveModuleState[] swerveModuleStates = m_Kinematics.toSwerveModuleStates(desired);
         frontLeftModule.setDesiredState(swerveModuleStates[0]);
         frontRightModule.setDesiredState(swerveModuleStates[1]);
@@ -162,8 +161,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
         // advantage scope stuffS
         // This method will be called once per scheduler run
-  
-
+        System.out.println("SwerveSubsystem periodic");
+        System.out.println("Front Left Module State: " + frontLeftModule.getSwerveModuleState());
         double loginstate[] = {
                 frontLeftModule.getSwerveModuleState().angle.getDegrees(),
                 frontLeftModule.getSwerveModuleState().speedMetersPerSecond,
