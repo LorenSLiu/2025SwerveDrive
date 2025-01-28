@@ -36,9 +36,9 @@ public class RobotContainer {
 
     new RunCommand(
       () -> swerveSubsystem.drive(
-          -MathUtil.applyDeadband(driverController.getLeftY(), OIConstants.kDriveDeadband),
-          -MathUtil.applyDeadband(driverController.getLeftX(), OIConstants.kDriveDeadband),
-          -MathUtil.applyDeadband(driverController.getRightX(), OIConstants.kDriveDeadband),
+          -MathUtil.applyDeadband(driverController.getLeftY()*4, OIConstants.kDriveDeadband),
+          -MathUtil.applyDeadband(driverController.getLeftX()*4, OIConstants.kDriveDeadband),
+          -MathUtil.applyDeadband(driverController.getRightX()*4, OIConstants.kDriveDeadband),
           true),
           swerveSubsystem));
 
