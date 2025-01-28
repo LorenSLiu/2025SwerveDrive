@@ -46,38 +46,12 @@ public class RobotContainer {
 
   
   private void configureBindings() {
-    swerveSubsystem.setDefaultCommand(
-        new RunCommand(
-          () -> swerveSubsystem.setChassisSpeeds(getChassisSpeedsFromController()), swerveSubsystem
-        )
-    );
+
     //driverController.getLeftX();
   }
 
  
   public Command getAutonomousCommand() {
     return null;
-  }
-
-  private ChassisSpeeds getChassisSpeedsFromController() {
-    // Read joystick axes
-    double xSpeed = -driverController.getLeftY(); // Forward/backward
-    double ySpeed = -driverController.getLeftX(); // Strafe left/right
-    double rot = -driverController.getRightX();   // Rotation (CW/CCW)
-    System.out.println("X: " + xSpeed + " Y: " + ySpeed + " Rot: " + rot);
-
-    // Apply deadband (optional, prevents drift from small joystick values)
-    xSpeed = Math.abs(xSpeed) > 0.1 ? xSpeed : 0.0;
-    ySpeed = Math.abs(ySpeed) > 0.1 ? ySpeed : 0.0;
-    rot = Math.abs(rot) > 0.1 ? rot : 0.0;
-
-    return new ChassisSpeeds(xSpeed, ySpeed, rot);
-
-
-    // // Scale joystick values for max speeds
-    // xSpeed *= SwerveSubsystem.MAX_SPEED_METERS_PER_SECOND;
-    // ySpeed *= SwerveSubsystem.MAX_SPEED_METERS_PER_SECOND;
-    // rot *= SwerveSubsystem.MAX_ANGULAR_SPEED_RADIANS_PER_SECOND;
-  
   }
 }
