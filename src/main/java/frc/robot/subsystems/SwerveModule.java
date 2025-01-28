@@ -95,8 +95,6 @@ public class SwerveModule {
     }
 
     public void periodic(){
-        System.out.println("SwerveModule periodic");
-        System.out.println("fuckkk------------------");
         SmartDashboard.putNumber("Driving Kraken velocity CAN ID: "+m_drivingKraken.getDeviceID(), m_drivingKraken.getVelocity().getValueAsDouble());
         SmartDashboard.putNumber("Turning Falcon velocity CAN ID: "+m_turningFalcon.getDeviceID(), m_turningFalcon.getVelocity().getValueAsDouble());
         

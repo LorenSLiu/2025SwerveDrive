@@ -89,6 +89,20 @@ public class SwerveSubsystem extends SubsystemBase {
         frontRightModule.setDesiredState(swerveModuleStates[1]);
         backLeftModule.setDesiredState(swerveModuleStates[2]);
         backRightModule.setDesiredState(swerveModuleStates[3]);
+        double loginstate[] = {
+            swerveModuleStates[0].angle.getDegrees(),
+            swerveModuleStates[0].speedMetersPerSecond,
+
+            swerveModuleStates[1].angle.getDegrees(),
+            swerveModuleStates[1].speedMetersPerSecond,
+
+            swerveModuleStates[2].angle.getDegrees(),
+            swerveModuleStates[2].speedMetersPerSecond,
+
+            swerveModuleStates[3].angle.getDegrees(),
+            swerveModuleStates[3].speedMetersPerSecond,
+        };
+        SmartDashboard.putNumberArray("SwerveState", loginstate);
     }
 
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
@@ -118,7 +132,7 @@ public class SwerveSubsystem extends SubsystemBase {
         double rotDelivered = rot * DriveConstants.kMaxAngularSpeed;
 
         setChassisSpeeds(new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
-        System.out.println("chassis speed set");
+      
 
     }
 
@@ -185,7 +199,7 @@ public class SwerveSubsystem extends SubsystemBase {
                 // backRight.getDriveEncoder().getVelocity(),
                 // backRight.getTurnEncoder().getVelocity()
         };
-        SmartDashboard.putNumberArray("SwerveState", loginstate);
+        SmartDashboard.putNumberArray("Peridoc", loginstate);
         if(frontLeftModule.getSwerveModuleState().angle.getDegrees() !=0){
 
         System.out.println("SwerveSubsystem periodic");
