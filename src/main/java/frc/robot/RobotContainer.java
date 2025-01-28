@@ -23,12 +23,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 
 public class RobotContainer {
-  CommandXboxController driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
+  public static CommandXboxController driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
   SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
 
   public RobotContainer() {
 
-    System.out.println(driverController.isConnected());
     if(driverController.a().getAsBoolean()){
       System.out.println("A is pressed");
     }
