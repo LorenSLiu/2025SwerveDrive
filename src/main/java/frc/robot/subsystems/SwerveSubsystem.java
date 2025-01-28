@@ -180,12 +180,14 @@ public class SwerveSubsystem extends SubsystemBase {
                 // backRight.getTurnEncoder().getVelocity()
         };
         SmartDashboard.putNumberArray("SwerveState", loginstate);
+        if(frontLeftModule.getSwerveModuleState().angle.getDegrees() !=0){
 
         System.out.println("SwerveSubsystem periodic");
         System.out.println("Front Left Module State: " + frontLeftModule.getSwerveModuleState());
         System.out.println("Front Right Module State: " + frontRightModule.getSwerveModuleState());
         System.out.println("Back Left Module State: " + backLeftModule.getSwerveModuleState());
         System.out.println("Back Right Module State: " + backRightModule.getSwerveModuleState());
+    }
     }
 
 }
