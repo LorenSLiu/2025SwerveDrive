@@ -27,6 +27,8 @@ public class RobotContainer {
   SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
 
   public RobotContainer() {
+
+    System.out.println(driverController.isConnected());
     if(driverController.a().getAsBoolean()){
       System.out.println("A is pressed");
     }
