@@ -84,6 +84,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void setChassisSpeeds(ChassisSpeeds desired) {
+        System.out.println("SwerveSubsystem setChassisSpeeds");
         SwerveModuleState[] swerveModuleStates = m_Kinematics.toSwerveModuleStates(desired);
         frontLeftModule.setDesiredState(swerveModuleStates[0]);
         frontRightModule.setDesiredState(swerveModuleStates[1]);
@@ -99,6 +100,11 @@ public class SwerveSubsystem extends SubsystemBase {
         // RobotContainer.java
         // The origin is always blue. When our alliance is red, X and Y need to be
         // inverted
+        System.out.println("SwerveSubsystem drive");
+        System.out.println("xSpeed: " + xSpeed);
+        System.out.println("ySpeed: " + ySpeed);
+        System.out.println("rot: " + rot);
+
         var alliance = DriverStation.getAlliance();
         var invert = 1;
         if (alliance.isPresent() && alliance.get() == Alliance.Red) {
@@ -113,6 +119,7 @@ public class SwerveSubsystem extends SubsystemBase {
         double rotDelivered = rot * DriveConstants.kMaxAngularSpeed;
 
         setChassisSpeeds(new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+        System.out.println("chassis speed set");
 
     }
 
