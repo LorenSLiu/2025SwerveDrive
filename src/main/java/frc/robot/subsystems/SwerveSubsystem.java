@@ -83,9 +83,10 @@ public class SwerveSubsystem extends SubsystemBase {
         System.out.println("SwerveSubsystem constructor");
     }
 
-    SwerveModuleState[] swerveModuleStates = new SwerveModuleState[4];
 
     public void setChassisSpeeds(ChassisSpeeds desired) {
+        SwerveModuleState[] swerveModuleStates = new SwerveModuleState[4];
+  
         swerveModuleStates = m_Kinematics.toSwerveModuleStates(desired);
         frontLeftModule.setDesiredState(swerveModuleStates[0]);
         frontRightModule.setDesiredState(swerveModuleStates[1]);
@@ -166,18 +167,9 @@ public class SwerveSubsystem extends SubsystemBase {
         System.out.println("SwerveSubsystem periodic");
         System.out.println("Front Left Module State: " + frontLeftModule.getSwerveModuleState());
         double loginstate[] = {
-                swerveModuleStates[0].angle.getDegrees(),
-                swerveModuleStates[0].speedMetersPerSecond,
-    
-                swerveModuleStates[1].angle.getDegrees(),
-                swerveModuleStates[1].speedMetersPerSecond,
-    
-                swerveModuleStates[2].angle.getDegrees(),
-                swerveModuleStates[2].speedMetersPerSecond,
-    
-                swerveModuleStates[3].angle.getDegrees(),
-                swerveModuleStates[3].speedMetersPerSecond,
-
+           
+            //switch back to original
+            
 
                 // frontLeft.getDriveEncoder().getVelocity(),
                 // frontLeft.getTurnEncoder().getVelocity(),
