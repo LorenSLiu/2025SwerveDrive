@@ -155,6 +155,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
         // advantage scope stuffS
         // This method will be called once per scheduler run
+  
+
         double loginstate[] = {
                 frontLeftModule.getSwerveModuleState().angle.getDegrees(),
                 frontLeftModule.getSwerveModuleState().speedMetersPerSecond,
@@ -178,6 +180,12 @@ public class SwerveSubsystem extends SubsystemBase {
                 // backRight.getTurnEncoder().getVelocity()
         };
         SmartDashboard.putNumberArray("SwerveState", loginstate);
+
+        System.out.println("SwerveSubsystem periodic");
+        System.out.println("Front Left Module State: " + frontLeftModule.getSwerveModuleState());
+        System.out.println("Front Right Module State: " + frontRightModule.getSwerveModuleState());
+        System.out.println("Back Left Module State: " + backLeftModule.getSwerveModuleState());
+        System.out.println("Back Right Module State: " + backRightModule.getSwerveModuleState());
     }
 
 }
