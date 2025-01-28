@@ -83,26 +83,14 @@ public class SwerveSubsystem extends SubsystemBase {
         System.out.println("SwerveSubsystem constructor");
     }
 
+    SwerveModuleState[] swerveModuleStates = new SwerveModuleState[4];
+
     public void setChassisSpeeds(ChassisSpeeds desired) {
-        SwerveModuleState[] swerveModuleStates = m_Kinematics.toSwerveModuleStates(desired);
+        swerveModuleStates = m_Kinematics.toSwerveModuleStates(desired);
         frontLeftModule.setDesiredState(swerveModuleStates[0]);
         frontRightModule.setDesiredState(swerveModuleStates[1]);
         backLeftModule.setDesiredState(swerveModuleStates[2]);
         backRightModule.setDesiredState(swerveModuleStates[3]);
-        double loginstate[] = {
-            swerveModuleStates[0].angle.getDegrees(),
-            swerveModuleStates[0].speedMetersPerSecond,
-
-            swerveModuleStates[1].angle.getDegrees(),
-            swerveModuleStates[1].speedMetersPerSecond,
-
-            swerveModuleStates[2].angle.getDegrees(),
-            swerveModuleStates[2].speedMetersPerSecond,
-
-            swerveModuleStates[3].angle.getDegrees(),
-            swerveModuleStates[3].speedMetersPerSecond,
-        };
-        SmartDashboard.putNumberArray("SwerveState", loginstate);
     }
 
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
@@ -178,17 +166,18 @@ public class SwerveSubsystem extends SubsystemBase {
         System.out.println("SwerveSubsystem periodic");
         System.out.println("Front Left Module State: " + frontLeftModule.getSwerveModuleState());
         double loginstate[] = {
-                frontLeftModule.getSwerveModuleState().angle.getDegrees(),
-                frontLeftModule.getSwerveModuleState().speedMetersPerSecond,
+                swerveModuleStates[0].angle.getDegrees(),
+                swerveModuleStates[0].speedMetersPerSecond,
+    
+                swerveModuleStates[1].angle.getDegrees(),
+                swerveModuleStates[1].speedMetersPerSecond,
+    
+                swerveModuleStates[2].angle.getDegrees(),
+                swerveModuleStates[2].speedMetersPerSecond,
+    
+                swerveModuleStates[3].angle.getDegrees(),
+                swerveModuleStates[3].speedMetersPerSecond,
 
-                frontRightModule.getSwerveModuleState().angle.getDegrees(),
-                frontRightModule.getSwerveModuleState().speedMetersPerSecond,
-
-                backLeftModule.getSwerveModuleState().angle.getDegrees(),
-                backLeftModule.getSwerveModuleState().speedMetersPerSecond,
-
-                backRightModule.getSwerveModuleState().angle.getDegrees(),
-                backRightModule.getSwerveModuleState().speedMetersPerSecond,
 
                 // frontLeft.getDriveEncoder().getVelocity(),
                 // frontLeft.getTurnEncoder().getVelocity(),
