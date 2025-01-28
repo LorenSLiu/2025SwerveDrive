@@ -27,6 +27,17 @@ public class RobotContainer {
   SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
 
   public RobotContainer() {
+    //swerve module
+    swerveSubsystem.setDefaultCommand(
+
+    new RunCommand(
+      () -> swerveSubsystem.drive(
+          -MathUtil.applyDeadband(driverController.getLeftY(), OIConstants.kDriveDeadband),
+          -MathUtil.applyDeadband(driverController.getLeftX(), OIConstants.kDriveDeadband),
+          -MathUtil.applyDeadband(driverController.getRightX(), OIConstants.kDriveDeadband),
+          true),
+          swerveSubsystem));
+
 
 
     configureBindings();
@@ -47,6 +58,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     return null;
   }
+
   private ChassisSpeeds getChassisSpeedsFromController() {
     // Read joystick axes
     double xSpeed = -driverController.getLeftY(); // Forward/backward

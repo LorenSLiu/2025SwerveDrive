@@ -4,38 +4,56 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean
+ * constants. This class should not be used for any other purpose. All constants
+ * should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
+ * <p>
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  static Translation2d m_frontLeftLocation = new Translation2d(
+      (frc.robot.Constants.DriveConstants.kmDriveWidth) / 2,
+      frc.robot.Constants.DriveConstants.kmDriveLength / 2);
+  static Translation2d m_frontRightLocation = new Translation2d(
+      frc.robot.Constants.DriveConstants.kmDriveWidth / 2,
+      -frc.robot.Constants.DriveConstants.kmDriveLength / 2);
+  static Translation2d m_backLeftLocation = new Translation2d(
+      -frc.robot.Constants.DriveConstants.kmDriveWidth / 2,
+      frc.robot.Constants.DriveConstants.kmDriveLength / 2);
+  static Translation2d m_backRightLocation = new Translation2d(
+      -frc.robot.Constants.DriveConstants.kmDriveWidth / 2,
+      -frc.robot.Constants.DriveConstants.kmDriveLength / 2);
+
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
     public static final int GYRO_ID = 0;
   }
 
-  
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
     public static final int kAuxControllerPort = 1;
     public static final double kDriveDeadband = 0.1;
   }
-  
-  public static class ModuleConstants{
+
+  public static class ModuleConstants {
     // Calculations required for driving motor conversion factors and feed forward
-    public static final double kDrivingMotorFreeSpeedRps = 6000 / 60;//what the hell is this
+    public static final double kDrivingMotorFreeSpeedRps = 6000 / 60;// what the hell is this
     public static final double kWheelDiameterMeters = 0.0762;
     public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
 
     // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15
     // teeth on the bevel pinion
-    public static final double kDrivingMotorReduction = 3.56;//need to change it, talk with Stanford
+    public static final double kDrivingMotorReduction = 3.56;// need to change it, talk with Stanford
 
     public static final double kTurningEncoderPositionFactor = (2 * Math.PI); // radians
     public static final double kTurningEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per second
@@ -46,7 +64,7 @@ public final class Constants {
     public static final double kDrivingP = 0.001;
     public static final double kDrivingI = 0;
     public static final double kDrivingD = 0;
-    public static final double kDrivingFF = 1 / 2;//kDriveWheelFreeSpeedRps;
+    public static final double kDrivingFF = 1 / 2;// kDriveWheelFreeSpeedRps;
     // public static final double kDrivingMinOutput = -1;
     // public static final double kDrivingMaxOutput = 1;
 
@@ -57,16 +75,25 @@ public final class Constants {
     public static final double kTurningMinOutput = -1;
     public static final double kTurningMaxOutput = 1;
 
-
     public static final int kDrivingMotorCurrentLimit = 80; // amps
     public static final int kTurningMotorCurrentLimit = 50; // amps
 
-
     public static final double kDrivingEncoderVelocityFactor = ((kWheelDiameterMeters * Math.PI)
-    / kDrivingMotorReduction); // meters per second
+        / kDrivingMotorReduction); // meters per second
   }
+
   public static class DriveConstants {
-    //CAN bus ID
+
+    public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
+        m_frontLeftLocation,
+        m_frontRightLocation,
+        m_backLeftLocation,
+        m_backRightLocation
+        );
+
+    public static final double kMaxSpeedMetersPerSecond = 6.1;
+    public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
+    // CAN bus ID
     public static final int kFrontLeftTurningID = 1;
     public static final int kFrontLeftDrivingID = 2;
     public static final int kFrontRightTurningID = 3;
@@ -80,22 +107,26 @@ public final class Constants {
     public static final int kBackLeftTurningEncoderID = 11;
     public static final int kBackRightTurningEncoderID = 12;
 
-    //Module offsets
+    // Module offsets
     public static final double kFrontLeftAbsoluteEncoderOffsetRadians = 0;
     public static final double kFrontRightAbsoluteEncoderOffsetRadians = 0;
     public static final double kBackLeftAbsoluteEncoderOffsetRadians = 0;
     public static final double kBackRightAbsoluteEncoderOffsetRadians = 0;
 
-    //Moudle reversed or nah
-    public static final boolean kFrontLeftTurningEncoderReversed  = true;
+    // Moudle reversed or nah
+    public static final boolean kFrontLeftTurningEncoderReversed = true;
     public static final boolean kFrontRightTurningEncoderReversed = true;
-    public static final boolean kBackLeftTurningEncoderReversed   = true;
-    public static final boolean kBackRightTurningEncoderReversed  = true;
+    public static final boolean kBackLeftTurningEncoderReversed = true;
+    public static final boolean kBackRightTurningEncoderReversed = true;
 
-
-    //frame size
+    // frame size
     public static final double kmDriveWidth = Units.inchesToMeters(26.5);
     public static final double kmDriveLength = Units.inchesToMeters(26.5);
 
+  }
+  public static final class AutoConstants {//copied from last year's code, not sure how this works, delete if needed
+    public static final double kSwerveDiscreteTimestep = 0.02;
+    public static final double kSwerveDriveRadiusMeters = Units.inchesToMeters(DriveConstants.kmDriveWidth) / 2;
+   
   }
 }
