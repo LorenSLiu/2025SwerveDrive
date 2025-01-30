@@ -80,6 +80,7 @@ public class SwerveModule {
     }
 
     public SwerveModuleState setDesiredState(SwerveModuleState moduleDesiredState){
+        System.out.println("passed in speed: "+moduleDesiredState.speedMetersPerSecond);
         m_moduleDesiredState = moduleDesiredState;
         m_moduleDesiredState.optimize(moduleDesiredState.angle);
 
