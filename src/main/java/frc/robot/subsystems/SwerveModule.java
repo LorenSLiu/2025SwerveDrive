@@ -33,8 +33,8 @@ public class SwerveModule {
     private SwerveModuleState m_moduleDesiredState;//contain the speed and angle of the module
 
     public SwerveModule(int drivingKrakenID, int turningFalconID, int absoluteEncoderID, double absoluteEncoderOffsetRadians){ 
-        m_drivingKraken = new TalonFX(drivingKrakenID);
-        m_turningFalcon = new TalonFX(turningFalconID);
+        m_drivingKraken = new TalonFX(drivingKrakenID,"driveTrainCANivore");
+        m_turningFalcon = new TalonFX(turningFalconID,"driveTrainCANivore");
         m_turningEncoder = new CANcoder(absoluteEncoderID);//check if the ID is same as the turningFalconID
 
         m_moduleCurrentState = new SwerveModuleState();
