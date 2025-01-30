@@ -124,9 +124,9 @@ public class SwerveSubsystem extends SubsystemBase {
                                                                                   // last year's code
         double rotDelivered = rot * DriveConstants.kMaxAngularSpeed;
 
-        System.out.println("SwerveSubsystem drive");
-        System.out.println("xSpeed: " + xSpeedDelivered);
-        System.out.println("ySpeed: " + ySpeedDelivered);
+        // System.out.println("SwerveSubsystem drive");
+        // System.out.println("xSpeed: " + xSpeedDelivered);
+        // System.out.println("ySpeed: " + ySpeedDelivered);
         System.out.println("rot: " + rotDelivered);
 
 
