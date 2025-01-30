@@ -173,8 +173,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
         // advantage scope stuffS
         // This method will be called once per scheduler run
-        System.out.println("SwerveSubsystem periodic");
-        System.out.println("Front Left Module State: " + frontLeftModule.getSwerveModuleState());
+        // System.out.println("SwerveSubsystem periodic");
+        // System.out.println("Front Left Module State: " + frontLeftModule.getSwerveModuleState());
         double loginstate[] = {
 
                 // switch back to original
