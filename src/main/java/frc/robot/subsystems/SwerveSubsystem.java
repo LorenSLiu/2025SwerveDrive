@@ -161,8 +161,9 @@ public class SwerveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        System.out.println("SwerveSubsystem periodic");
-        System.out.println("Front Left Module State: " + frontLeftModule.getSwerveModuleState());
+        if(frontLeftModule.getSwerveModuleState().angle.getDegrees() != 0){
+            System.out.println("Front Left Module State: " + frontLeftModule.getSwerveModuleState());
+        }
         double loginstate[] = {
 
                 // switch back to original
