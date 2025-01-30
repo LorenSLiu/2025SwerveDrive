@@ -41,7 +41,6 @@ public class SwerveModule {
         m_moduleDesiredState = new SwerveModuleState();
 
         m_absoluteEncoderOffsetRadians = absoluteEncoderOffsetRadians;
-//        m_turningEncoderReversed = turningEncoderReversed;
 
         m_velocityDutyCycle = new VelocityDutyCycle(0);
 
@@ -83,8 +82,8 @@ public class SwerveModule {
         m_moduleDesiredState = moduleDesiredState;
         m_moduleDesiredState.optimize(moduleDesiredState.angle);
 
-        //System.out.println("optimized speed: "+m_moduleDesiredState.speedMetersPerSecond);
-        //m_drivingKraken.setControl(m_velocityDutyCycle.withVelocity(m_moduleDesiredState.speedMetersPerSecond * ModuleConstants.kDrivingEncoderVelocityFactor));
+        System.out.println("optimized speed: "+m_moduleDesiredState.speedMetersPerSecond);
+        m_drivingKraken.setControl(m_velocityDutyCycle.withVelocity(m_moduleDesiredState.speedMetersPerSecond * ModuleConstants.kDrivingEncoderVelocityFactor));
         m_drivingKraken.setControl(m_velocityDutyCycle.withVelocity(m_moduleDesiredState.speedMetersPerSecond));
         m_turningFalcon.setControl(m_velocityDutyCycle.withVelocity(m_moduleDesiredState.angle.getRadians() * ModuleConstants.kTurningEncoderVelocityFactor));
 
