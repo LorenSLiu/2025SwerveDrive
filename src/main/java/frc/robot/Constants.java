@@ -56,8 +56,7 @@ public final class Constants {
     public static final double kDrivingMotorReduction = 3.56;// need to change it, talk with Stanford
 
     public static final double kTurningEncoderPositionFactor = (2 * Math.PI); // radians
-    // public static final double kTurningEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per second
-    public static final double kTurningEncoderVelocityFactor = 2; // radians per second
+    public static final double kTurningEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per second
 
     public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
     public static final double kTurningEncoderPositionPIDMaxInput = kTurningEncoderPositionFactor; // radians
