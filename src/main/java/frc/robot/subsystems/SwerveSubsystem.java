@@ -101,11 +101,7 @@ public class SwerveSubsystem extends SubsystemBase {
         // RobotContainer.java
         // The origin is always blue. When our alliance is red, X and Y need to be
         // inverted
-        System.out.println("SwerveSubsystem drive");
-        System.out.println("xSpeed: " + xSpeed);
-        System.out.println("ySpeed: " + ySpeed);
-        System.out.println("rot: " + rot);
-
+        
         var alliance = DriverStation.getAlliance();
         var invert = 1;
         if (alliance.isPresent() && alliance.get() == Alliance.Red) {
@@ -127,6 +123,12 @@ public class SwerveSubsystem extends SubsystemBase {
                                                                                   // conversion work yet, copied from
                                                                                   // last year's code
         double rotDelivered = rot * DriveConstants.kMaxAngularSpeed;
+
+        System.out.println("SwerveSubsystem drive");
+        System.out.println("xSpeed: " + xSpeedDelivered);
+        System.out.println("ySpeed: " + ySpeedDelivered);
+        System.out.println("rot: " + rotDelivered);
+
 
         setChassisSpeeds(new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
 
