@@ -47,7 +47,7 @@ public final class Constants {
 
   public static class ModuleConstants {
     // Calculations required for driving motor conversion factors and feed forward
-    public static final double kDrivingMotorFreeSpeedRps = 6000 / 60;// what the hell is this
+//    public static final double kDrivingMotorFreeSpeedRps = 6000 / 60;// what the hell is this
     public static final double kWheelDiameterMeters = 0.0762;
     public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
 
@@ -64,7 +64,7 @@ public final class Constants {
     public static final double kDrivingP = 0.001;
     public static final double kDrivingI = 0;
     public static final double kDrivingD = 0;
-    public static final double kDrivingFF = 1 / 2;// kDriveWheelFreeSpeedRps;
+    public static final double kDrivingFF = 0.01;// kDriveWheelFreeSpeedRps;
     // public static final double kDrivingMinOutput = -1;
     // public static final double kDrivingMaxOutput = 1;
 

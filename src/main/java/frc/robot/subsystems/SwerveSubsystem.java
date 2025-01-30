@@ -160,21 +160,9 @@ public class SwerveSubsystem extends SubsystemBase {
     // .getStructArrayTopic("MyStates", SwerveModuleState.struct).publish();
     @Override
     public void periodic() {
-        // ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(
-        // // leftside pushing forward will make robot move forward
-        // m_driverController.getLeftY(),
-        // // leftside pushing right will make robot move right
-        // m_driverController.getLeftX(),
-        // // rightside pushing right will make robot turn right
-        // m_driverController.getRightX());
-
-        // System.out.println(m_chassisSpeeds);
-        // setChassisSpeeds(m_chassisSpeeds);
-
-        // advantage scope stuffS
         // This method will be called once per scheduler run
-        // System.out.println("SwerveSubsystem periodic");
-        // System.out.println("Front Left Module State: " + frontLeftModule.getSwerveModuleState());
+        System.out.println("SwerveSubsystem periodic");
+        System.out.println("Front Left Module State: " + frontLeftModule.getSwerveModuleState());
         double loginstate[] = {
 
                 // switch back to original
