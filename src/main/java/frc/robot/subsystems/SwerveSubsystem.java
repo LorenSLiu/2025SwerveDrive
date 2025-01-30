@@ -83,10 +83,9 @@ public class SwerveSubsystem extends SubsystemBase {
         System.out.println("SwerveSubsystem constructor");
     }
 
-
     public void setChassisSpeeds(ChassisSpeeds desired) {
         SwerveModuleState[] swerveModuleStates = new SwerveModuleState[4];
-  
+
         swerveModuleStates = m_Kinematics.toSwerveModuleStates(desired);
         frontLeftModule.setDesiredState(swerveModuleStates[0]);
         frontRightModule.setDesiredState(swerveModuleStates[1]);
@@ -114,14 +113,22 @@ public class SwerveSubsystem extends SubsystemBase {
         }
         // Create field relative ChassisSpeeds for controlling Swerve
         var chassisSpeeds = ChassisSpeeds
-                .fromFieldRelativeSpeeds(xSpeed * invert, ySpeed * invert, rot, pigeon.getRotation2d());//convert field relative to robot relative, not sure if this shit will work or not yet
+                .fromFieldRelativeSpeeds(xSpeed * invert, ySpeed * invert, rot, pigeon.getRotation2d());// convert field
+                                                                                                        // relative to
+                                                                                                        // robot
+                                                                                                        // relative, not
+                                                                                                        // sure if this
+                                                                                                        // shit will
+                                                                                                        // work or not
+                                                                                                        // yet
 
         double xSpeedDelivered = xSpeed * DriveConstants.kMaxSpeedMetersPerSecond;
-        double ySpeedDelivered = ySpeed * DriveConstants.kMaxSpeedMetersPerSecond;// havent figured out how does the conversion work yet, copied from last year's code
+        double ySpeedDelivered = ySpeed * DriveConstants.kMaxSpeedMetersPerSecond;// havent figured out how does the
+                                                                                  // conversion work yet, copied from
+                                                                                  // last year's code
         double rotDelivered = rot * DriveConstants.kMaxAngularSpeed;
 
         setChassisSpeeds(new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
-      
 
     }
 
@@ -152,12 +159,12 @@ public class SwerveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(
-        //         // leftside pushing forward will make robot move forward
-        //         m_driverController.getLeftY(),
-        //         // leftside pushing right will make robot move right
-        //         m_driverController.getLeftX(),
-        //         // rightside pushing right will make robot turn right
-        //         m_driverController.getRightX());
+        // // leftside pushing forward will make robot move forward
+        // m_driverController.getLeftY(),
+        // // leftside pushing right will make robot move right
+        // m_driverController.getLeftX(),
+        // // rightside pushing right will make robot turn right
+        // m_driverController.getRightX());
 
         // System.out.println(m_chassisSpeeds);
         // setChassisSpeeds(m_chassisSpeeds);
@@ -167,9 +174,8 @@ public class SwerveSubsystem extends SubsystemBase {
         System.out.println("SwerveSubsystem periodic");
         System.out.println("Front Left Module State: " + frontLeftModule.getSwerveModuleState());
         double loginstate[] = {
-           
-            //switch back to original
-            
+
+                // switch back to original
 
                 // frontLeft.getDriveEncoder().getVelocity(),
                 // frontLeft.getTurnEncoder().getVelocity(),
@@ -181,14 +187,17 @@ public class SwerveSubsystem extends SubsystemBase {
                 // backRight.getTurnEncoder().getVelocity()
         };
         SmartDashboard.putNumberArray("Peridoc", loginstate);
-        if(frontLeftModule.getSwerveModuleState().angle.getDegrees() !=0){
+        if (frontLeftModule.getSwerveModuleState().angle.getDegrees() > 0.1
+                || frontLeftModule.getSwerveModuleState().angle.getDegrees() < -0.1) {
+                    System.out.println("----------------------------------------");
+            System.out.println("Front Left Module State: " + frontLeftModule.getSwerveModuleState());
 
-        System.out.println("SwerveSubsystem periodic");
-        System.out.println("Front Left Module State: " + frontLeftModule.getSwerveModuleState());
-        System.out.println("Front Right Module State: " + frontRightModule.getSwerveModuleState());
-        System.out.println("Back Left Module State: " + backLeftModule.getSwerveModuleState());
-        System.out.println("Back Right Module State: " + backRightModule.getSwerveModuleState());
-    }
+            System.out.println("SwerveSubsystem periodic");
+            System.out.println("Front Left Module State: " + frontLeftModule.getSwerveModuleState());
+            System.out.println("Front Right Module State: " + frontRightModule.getSwerveModuleState());
+            System.out.println("Back Left Module State: " + backLeftModule.getSwerveModuleState());
+            System.out.println("Back Right Module State: " + backRightModule.getSwerveModuleState());
+        }
     }
 
 }
