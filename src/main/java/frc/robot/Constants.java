@@ -45,6 +45,17 @@ public final class Constants {
     public static final double kDriveDeadband = 0.1;
   }
 
+  public static class ElevatorConstants {
+    public static final int kElevatorMotorID = 1;
+    // public static final double kElevatorEncoderDistancePerPulse = 1.0 / 1024.0;
+    public static final double kElevatorP = 0.1;
+    public static final double kElevatorI = 0;
+    public static final double kElevatorD = 0;
+    public static final double kElevatorFF = 0.001;
+    public static final double kElevatorMinOutput = -1;
+    public static final double kElevatorMaxOutput = 1;
+    public static final int kElevatorCurrentLimit = 60;
+  }
   public static class ModuleConstants {
     // Calculations required for driving motor conversion factors and feed forward
 //    public static final double kDrivingMotorFreeSpeedRps = 6000 / 60;// what the hell is this

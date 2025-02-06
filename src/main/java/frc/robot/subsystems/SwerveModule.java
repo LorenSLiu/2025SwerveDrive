@@ -71,7 +71,7 @@ public class SwerveModule {
         currentConfig.StatorCurrentLimitEnable = true;
   
         m_turningFalcon.getConfigurator().apply(slot0Configs);
-        m_turningFalcon.getConfigurator().apply(currentConfig);
+        m_turningFalcon.getConfigurator().apply(turningCurrentConfig);
 
         m_drivingKraken.setPosition(0);
         m_drivingKraken.setNeutralMode(NeutralModeValue.Brake);
@@ -84,7 +84,7 @@ public class SwerveModule {
 
         System.out.println("optimized speed: "+m_moduleDesiredState.speedMetersPerSecond);
         m_drivingKraken.setControl(m_velocityDutyCycle.withVelocity(m_moduleDesiredState.speedMetersPerSecond * ModuleConstants.kDrivingEncoderVelocityFactor));
-        m_drivingKraken.setControl(m_velocityDutyCycle.withVelocity(m_moduleDesiredState.speedMetersPerSecond));
+        //m_drivingKraken.setControl(m_velocityDutyCycle.withVelocity(m_moduleDesiredState.speedMetersPerSecond));//tf why would i do this, need to figure out the unit for it
         m_turningFalcon.setControl(m_velocityDutyCycle.withVelocity(m_moduleDesiredState.angle.getRadians() * ModuleConstants.kTurningEncoderVelocityFactor));
 
         return m_moduleDesiredState;
