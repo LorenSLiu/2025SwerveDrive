@@ -58,8 +58,8 @@ public final class Constants {
 
     public static final double ENCODER_TICKS_PER_REV = 2048; // Kraken default
     private static final double GEAR_RATIO = 3; // 3:1, confirmed
-    private static final double PULLEY_DIAMETER = 1.5; // inches
-    private static final double PULLEY_CIRCUMFERENCE = PULLEY_DIAMETER * Math.PI; // inches
+    private static final double PULLEY_DIAMETER = 0.048; // 4.8cm
+    private static final double PULLEY_CIRCUMFERENCE = PULLEY_DIAMETER * Math.PI; // cm
     public static final double kElevatorEncoderDistancePerPulse = PULLEY_CIRCUMFERENCE / (ENCODER_TICKS_PER_REV * GEAR_RATIO);
 
     //conversion factors
