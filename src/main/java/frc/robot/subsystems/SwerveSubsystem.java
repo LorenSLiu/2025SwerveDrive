@@ -93,7 +93,10 @@ public class SwerveSubsystem extends SubsystemBase {
         backRightModule.setDesiredState(swerveModuleStates[3]);
     }
 
+    //taking controller from field relative speed and then using the fromFieldRelativeSpeeds to convert to robot centered control
+
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+        
         // xSpeed = applyDeadband(xSpeed, 0.1);
         // ySpeed = applyDeadband(ySpeed, 0.1);
         // rot = applyDeadband(rot, 0.1);
@@ -108,15 +111,8 @@ public class SwerveSubsystem extends SubsystemBase {
             invert = -1;
         }
         // Create field relative ChassisSpeeds for controlling Swerve
-        var chassisSpeeds = ChassisSpeeds
-                .fromFieldRelativeSpeeds(xSpeed * invert, ySpeed * invert, rot, pigeon.getRotation2d());// convert field
-                                                                                                        // relative to
-                                                                                                        // robot
-                                                                                                        // relative, not
-                                                                                                        // sure if this
-                                                                                                        // shit will
-                                                                                                        // work or not
-                                                                                                        // yet
+        var chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+            xSpeed * invert, ySpeed * invert, rot, pigeon.getRotation2d());// convert field relative to robot relative
 
         double xSpeedDelivered = xSpeed * DriveConstants.kMaxSpeedMetersPerSecond;
         double ySpeedDelivered = ySpeed * DriveConstants.kMaxSpeedMetersPerSecond;// havent figured out how does the
