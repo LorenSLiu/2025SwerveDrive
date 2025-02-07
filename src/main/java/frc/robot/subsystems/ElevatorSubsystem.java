@@ -7,11 +7,11 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Elevator extends SubsystemBase{
+public class ElevatorSubsystem extends SubsystemBase{
     private TalonFX m_elevator;
 
 
-    public Elevator(){
+    public ElevatorSubsystem(){
         m_elevator = new TalonFX(frc.robot.Constants.ElevatorConstants.kElevatorMotorID);
         var slot0Configs = new Slot0Configs();
         slot0Configs.kP = frc.robot.Constants.ElevatorConstants.kElevatorP;
@@ -33,10 +33,25 @@ public class Elevator extends SubsystemBase{
         
     }
 
+    public double getElevatorHeightMeters(){
+        return m_elevator.getPosition().getValueAsDouble()*frc.robot.Constants.ElevatorConstants.ENCODER_TICKS_PER_REV * frc.robot.Constants.ElevatorConstants.kElevatorEncoderDistancePerPulse;
+        //getValueAsDouble returns the rotations of the motor,not a encoder counts(ticks), so we multiply it by the encoder ticks.
+    }
 
+    public double convertMetersToTicks(double meters){
+        // i mean it's just my personal preference to do with ticks, but you can do it with rotations
+        return meters / frc.robot.Constants.ElevatorConstants.METERS_PER_TICK;
+    }
 
+    public double convertTicksToRotations(double ticks){
+        return ticks / frc.robot.Constants.ElevatorConstants.ENCODER_TICKS_PER_REV;
+    }
 
-
+    public void setElevatorHeight(double targetMeters){
+        double TargetRotations = convertTicksToRotations(convertMetersToTicks(targetMeters));//convert meters to ticks, then convert ticks to rotations
+        System.out.println("Target Rotations: " + TargetRotations);
+        m_elevator.setPosition(TargetRotations);
+    }
 
 
 }

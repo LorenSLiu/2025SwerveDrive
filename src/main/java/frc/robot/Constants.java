@@ -55,7 +55,30 @@ public final class Constants {
     public static final double kElevatorMinOutput = -1;
     public static final double kElevatorMaxOutput = 1;
     public static final int kElevatorCurrentLimit = 60;
+
+    public static final double ENCODER_TICKS_PER_REV = 2048; // Kraken default
+    private static final double GEAR_RATIO = 3; // 3:1, confirmed
+    private static final double PULLEY_DIAMETER = 1.5; // inches
+    private static final double PULLEY_CIRCUMFERENCE = PULLEY_DIAMETER * Math.PI; // inches
+    public static final double kElevatorEncoderDistancePerPulse = PULLEY_CIRCUMFERENCE / (ENCODER_TICKS_PER_REV * GEAR_RATIO);
+
+    //conversion factors
+    public static final double METERS_PER_TICK = PULLEY_CIRCUMFERENCE/(ENCODER_TICKS_PER_REV * GEAR_RATIO);
+
+    // Elevator stages
+    public static final double STAGE_1_HEIGHT_METERS = 0.46;  //46cm
+    public static final double STAGE_2_HEIGHT_METERS = 0.81;  //81cm
+    public static final double STAGE_3_HEIGHT_METERS = 1.21;  //121cm 
+    public static final double STAGE_4_HEIGHT_METERS = 1.83;  //183cm 
+
+    public static final double SOURCE_HEIGHT_METERS = 0.95;  //95cm
+
+
+
+
   }
+
+
   public static class ModuleConstants {
     // Calculations required for driving motor conversion factors and feed forward
 //    public static final double kDrivingMotorFreeSpeedRps = 6000 / 60;// what the hell is this
