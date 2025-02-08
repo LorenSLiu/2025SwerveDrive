@@ -21,8 +21,12 @@ public class ElevatorCommand extends Command {
 
     @Override
     public void execute() {
+    
         System.out.println("Elevator command executed ");
+        System.out.println("Elevator height: " + m_elevatorSubsystem.getElevatorHeightMeters());
+        System.out.println("Target height: " + m_targetHeight);
     }
+
 
     @Override
     public void end(boolean interrupted) {
@@ -31,11 +35,12 @@ public class ElevatorCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        // System.out.println("Test command isFinished");
-        // if (counter >= 10) {
-        //     return true;
-        // }
-        System.out.println("Elevator command isFinished");
+        if(Math.abs(m_elevatorSubsystem.getElevatorHeightMeters()-m_targetHeight) < 0.02){
+            System.out.println("Elevator command isFinished");
+
+            return true;
+            
+        }
         return false;
     }
 

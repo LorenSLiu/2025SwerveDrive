@@ -23,7 +23,7 @@ public class SwerveModule {
     private final double m_absoluteEncoderOffsetRadians;//check the offset value
 
     private final CANcoder m_turningEncoder;
-
+    
     private VelocityDutyCycle m_velocityDutyCycle;
 
     private SwerveModuleState m_moduleCurrentState;//contain the speed and angle of the module
@@ -77,12 +77,14 @@ public class SwerveModule {
     }
 
     public SwerveModuleState setDesiredState(SwerveModuleState moduleDesiredState){
-        System.out.println("Subsystem>SwerveModule>setDesiredState(): Angle Before optimize: " + moduleDesiredState.angle);
         m_moduleDesiredState = moduleDesiredState;
         m_moduleDesiredState.optimize(moduleDesiredState.angle);
-        System.out.println("Subsystem>SwerveModule>setDesiredState(): Angle After optimize: " + m_moduleDesiredState.angle);
+        if(moduleDesiredState.angle.getDegrees() != m_moduleDesiredState.angle.getDegrees()){
+            System.out.println("Subsystem>SwerveModule>setDesiredState(): Angle Before optimize: " + moduleDesiredState.angle);
+            System.out.println("Subsystem>SwerveModule>setDesiredState(): Angle After optimize: " + m_moduleDesiredState.angle);
+        }
 
-        System.out.println("optimized speed: "+m_moduleDesiredState.speedMetersPerSecond);
+        //System.out.println("optimized speed: "+m_moduleDesiredState.speedMetersPerSecond);
         m_drivingKraken.setControl(m_velocityDutyCycle.withVelocity(m_moduleDesiredState.speedMetersPerSecond * ModuleConstants.kDrivingEncoderVelocityFactor));
         //m_drivingKraken.setControl(m_velocityDutyCycle.withVelocity(m_moduleDesiredState.speedMetersPerSecond));//tf why would i do this, need to figure out the unit for it
         m_turningFalcon.setControl(m_velocityDutyCycle.withVelocity(m_moduleDesiredState.angle.getRadians() * ModuleConstants.kTurningEncoderVelocityFactor));
@@ -97,6 +99,5 @@ public class SwerveModule {
     public void periodic(){
         SmartDashboard.putNumber("Driving Kraken velocity CAN ID: "+m_drivingKraken.getDeviceID(), m_drivingKraken.getVelocity().getValueAsDouble());
         SmartDashboard.putNumber("Turning Falcon velocity CAN ID: "+m_turningFalcon.getDeviceID(), m_turningFalcon.getVelocity().getValueAsDouble());
-        
     }
 }

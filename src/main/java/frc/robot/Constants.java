@@ -42,7 +42,7 @@ public final class Constants {
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
     public static final int kAuxControllerPort = 1;
-    public static final double kDriveDeadband = 0.1;
+    public static final double kDriveDeadband = 0.05;
   }
 
   public static class ElevatorConstants {
@@ -59,11 +59,13 @@ public final class Constants {
     public static final double ENCODER_TICKS_PER_REV = 2048; // Kraken default
     private static final double GEAR_RATIO = 3; // 3:1, confirmed
     private static final double PULLEY_DIAMETER = 0.048; // 4.8cm
-    private static final double PULLEY_CIRCUMFERENCE = PULLEY_DIAMETER * Math.PI; // cm
+    public static final double PULLEY_CIRCUMFERENCE = PULLEY_DIAMETER * Math.PI; // cm
+
     public static final double kElevatorEncoderDistancePerPulse = PULLEY_CIRCUMFERENCE / (ENCODER_TICKS_PER_REV * GEAR_RATIO);
 
     //conversion factors
     public static final double METERS_PER_TICK = PULLEY_CIRCUMFERENCE/(ENCODER_TICKS_PER_REV * GEAR_RATIO);
+    public static final double METERS_PER_ROTATION = PULLEY_CIRCUMFERENCE / GEAR_RATIO;
 
     // Elevator stages
     public static final double STAGE_1_HEIGHT_METERS = 0.46;  //46cm
@@ -142,7 +144,7 @@ public final class Constants {
     public static final int kBackRightTurningEncoderID = 12;
 
     // Module offsets
-    public static final double kFrontLeftAbsoluteEncoderOffsetRadians = 0;
+    public static final double kFrontLeftAbsoluteEncoderOffsetRadians = 0.0;
     public static final double kFrontRightAbsoluteEncoderOffsetRadians = 0;
     public static final double kBackLeftAbsoluteEncoderOffsetRadians = 0;
     public static final double kBackRightAbsoluteEncoderOffsetRadians = 0;

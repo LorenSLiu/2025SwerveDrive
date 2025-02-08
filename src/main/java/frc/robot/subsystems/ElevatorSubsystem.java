@@ -34,8 +34,7 @@ public class ElevatorSubsystem extends SubsystemBase{
     }
 
     public double getElevatorHeightMeters(){
-        return m_elevator.getPosition().getValueAsDouble()*frc.robot.Constants.ElevatorConstants.ENCODER_TICKS_PER_REV * frc.robot.Constants.ElevatorConstants.kElevatorEncoderDistancePerPulse;
-        //getValueAsDouble returns the rotations of the motor,not a encoder counts(ticks), so we multiply it by the encoder ticks.
+        return m_elevator.getPosition().getValueAsDouble() * frc.robot.Constants.ElevatorConstants.METERS_PER_ROTATION;
     }
 
     public double convertMetersToTicks(double meters){
@@ -47,8 +46,13 @@ public class ElevatorSubsystem extends SubsystemBase{
         return ticks / frc.robot.Constants.ElevatorConstants.ENCODER_TICKS_PER_REV;
     }
 
+    public double convertMetersToRotations(double meters){
+        return meters / frc.robot.Constants.ElevatorConstants.METERS_PER_ROTATION;
+    }
+
     public void setElevatorHeight(double targetMeters){
-        double TargetRotations = convertTicksToRotations(convertMetersToTicks(targetMeters));//convert meters to ticks, then convert ticks to rotations
+
+        double TargetRotations = convertMetersToRotations(targetMeters);//convert meters to ticks, then convert ticks to rotations
         System.out.println("Target Rotations: " + TargetRotations);
         m_elevator.setPosition(TargetRotations);
     }

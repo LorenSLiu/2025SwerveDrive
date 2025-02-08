@@ -10,12 +10,8 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.PS4Controller;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 
@@ -28,7 +24,6 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 
 public class SwerveSubsystem extends SubsystemBase {
     private double m_currentRotation = 0.0;
-    CommandXboxController m_driverController;
     private final Pigeon2 pigeon;
     private final StatusSignal<Angle> yaw;
     private final StatusSignal<AngularVelocity> yawVelocity;
@@ -110,9 +105,11 @@ public class SwerveSubsystem extends SubsystemBase {
         if (alliance.isPresent() && alliance.get() == Alliance.Red) {
             invert = -1;
         }
+    
         // Create field relative ChassisSpeeds for controlling Swerve
         var chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-            xSpeed * invert, ySpeed * invert, rot, pigeon.getRotation2d());// convert field relative to robot relative
+            xSpeed, ySpeed * invert, rot, pigeon.getRotation2d());// convert field relative to robot relative
+            //check my drawings in https://excalidraw.com
 
         double xSpeedDelivered = xSpeed * DriveConstants.kMaxSpeedMetersPerSecond;
         double ySpeedDelivered = ySpeed * DriveConstants.kMaxSpeedMetersPerSecond;// havent figured out how does the
@@ -123,7 +120,7 @@ public class SwerveSubsystem extends SubsystemBase {
         // System.out.println("SwerveSubsystem drive");
         // System.out.println("xSpeed: " + xSpeedDelivered);
         // System.out.println("ySpeed: " + ySpeedDelivered);
-        System.out.println("rot: " + rotDelivered);
+        //System.out.println("rot: " + rotDelivered);
 
 
         setChassisSpeeds(new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
