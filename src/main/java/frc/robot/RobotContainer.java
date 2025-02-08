@@ -26,10 +26,10 @@ public class RobotContainer {
   SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
 
-  private final Trigger auxY = m_auxController.y();
-  private final Trigger auxA = m_auxController.a();
-  private final Trigger auxB = m_auxController.b();
-  private final Trigger auxX = m_auxController.x();
+  // private final Trigger auxY = m_auxController.y();
+  // private final Trigger auxA = m_auxController.a();
+  // private final Trigger auxB = m_auxController.b();
+  // private final Trigger auxX = m_auxController.x();
 
   public RobotContainer() {
     swerveSubsystem.setDefaultCommand(
@@ -45,10 +45,10 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    auxY.onChange(new ElevatorCommand(elevatorSubsystem, frc.robot.Constants.ElevatorConstants.STAGE_4_HEIGHT_METERS));
-    auxX.onChange(new ElevatorCommand(elevatorSubsystem, frc.robot.Constants.ElevatorConstants.STAGE_3_HEIGHT_METERS));
-    auxB.onChange(new ElevatorCommand(elevatorSubsystem, frc.robot.Constants.ElevatorConstants.STAGE_2_HEIGHT_METERS));
-    auxA.onChange(new ElevatorCommand(elevatorSubsystem, frc.robot.Constants.ElevatorConstants.STAGE_1_HEIGHT_METERS));
+    // auxY.onChange(new ElevatorCommand(elevatorSubsystem, frc.robot.Constants.ElevatorConstants.STAGE_4_HEIGHT_METERS));
+    // auxX.onChange(new ElevatorCommand(elevatorSubsystem, frc.robot.Constants.ElevatorConstants.STAGE_3_HEIGHT_METERS));
+    // auxB.onChange(new ElevatorCommand(elevatorSubsystem, frc.robot.Constants.ElevatorConstants.STAGE_2_HEIGHT_METERS));
+    // auxA.onChange(new ElevatorCommand(elevatorSubsystem, frc.robot.Constants.ElevatorConstants.STAGE_1_HEIGHT_METERS));
 
     // driverController.getLeftX();
   }
