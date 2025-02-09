@@ -48,13 +48,14 @@ public class ElevatorSubsystem extends SubsystemBase {
         motionMagicConfigs.MotionMagicAcceleration = 160; // Target acceleration of 160 rps/s (0.5 seconds)
         motionMagicConfigs.MotionMagicJerk = 1600; // Target jerk of 1600 rps/s/s (0.1 seconds)
         m_elevatorKraken.getConfigurator().apply(talonFXConfigs);
-        motionMagicControl  = new MotionMagicVoltage(0);
 
         //current limit
         var cuurentLimitConfigs = new CurrentLimitsConfigs();
         cuurentLimitConfigs.StatorCurrentLimit = frc.robot.Constants.ElevatorConstants.kElevatorCurrentLimit;
         cuurentLimitConfigs.StatorCurrentLimitEnable = true;
         m_elevatorKraken.getConfigurator().apply(cuurentLimitConfigs);
+        motionMagicControl  = new MotionMagicVoltage(0);
+
 
         m_elevatorKraken.setNeutralMode(NeutralModeValue.Brake);
         resetEncoder();
