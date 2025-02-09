@@ -46,7 +46,7 @@ public final class Constants {
   }
 
   public static class ElevatorConstants {
-    public static final int kElevatorMotorID = 1;
+    public static final int kElevatorMotorID = 16;
 
     public static final double kElevatorP = 4.8;
     public static final double kElevatorI = 0;

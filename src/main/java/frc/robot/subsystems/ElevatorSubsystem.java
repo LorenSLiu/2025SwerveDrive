@@ -8,13 +8,39 @@ import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.system.plant.LinearSystemId;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.simulation.ElevatorSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 
+@SuppressWarnings("all") // hater just be hating
 public class ElevatorSubsystem extends SubsystemBase {
     private TalonFX m_elevatorKraken;
     private double setpoint = 0;  // Stores the last commanded position
     private final MotionMagicVoltage motionMagicControl;
+
+    // Shuffleboard Tab for Elevator
+    private final ShuffleboardTab elevatorTab = Shuffleboard.getTab("Elevator");
+    private final GenericEntry elevatorPositionEntry = elevatorTab.add("Current Position", 0).getEntry();
+    private final GenericEntry targetPositionEntry = elevatorTab.add("Target Position", 0).getEntry();
+    private final GenericEntry motorOutputEntry = elevatorTab.add("Motor Output", 0).getEntry();
+
+    private final ElevatorSim elevatorSim = new ElevatorSim(
+        LinearSystemId.identifyPositionSystem(1.0, 0.4), // System gain (tune this)
+        DCMotor.getFalcon500(1),  // Using a Kraken (Falcon equivalent)
+        0,  
+        1.84,// Gear Ratio
+        true,
+        0  // Simulated gravity
+    );
+
+
 
 
     public ElevatorSubsystem() {
@@ -39,7 +65,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         motionMagicConfigs.MotionMagicJerk = 1600; // Target jerk of 1600 rps/s/s (0.1 seconds)
         m_elevatorKraken.getConfigurator().apply(talonFXConfigs);
         motionMagicControl  = new MotionMagicVoltage(0);
-        
+
         //current limit
         var cuurentLimitConfigs = new CurrentLimitsConfigs();
         cuurentLimitConfigs.StatorCurrentLimit = frc.robot.Constants.ElevatorConstants.kElevatorCurrentLimit;
@@ -55,9 +81,31 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     }
 
+
+    @Override
+    public void periodic() {
+// Send data to NetworkTables
+        SmartDashboard.putNumber("Elevator Position", getCurrentPosition());
+        SmartDashboard.putNumber("Elevator Setpoint", setpoint);
+        SmartDashboard.putNumber("Elevator Motor Output", m_elevatorKraken.getMotorVoltage().getValueAsDouble());
+
+        // Update Shuffleboard Entries
+        elevatorPositionEntry.setDouble(getCurrentPosition());
+        targetPositionEntry.setDouble(setpoint);
+        motorOutputEntry.setDouble(m_elevatorKraken.getMotorVoltage().getValueAsDouble());
+        
+        if (edu.wpi.first.wpilibj.RobotBase.isSimulation()) {
+            elevatorSim.setInput(m_elevatorKraken.getMotorVoltage().getValueAsDouble());
+            elevatorSim.update(0.02);  // 20ms timestep
+            m_elevatorKraken.setPosition(elevatorSim.getPositionMeters()); // Update encoder
+        }
+    }
+
     public void setElevatorPosition(double position) {
         // Prevent exceeding software limits
         setpoint = Math.max(ElevatorConstants.kMinHeight, Math.min(position, ElevatorConstants.kMaxHeight));//todo: check the safe height
+        System.out.println("Setting elevator position to " + position);
+
         m_elevatorKraken.setControl(motionMagicControl.withPosition(setpoint));
     }
 
