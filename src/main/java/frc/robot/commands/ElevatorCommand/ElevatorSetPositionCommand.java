@@ -11,6 +11,7 @@ public class ElevatorSetPositionCommand extends Command {
         this.elevator = elevator;
         this.targetPosition = targetPosition;
         addRequirements(elevator);
+        System.out.println("ElevatorSetPositionCommand initialized");
     }
 
     @Override

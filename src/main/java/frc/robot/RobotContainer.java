@@ -31,10 +31,11 @@ public class RobotContainer {
   SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
 
-  // private final Trigger auxY = m_auxController.y();
-  // private final Trigger auxA = m_auxController.a();
-  // private final Trigger auxB = m_auxController.b();
-  // private final Trigger auxX = m_auxController.x();
+  private final Trigger auxY = m_auxController.y();
+  private final Trigger auxA = m_auxController.a();
+  private final Trigger auxB = m_auxController.b();
+  private final Trigger auxX = m_auxController.x();
+  private final Trigger auxRightBumper = m_auxController.rightBumper();
 
   public RobotContainer() {
     swerveSubsystem.setDefaultCommand(
@@ -58,10 +59,16 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    m_driverController.a().onTrue(Commands.runOnce(() -> new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_ROTATIONS)).alongWith(Commands.print("Elevator Level 1")));
-    m_driverController.b().onTrue(Commands.runOnce(() -> new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT_ROTATIONS)).alongWith(Commands.print("Elevator Level 2")));
-    m_driverController.x().onTrue(Commands.runOnce(() -> new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_3_HEIGHT_ROTATIONS)).alongWith(Commands.print("Elevator Level 3")));
-    m_driverController.y().onTrue(Commands.runOnce(() -> new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_ROTATIONS)).alongWith(Commands.print("Elevator Level 4")));
+    auxA.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_ROTATIONS)
+    .alongWith(Commands.print("Elevator Level 1, Height: " + Constants.ElevatorConstants.STAGE_1_HEIGHT_ROTATIONS)));
+    auxB.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT_ROTATIONS)
+    .alongWith(Commands.print("Elevator Level 2, Height: " + Constants.ElevatorConstants.STAGE_2_HEIGHT_ROTATIONS)));
+    auxX.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_3_HEIGHT_ROTATIONS)
+    .alongWith(Commands.print("Elevator Level 3, Height: " + Constants.ElevatorConstants.STAGE_3_HEIGHT_ROTATIONS)));
+    auxY.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_ROTATIONS)
+    .alongWith(Commands.print("Elevator Level 4, Height: " + Constants.ElevatorConstants.STAGE_4_HEIGHT_ROTATIONS)));
+    auxRightBumper.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.SOURCE_HEIGHT_ROTATIONS)
+    .alongWith(Commands.print("Elevator Source, Height: " + Constants.ElevatorConstants.SOURCE_HEIGHT_ROTATIONS)));
 
     
     // new JoystickButton(m_auxController, XboxController.Button.kA.value)

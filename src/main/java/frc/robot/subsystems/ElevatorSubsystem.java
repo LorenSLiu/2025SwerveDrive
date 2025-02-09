@@ -25,22 +25,6 @@ public class ElevatorSubsystem extends SubsystemBase {
     private double setpoint = 0;  // Stores the last commanded position
     private final MotionMagicVoltage motionMagicControl;
 
-    // Shuffleboard Tab for Elevator
-    private final ShuffleboardTab elevatorTab = Shuffleboard.getTab("Elevator");
-    private final GenericEntry elevatorPositionEntry = elevatorTab.add("Current Position", 0).getEntry();
-    private final GenericEntry targetPositionEntry = elevatorTab.add("Target Position", 0).getEntry();
-    private final GenericEntry motorOutputEntry = elevatorTab.add("Motor Output", 0).getEntry();
-
-    private final ElevatorSim elevatorSim = new ElevatorSim(
-        LinearSystemId.identifyPositionSystem(1.0, 0.4), // System gain (tune this)
-        DCMotor.getFalcon500(1),  // Using a Kraken (Falcon equivalent)
-        0,  
-        1.84,// Gear Ratio
-        true,
-        0  // Simulated gravity
-    );
-
-
 
 
     public ElevatorSubsystem() {
@@ -79,26 +63,6 @@ public class ElevatorSubsystem extends SubsystemBase {
         // set if motor is inverted
         // m_elevator.setInverted(false);
 
-    }
-
-
-    @Override
-    public void periodic() {
-// Send data to NetworkTables
-        SmartDashboard.putNumber("Elevator Position", getCurrentPosition());
-        SmartDashboard.putNumber("Elevator Setpoint", setpoint);
-        SmartDashboard.putNumber("Elevator Motor Output", m_elevatorKraken.getMotorVoltage().getValueAsDouble());
-
-        // Update Shuffleboard Entries
-        elevatorPositionEntry.setDouble(getCurrentPosition());
-        targetPositionEntry.setDouble(setpoint);
-        motorOutputEntry.setDouble(m_elevatorKraken.getMotorVoltage().getValueAsDouble());
-        
-        if (edu.wpi.first.wpilibj.RobotBase.isSimulation()) {
-            elevatorSim.setInput(m_elevatorKraken.getMotorVoltage().getValueAsDouble());
-            elevatorSim.update(0.02);  // 20ms timestep
-            m_elevatorKraken.setPosition(elevatorSim.getPositionMeters()); // Update encoder
-        }
     }
 
     public void setElevatorPosition(double position) {
