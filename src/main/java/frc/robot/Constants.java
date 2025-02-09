@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.units.measure.Angle;
@@ -91,13 +92,16 @@ public final class Constants {
     public static final double METERS_PER_TICK = PULLEY_CIRCUMFERENCE / (ENCODER_TICKS_PER_REV * GEAR_RATIO);
     public static final double METERS_PER_ROTATION = PULLEY_CIRCUMFERENCE / GEAR_RATIO;
 
-    // Elevator stages
-    public static final Distance STAGE_1_HEIGHT_METERS = Meters.of(0.46); // 46cm
-    public static final Distance STAGE_2_HEIGHT_METERS = Meters.of(0.81); // 81cm
-    public static final Distance STAGE_3_HEIGHT_METERS = Meters.of(1.21); // 121cm
-    public static final Distance STAGE_4_HEIGHT_METERS = Meters.of(1.83); // 183cm
-    public static final Distance SOURCE_HEIGHT_METERS = Meters.of(0.95); // 95cm
+    // Elevator stages raw data
+    public static final Distance Elevator_HEIGHT_NOUGHT = Inches.of(37.433); // 0cm
+    public static final Distance STAGE_1_HEIGHT         = Meters.of(0.46); // 46cm
+    public static final Distance STAGE_2_HEIGHT         = Meters.of(0.81); // 81cm
+    public static final Distance STAGE_3_HEIGHT         = Meters.of(1.21); // 121cm
+    public static final Distance STAGE_4_HEIGHT         = Meters.of(1.83); // 183cm
+    public static final Distance SOURCE_HEIGHT          = Meters.of(0.95); // 95cm
 
+    //Elevator stages effective data
+    public static final Distance ELEVATOR_SOURCE_DELTA  = Meters.of(SOURCE_HEIGHT.in(Meters)-(Elevator_HEIGHT_NOUGHT.in(Meters)-(Math.cos(ArmConstant.COROAL_STATION_ANGLE.in(Degrees))*ArmConstant.ArmLength.in(Meters))));
     // public static final double STAGE_1_HEIGHT_ROTATIONS =
     // (STAGE_1_HEIGHT_METERS.in(Meters) * GEAR_RATIO) / (Math.PI *
     // PULLEY_DIAMETER.in(Meters));
@@ -155,11 +159,7 @@ public final class Constants {
 
   public static class DriveConstants {
 
-    public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-        m_frontLeftLocation,
-        m_frontRightLocation,
-        m_backLeftLocation,
-        m_backRightLocation);
+
 
     public static final double kMaxSpeedMetersPerSecond = 6.1;
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
@@ -208,6 +208,12 @@ public final class Constants {
     static Translation2d m_backRightLocation = new Translation2d(
         -frc.robot.Constants.DriveConstants.kmDriveWidth.in(Inches) / 2,
         -frc.robot.Constants.DriveConstants.kmDriveLength.in(Inches) / 2);
+
+        public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
+          m_frontLeftLocation,
+          m_frontRightLocation,
+          m_backLeftLocation,
+          m_backRightLocation);
 
   }
 
