@@ -10,6 +10,8 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ElevatorCommand;
+import frc.robot.commands.ElevatorManualCommand;
+import frc.robot.commands.ElevatorSetPositionCommand;
 import frc.robot.commands.Test;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -18,11 +20,12 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
-  public static CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
-  public static CommandXboxController m_auxController = new CommandXboxController(OIConstants.kAuxControllerPort);
+  public static XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  public static XboxController m_auxController = new XboxController(OIConstants.kAuxControllerPort);
   SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
 
@@ -41,14 +44,36 @@ public class RobotContainer {
                 true),
             swerveSubsystem));
 
+    // elevatorSubsystem.setDefaultCommand(
+    // new ElevatorManualCommand(
+    // () -> -elevatorSubsystem.manualControl(
+    // -MathUtil.applyDeadband(m_driverController.getLeftY(),
+    // OIConstants.kDriveDeadband)
+    // ),elevatorSubsystem
+    // )); // Invert Y-axis
+
     configureBindings();
   }
 
   private void configureBindings() {
-    // auxY.onChange(new ElevatorCommand(elevatorSubsystem, frc.robot.Constants.ElevatorConstants.STAGE_4_HEIGHT_METERS));
-    // auxX.onChange(new ElevatorCommand(elevatorSubsystem, frc.robot.Constants.ElevatorConstants.STAGE_3_HEIGHT_METERS));
-    // auxB.onChange(new ElevatorCommand(elevatorSubsystem, frc.robot.Constants.ElevatorConstants.STAGE_2_HEIGHT_METERS));
-    // auxA.onChange(new ElevatorCommand(elevatorSubsystem, frc.robot.Constants.ElevatorConstants.STAGE_1_HEIGHT_METERS));
+    new JoystickButton(m_auxController, XboxController.Button.kA.value)
+        .onTrue(
+            new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_ROTATIONS));
+
+    new JoystickButton(m_auxController, XboxController.Button.kB.value)
+        .onTrue(
+            new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT_ROTATIONS));
+
+    new JoystickButton(m_auxController, XboxController.Button.kX.value)
+        .onTrue(
+            new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_3_HEIGHT_ROTATIONS));
+
+    new JoystickButton(m_auxController, XboxController.Button.kY.value)
+        .onTrue(
+            new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_ROTATIONS));
+
+    new JoystickButton(m_auxController, XboxController.Button.kStart.value)
+        .onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.SOURCE_HEIGHT_ROTATIONS));
 
     // driverController.getLeftX();
   }

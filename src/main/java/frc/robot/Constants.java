@@ -47,14 +47,26 @@ public final class Constants {
 
   public static class ElevatorConstants {
     public static final int kElevatorMotorID = 1;
-    // public static final double kElevatorEncoderDistancePerPulse = 1.0 / 1024.0;
-    public static final double kElevatorP = 0.1;
+
+    public static final double kElevatorP = 4.8;
     public static final double kElevatorI = 0;
-    public static final double kElevatorD = 0;
-    public static final double kElevatorFF = 0.001;
+    public static final double kElevatorD = 0.1;
+    public static final double kElevatorS = 0.25;
+    public static final double kElevatorV = 0.12;
+    public static final double kElevatorA = 0.1;
+
+
     public static final double kElevatorMinOutput = -1;
     public static final double kElevatorMaxOutput = 1;
     public static final int kElevatorCurrentLimit = 60;
+
+    public static final double TOLERANCE = 1; // 1 rotation from motor, 2.51cm
+
+     // Software limits (to prevent breaking the elevator)
+     public static final double kMinHeight = 0;      // Lowest safe position
+     public static final double kMaxHeight = 72.8; // Highest safe position
+     public static final double kManualSpeedMultiplier = 1000; // Adjust for fine control
+
 
     public static final double ENCODER_TICKS_PER_REV = 2048; // Kraken default
     private static final double GEAR_RATIO = 3; // 3:1, confirmed
@@ -72,8 +84,14 @@ public final class Constants {
     public static final double STAGE_2_HEIGHT_METERS = 0.81;  //81cm
     public static final double STAGE_3_HEIGHT_METERS = 1.21;  //121cm 
     public static final double STAGE_4_HEIGHT_METERS = 1.83;  //183cm 
-
     public static final double SOURCE_HEIGHT_METERS = 0.95;  //95cm
+
+
+    public static final double STAGE_1_HEIGHT_ROTATIONS = (STAGE_1_HEIGHT_METERS * GEAR_RATIO) / (Math.PI * PULLEY_DIAMETER);
+    public static final double STAGE_2_HEIGHT_ROTATIONS = (STAGE_2_HEIGHT_METERS * GEAR_RATIO) / (Math.PI * PULLEY_DIAMETER);
+    public static final double STAGE_3_HEIGHT_ROTATIONS = (STAGE_3_HEIGHT_METERS * GEAR_RATIO) / (Math.PI * PULLEY_DIAMETER);
+    public static final double STAGE_4_HEIGHT_ROTATIONS = (STAGE_4_HEIGHT_METERS * GEAR_RATIO) / (Math.PI * PULLEY_DIAMETER);
+    public static final double SOURCE_HEIGHT_ROTATIONS  = (SOURCE_HEIGHT_METERS  * GEAR_RATIO) / (Math.PI * PULLEY_DIAMETER);
 
 
 
