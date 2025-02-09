@@ -55,6 +55,13 @@ public class ArmSubsystem extends SubsystemBase {
                                    // there's a gear ratio change
     }
 
+    //this is for later if we are dealing with encoder in a different starting position
+    // public void resetEncoder() {
+    //     // Assume starting position is the lowest angle (adjust if needed)
+    //     m_armKraken.setPosition(ArmConstant.kStartingAngle * ArmConstant.ArmGearRatio);
+    // }
+    
+
     public void stop() {
         m_armKraken.set(0);
     }
@@ -68,15 +75,23 @@ public class ArmSubsystem extends SubsystemBase {
         return m_armKraken.getPosition().getValueAsDouble() / ArmConstant.ArmGearRatio;
     }
 
-    public void setArmAngle(double angle) {
-        double newPosition = angle * ArmConstant.ArmGearRatio;
-        m_armKraken.setControl(motionMagicControl.withPosition(newPosition));
+    public void setArmAngle(double targetRotations) {
+        //i was thingking aobut the optimization of the angle but i think it's not needed
+        // double currentAngle = getArmAngle(); // Get current arm position in degrees
+        // double optimizedAngle = ((targetAngle - currentAngle + 180) % 360) - 180;
+        // double newSetpoint = (currentAngle + optimizedAngle) * ArmConstant.ArmGearRatio;
+        m_armKraken.setControl(motionMagicControl.withPosition(targetRotations));
+    }
+
+    public void setArmAngleFromDegrees(double targetDegrees) {
+        setArmAngle(targetDegrees / 360.0);
     }
 
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Arm Angle (Rotations)", getArmAngle());
         SmartDashboard.putNumber("Arm Motor Output", m_armKraken.getMotorVoltage().getValueAsDouble());
+        
     }
 
 }

@@ -4,24 +4,32 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Degree;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.Test;
+import frc.robot.commands.ArmCommand.ArmSetPositionCommand;
 import frc.robot.commands.ElevatorCommand.ElevatorCommand;
 import frc.robot.commands.ElevatorCommand.ElevatorManualCommand;
 import frc.robot.commands.ElevatorCommand.ElevatorSetPositionCommand;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+
+import edu.wpi.first.units.measure.Angle;
+
 
 public class RobotContainer {
 //  public static CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
@@ -30,6 +38,7 @@ public class RobotContainer {
   public static CommandXboxController m_auxController = new CommandXboxController(OIConstants.kAuxControllerPort);
   SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
+  private final ArmSubsystem arm = new ArmSubsystem();
 
   private final Trigger auxY = m_auxController.y();
   private final Trigger auxA = m_auxController.a();
@@ -59,17 +68,23 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    auxA.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_ROTATIONS)
-    .alongWith(Commands.print("Elevator Level 1, Height: " + Constants.ElevatorConstants.STAGE_1_HEIGHT_ROTATIONS)));
-    auxB.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT_ROTATIONS)
-    .alongWith(Commands.print("Elevator Level 2, Height: " + Constants.ElevatorConstants.STAGE_2_HEIGHT_ROTATIONS)));
-    auxX.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_3_HEIGHT_ROTATIONS)
-    .alongWith(Commands.print("Elevator Level 3, Height: " + Constants.ElevatorConstants.STAGE_3_HEIGHT_ROTATIONS)));
-    auxY.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_ROTATIONS)
-    .alongWith(Commands.print("Elevator Level 4, Height: " + Constants.ElevatorConstants.STAGE_4_HEIGHT_ROTATIONS)));
-    auxRightBumper.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.SOURCE_HEIGHT_ROTATIONS)
-    .alongWith(Commands.print("Elevator Source, Height: " + Constants.ElevatorConstants.SOURCE_HEIGHT_ROTATIONS)));
+    auxA.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_METERS)
+    .alongWith(Commands.print("Elevator Level 1, Height: " + Constants.ElevatorConstants.STAGE_1_HEIGHT_METERS)));
+    auxB.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT_METERS)
+    .alongWith(Commands.print("Elevator Level 2, Height: " + Constants.ElevatorConstants.STAGE_2_HEIGHT_METERS)));
+    auxX.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_3_HEIGHT_METERS)
+    .alongWith(Commands.print("Elevator Level 3, Height: " + Constants.ElevatorConstants.STAGE_3_HEIGHT_METERS)));
+    auxY.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_METERS)
+    .alongWith(Commands.print("Elevator Level 4, Height: " + Constants.ElevatorConstants.STAGE_4_HEIGHT_METERS)));
 
+
+    auxRightBumper.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.SOURCE_HEIGHT_METERS)
+    .alongWith(Commands.print("Elevator Source, Height: " + Constants.ElevatorConstants.SOURCE_HEIGHT_METERS)));
+
+    auxRightBumper.onTrue(
+      new ParallelCommandGroup(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.SOURCE_HEIGHT_METERS), 
+      new ArmSetPositionCommand(arm, Constants.ArmConstant.COROAL_STATION_ANGLE.in(Degree)))
+    );
     
     // new JoystickButton(m_auxController, XboxController.Button.kA.value)
     //     .onTrue(

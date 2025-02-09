@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
 
 import static edu.wpi.first.units.Units.*;
@@ -23,18 +24,6 @@ import static edu.wpi.first.units.Units.*;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  static Translation2d m_frontLeftLocation = new Translation2d(
-      (frc.robot.Constants.DriveConstants.kmDriveWidth.in(Inches)) / 2,
-      frc.robot.Constants.DriveConstants.kmDriveLength.in(Inches) / 2);
-  static Translation2d m_frontRightLocation = new Translation2d(
-      frc.robot.Constants.DriveConstants.kmDriveWidth.in(Inches) / 2,
-      -frc.robot.Constants.DriveConstants.kmDriveLength.in(Inches) / 2);
-  static Translation2d m_backLeftLocation = new Translation2d(
-      -frc.robot.Constants.DriveConstants.kmDriveWidth.in(Inches) / 2,
-      frc.robot.Constants.DriveConstants.kmDriveLength.in(Inches) / 2);
-  static Translation2d m_backRightLocation = new Translation2d(
-      -frc.robot.Constants.DriveConstants.kmDriveWidth .in(Inches)/ 2,
-      -frc.robot.Constants.DriveConstants.kmDriveLength.in(Inches) / 2);
 
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
@@ -47,13 +36,16 @@ public final class Constants {
     public static final double kDriveDeadband = 0.05;
   }
 
-  public static class ArmConstant{
+  public static class ArmConstant {
     public static final int kArmMotorID = 17;
 
-    public static final double ArmGearRatio = 62/12;// 62:12 from onshape
+    public static final double TOLERANCE = 0.01;
 
+    public static final double ArmGearRatio = 62 / 12;// 62:12 from onshape
 
     public static final Distance ArmLength = Inches.of(16.1);
+
+    public static final Angle COROAL_STATION_ANGLE = Degrees.of(55); // Coral Station Angle
 
     public static final double kArmP = 4.8;
     public static final double kArmI = 0;
@@ -63,7 +55,7 @@ public final class Constants {
     public static final double kArmA = 0.1;
     public static final double kArmMinOutput = -1;
     public static final double kArmMaxOutput = 1;
-    public static final int    kArmCurrentLimit = 60;
+    public static final int kArmCurrentLimit = 60;
   }
 
   public static class ElevatorConstants {
@@ -76,53 +68,57 @@ public final class Constants {
     public static final double kElevatorV = 0.12;
     public static final double kElevatorA = 0.1;
 
-
     public static final double kElevatorMinOutput = -1;
     public static final double kElevatorMaxOutput = 1;
     public static final int kElevatorCurrentLimit = 60;
 
     public static final double TOLERANCE = 1; // 1 rotation from motor, 2.51cm
 
-     // Software limits (to prevent breaking the elevator)
-     public static final double kMinHeight = 0;      // Lowest safe position
-     public static final double kMaxHeight = 72.8; // Highest safe position
-     public static final double kManualSpeedMultiplier = 1000; // Adjust for fine control
+    // Software limits (to prevent breaking the elevator)
+    public static final double kMinHeight = 0; // Lowest safe position
+    public static final double kMaxHeight = 72.8; // Highest safe position
+    public static final double kManualSpeedMultiplier = 1000; // Adjust for fine control
 
-
-    public static final  double ENCODER_TICKS_PER_REV = 2048; // Kraken default
+    public static final double ENCODER_TICKS_PER_REV = 2048; // Kraken default
     public static final double GEAR_RATIO = 3; // 3:1, confirmed
     public static final Distance PULLEY_DIAMETER = Meters.of(0.048); // 4.8cm
-    public static final  double PULLEY_CIRCUMFERENCE = PULLEY_DIAMETER.in(Meters) * Math.PI; // cm
+    public static final double PULLEY_CIRCUMFERENCE = PULLEY_DIAMETER.in(Meters) * Math.PI; // cm
 
-    public static final double kElevatorEncoderDistancePerPulse = PULLEY_CIRCUMFERENCE / (ENCODER_TICKS_PER_REV * GEAR_RATIO);
+    public static final double kElevatorEncoderDistancePerPulse = PULLEY_CIRCUMFERENCE
+        / (ENCODER_TICKS_PER_REV * GEAR_RATIO);
 
-    //conversion factors
-    public static final double METERS_PER_TICK = PULLEY_CIRCUMFERENCE/(ENCODER_TICKS_PER_REV * GEAR_RATIO);
+    // conversion factors
+    public static final double METERS_PER_TICK = PULLEY_CIRCUMFERENCE / (ENCODER_TICKS_PER_REV * GEAR_RATIO);
     public static final double METERS_PER_ROTATION = PULLEY_CIRCUMFERENCE / GEAR_RATIO;
 
     // Elevator stages
-    public static final Distance STAGE_1_HEIGHT_METERS = Meters.of(0.46);  //46cm
-    public static final Distance STAGE_2_HEIGHT_METERS = Meters.of(0.81);  //81cm
-    public static final Distance STAGE_3_HEIGHT_METERS = Meters.of(1.21);  //121cm 
-    public static final Distance STAGE_4_HEIGHT_METERS = Meters.of(1.83);  //183cm 
-    public static final Distance SOURCE_HEIGHT_METERS  = Meters.of(0.95);  //95cm
+    public static final Distance STAGE_1_HEIGHT_METERS = Meters.of(0.46); // 46cm
+    public static final Distance STAGE_2_HEIGHT_METERS = Meters.of(0.81); // 81cm
+    public static final Distance STAGE_3_HEIGHT_METERS = Meters.of(1.21); // 121cm
+    public static final Distance STAGE_4_HEIGHT_METERS = Meters.of(1.83); // 183cm
+    public static final Distance SOURCE_HEIGHT_METERS = Meters.of(0.95); // 95cm
 
-
-    public static final double STAGE_1_HEIGHT_ROTATIONS = (STAGE_1_HEIGHT_METERS.in(Meters) * GEAR_RATIO) / (Math.PI * PULLEY_DIAMETER.in(Meters));
-    public static final double STAGE_2_HEIGHT_ROTATIONS = (STAGE_2_HEIGHT_METERS.in(Meters) * GEAR_RATIO) / (Math.PI * PULLEY_DIAMETER.in(Meters));
-    public static final double STAGE_3_HEIGHT_ROTATIONS = (STAGE_3_HEIGHT_METERS.in(Meters) * GEAR_RATIO) / (Math.PI * PULLEY_DIAMETER.in(Meters));
-    public static final double STAGE_4_HEIGHT_ROTATIONS = (STAGE_4_HEIGHT_METERS.in(Meters) * GEAR_RATIO) / (Math.PI * PULLEY_DIAMETER.in(Meters));
-    public static final double SOURCE_HEIGHT_ROTATIONS  = (SOURCE_HEIGHT_METERS .in(Meters) * GEAR_RATIO) / (Math.PI * PULLEY_DIAMETER.in(Meters));
-
-
-
+    // public static final double STAGE_1_HEIGHT_ROTATIONS =
+    // (STAGE_1_HEIGHT_METERS.in(Meters) * GEAR_RATIO) / (Math.PI *
+    // PULLEY_DIAMETER.in(Meters));
+    // public static final double STAGE_2_HEIGHT_ROTATIONS =
+    // (STAGE_2_HEIGHT_METERS.in(Meters) * GEAR_RATIO) / (Math.PI *
+    // PULLEY_DIAMETER.in(Meters));
+    // public static final double STAGE_3_HEIGHT_ROTATIONS =
+    // (STAGE_3_HEIGHT_METERS.in(Meters) * GEAR_RATIO) / (Math.PI *
+    // PULLEY_DIAMETER.in(Meters));
+    // public static final double STAGE_4_HEIGHT_ROTATIONS =
+    // (STAGE_4_HEIGHT_METERS.in(Meters) * GEAR_RATIO) / (Math.PI *
+    // PULLEY_DIAMETER.in(Meters));
+    // public static final double SOURCE_HEIGHT_ROTATIONS = (SOURCE_HEIGHT_METERS
+    // .in(Meters) * GEAR_RATIO) / (Math.PI * PULLEY_DIAMETER.in(Meters));
 
   }
 
-
   public static class ModuleConstants {
     // Calculations required for driving motor conversion factors and feed forward
-//    public static final double kDrivingMotorFreeSpeedRps = 6000 / 60;// what the hell is this
+    // public static final double kDrivingMotorFreeSpeedRps = 6000 / 60;// what the
+    // hell is this
     public static final double kWheelDiameterMeters = 0.0762;
     public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
 
@@ -163,8 +159,7 @@ public final class Constants {
         m_frontLeftLocation,
         m_frontRightLocation,
         m_backLeftLocation,
-        m_backRightLocation
-        );
+        m_backRightLocation);
 
     public static final double kMaxSpeedMetersPerSecond = 6.1;
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
@@ -195,12 +190,30 @@ public final class Constants {
     public static final boolean kBackRightTurningEncoderReversed = true;
 
     // frame size
-    public static final Distance kmDriveWidth  = Inches.of(26.5);
-    public static final Distance kmDriveLength = Inches.of(26.5);
+    public static Distance kmDriveWidth = Inches.of(26.5);
+    public static Distance kmDriveLength = Inches.of(26.5);
+
+    static Translation2d m_frontLeftLocation = new Translation2d(
+        frc.robot.Constants.DriveConstants.kmDriveWidth.in(Inches) / 2,
+        frc.robot.Constants.DriveConstants.kmDriveLength.in(Inches) / 2);
+
+    static Translation2d m_frontRightLocation = new Translation2d(
+        frc.robot.Constants.DriveConstants.kmDriveWidth.in(Inches) / 2,
+        -frc.robot.Constants.DriveConstants.kmDriveLength.in(Inches) / 2);
+
+    static Translation2d m_backLeftLocation = new Translation2d(
+        -frc.robot.Constants.DriveConstants.kmDriveWidth.in(Inches) / 2,
+        frc.robot.Constants.DriveConstants.kmDriveLength.in(Inches) / 2);
+
+    static Translation2d m_backRightLocation = new Translation2d(
+        -frc.robot.Constants.DriveConstants.kmDriveWidth.in(Inches) / 2,
+        -frc.robot.Constants.DriveConstants.kmDriveLength.in(Inches) / 2);
 
   }
-  public static final class AutoConstants {//copied from last year's code, not sure how this works, delete if needed
+
+  public static final class AutoConstants {// copied from last year's code, not sure how this works, delete if needed
     public static final double kSwerveDiscreteTimestep = 0.02;
-   
+
   }
+
 }

@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.Meters;
+
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -12,12 +14,14 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
+import edu.wpi.first.units.measure.Distance;
 
 @SuppressWarnings("all") // hater just be hating
 public class ElevatorSubsystem extends SubsystemBase {
@@ -66,10 +70,12 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     }
 
-    public void setElevatorPosition(double position) {
+    public void setElevatorPosition(Distance targetHeight, double GEAR_RATIO, Distance PULLEY_DIAMETER) {
         // Prevent exceeding software limits
-        setpoint = Math.max(ElevatorConstants.kMinHeight, Math.min(position, ElevatorConstants.kMaxHeight));//todo: check the safe height
-        System.out.println("Setting elevator position to " + position);
+        double Rotations = (targetHeight.in(Meters) * GEAR_RATIO) / (Math.PI * PULLEY_DIAMETER.in(Meters));
+
+        setpoint = Math.max(ElevatorConstants.kMinHeight, Math.min(Rotations, ElevatorConstants.kMaxHeight));//todo: check the safe height
+        System.out.println("Setting elevator position to " + Rotations + " rotations");
 
         m_elevatorKraken.setControl(motionMagicControl.withPosition(setpoint));
     }
