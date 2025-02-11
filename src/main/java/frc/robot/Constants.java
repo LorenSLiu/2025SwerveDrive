@@ -12,6 +12,8 @@ import edu.wpi.first.units.measure.Distance;
 
 import static edu.wpi.first.units.Units.*;
 
+import com.ctre.phoenix6.CANBus;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean
@@ -38,6 +40,8 @@ public final class Constants {
   }
 
   public static class ArmConstant {
+    public static final CANBus kArmCANbus = new CANBus("rio");
+
     public static final int kArmMotorID = 17;
 
     public static final double TOLERANCE = 0.01;
@@ -52,22 +56,25 @@ public final class Constants {
     public static final double kArmI = 0;
     public static final double kArmD = 0.1;
     public static final double kArmS = 0.25;
-    public static final double kArmV = 0.12;
-    public static final double kArmA = 0.1;
+    public static final double kArmV = 6.47;
+    public static final double kArmA = 0.01; //r^s^2
+    public static final double kArmG = 0.11; //r^s
     public static final double kArmMinOutput = -1;
     public static final double kArmMaxOutput = 1;
     public static final int kArmCurrentLimit = 60;
   }
 
   public static class ElevatorConstants {
+    public static final CANBus kElevatorCANbus = new CANBus("rio");
     public static final int kElevatorMotorID = 16;
+    public static final int kElevatorMotorFollowerID = 18;
 
     public static final double kElevatorP = 4.8;
     public static final double kElevatorI = 0;
     public static final double kElevatorD = 0.1;
-    public static final double kElevatorS = 0.25;
-    public static final double kElevatorV = 0.12;
-    public static final double kElevatorA = 0.1;
+    public static final double kElevatorS = 0.1;
+    public static final double kElevatorV = 3.11;
+    public static final double kElevatorA = 0.02;
 
     public static final double kElevatorMinOutput = -1;
     public static final double kElevatorMaxOutput = 1;
@@ -101,7 +108,9 @@ public final class Constants {
     public static final Distance SOURCE_HEIGHT          = Meters.of(0.95); // 95cm
 
     //Elevator stages effective data
-    public static final Distance ELEVATOR_SOURCE_DELTA  = Meters.of(SOURCE_HEIGHT.in(Meters)-(Elevator_HEIGHT_NOUGHT.in(Meters)-(Math.cos(ArmConstant.COROAL_STATION_ANGLE.in(Degrees))*ArmConstant.ArmLength.in(Meters))));
+    public static final Distance ELEVATOR_SOURCE_DELTA  = Meters.of(0.2338);
+
+    // public static final Distance ELEVATOR_SOURCE_DELTA  = Meters.of(SOURCE_HEIGHT.in(Meters)-(Elevator_HEIGHT_NOUGHT.in(Meters)-(Math.cos(ArmConstant.COROAL_STATION_ANGLE.in(Degrees))*ArmConstant.ArmLength.in(Meters))));
     // public static final double STAGE_1_HEIGHT_ROTATIONS =
     // (STAGE_1_HEIGHT_METERS.in(Meters) * GEAR_RATIO) / (Math.PI *
     // PULLEY_DIAMETER.in(Meters));

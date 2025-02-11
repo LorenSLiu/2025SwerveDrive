@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
@@ -15,7 +16,7 @@ public class ArmSubsystem extends SubsystemBase {
     private final MotionMagicVoltage motionMagicControl;
 
     public ArmSubsystem() {
-        m_armKraken = new TalonFX(ArmConstant.kArmMotorID);
+        m_armKraken = new TalonFX(ArmConstant.kArmMotorID, ArmConstant.kArmCANbus);
 
         var talonFXConfigs = new TalonFXConfiguration();
 

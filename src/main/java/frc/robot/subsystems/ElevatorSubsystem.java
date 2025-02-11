@@ -26,13 +26,17 @@ import edu.wpi.first.units.measure.Distance;
 @SuppressWarnings("all") // hater just be hating
 public class ElevatorSubsystem extends SubsystemBase {
     private TalonFX m_elevatorKraken;
+    private TalonFX m_elevatorKrakenFollower;
+
     private double setpoint = 0;  // Stores the last commanded position
     private final MotionMagicVoltage motionMagicControl;
 
 
 
     public ElevatorSubsystem() {
-        m_elevatorKraken = new TalonFX(frc.robot.Constants.ElevatorConstants.kElevatorMotorID);
+        m_elevatorKraken = new TalonFX(ElevatorConstants.kElevatorMotorID, ElevatorConstants.kElevatorCANbus);
+        m_elevatorKrakenFollower = new TalonFX(ElevatorConstants.kElevatorMotorFollowerID, ElevatorConstants.kElevatorCANbus);
+
 
         var talonFXConfigs = new TalonFXConfiguration();
 
@@ -88,6 +92,9 @@ public class ElevatorSubsystem extends SubsystemBase {
         m_elevatorKraken.set(0);
     }
 
+    /*
+     * Get the current elevator height in rotations
+     */
     public double getCurrentPosition() {
         return m_elevatorKraken.getPosition().getValueAsDouble();
     }
