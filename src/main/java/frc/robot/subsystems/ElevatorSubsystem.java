@@ -12,8 +12,11 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
+import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -23,6 +26,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 import edu.wpi.first.units.measure.Distance;
 
+
+
 @SuppressWarnings("all") // hater just be hating
 public class ElevatorSubsystem extends SubsystemBase {
     private TalonFX m_elevatorKraken;
@@ -31,6 +36,11 @@ public class ElevatorSubsystem extends SubsystemBase {
     private double setpoint = 0;  // Stores the last commanded position
     private final MotionMagicVoltage motionMagicControl;
 
+    // NetworkTables publishers
+    private final NetworkTableInstance inst = NetworkTableInstance.getDefault();
+    private final NetworkTable elevatorTable = inst.getTable("Elevator");
+    private final DoublePublisher elevatorHeightPublisher = elevatorTable.getDoubleTopic("Height").publish();
+    private final DoublePublisher elevatorSpeedPublisher = elevatorTable.getDoubleTopic("Speed").publish();
 
 
     public ElevatorSubsystem() {
@@ -52,9 +62,9 @@ public class ElevatorSubsystem extends SubsystemBase {
 
         // set Motion Magic settings
         var motionMagicConfigs = talonFXConfigs.MotionMagic;
-        motionMagicConfigs.MotionMagicCruiseVelocity = 80; // Target cruise velocity of 80 rps
-        motionMagicConfigs.MotionMagicAcceleration = 160; // Target acceleration of 160 rps/s (0.5 seconds)
-        motionMagicConfigs.MotionMagicJerk = 1600; // Target jerk of 1600 rps/s/s (0.1 seconds)
+        motionMagicConfigs.MotionMagicCruiseVelocity = 70; // Target cruise velocity of 80 rps
+        motionMagicConfigs.MotionMagicAcceleration = 100; // Target acceleration of 160 rps/s (0.5 seconds)
+        motionMagicConfigs.MotionMagicJerk = 40; // Target jerk of 1600 rps/s/s (0.1 seconds)
         m_elevatorKraken.getConfigurator().apply(talonFXConfigs);
 
         //current limit
@@ -67,6 +77,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 
         m_elevatorKraken.setNeutralMode(NeutralModeValue.Brake);
         resetEncoder();
+
+        
 
 
         // set if motor is inverted
@@ -112,6 +124,25 @@ public class ElevatorSubsystem extends SubsystemBase {
         }
     }
 
+    public double getElevatorHeightMeters() {
+        return m_elevatorKraken.getPosition().getValueAsDouble()
+                * frc.robot.Constants.ElevatorConstants.METERS_PER_ROTATION;
+    }
+
+    public void updateTelemetry() {
+        // Add telemetry data using NetworkTables
+        elevatorHeightPublisher.set(getElevatorHeightMeters());
+        elevatorSpeedPublisher.set(m_elevatorKraken.getMotorVoltage().getValueAsDouble());
+        
+        // Add more telemetry data as needed
+    }
+
+    @Override
+    public void periodic() {
+        updateTelemetry();
+    }
+   
+
 
 
     //below are deprecated stuff
@@ -124,11 +155,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         m_elevatorKraken.setPosition(TargetRotations);
     }
 
-    @Deprecated
-    public double getElevatorHeightMeters() {
-        return m_elevatorKraken.getPosition().getValueAsDouble()
-                * frc.robot.Constants.ElevatorConstants.METERS_PER_ROTATION;
-    }
+    
 
     @Deprecated
     public double convertMetersToTicks(double meters) {
