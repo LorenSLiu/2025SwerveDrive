@@ -72,9 +72,9 @@ public final class Constants {
     public static final double kElevatorP = 4.8;
     public static final double kElevatorI = 0;
     public static final double kElevatorD = 0.1;
-    public static final double kElevatorS = 0.1;
-    public static final double kElevatorV = 3.11;
-    public static final double kElevatorA = 0.5;
+    // public static final double kElevatorS = 0.1;
+    // public static final double kElevatorV = 3.11;
+    // public static final double kElevatorA = 0.5;
 
     public static final double kElevatorMinOutput = -1;
     public static final double kElevatorMaxOutput = 1;
