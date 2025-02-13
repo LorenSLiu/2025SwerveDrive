@@ -100,7 +100,7 @@ public final class Constants {
     public static final double METERS_PER_ROTATION = PULLEY_CIRCUMFERENCE / GEAR_RATIO;
 
     // Elevator stages raw data
-    public static final Distance Elevator_HEIGHT_NOUGHT = Inches.of(37.433); // 0cm
+    public static final Distance Elevator_HEIGHT_NOUGHT = Inches.of(37.433); // ok
     public static final Distance STAGE_1_HEIGHT         = Meters.of(0.46); // 46cm
     public static final Distance STAGE_2_HEIGHT         = Meters.of(0.81); // 81cm
     public static final Distance STAGE_3_HEIGHT         = Meters.of(1.21); // 121cm
@@ -108,7 +108,7 @@ public final class Constants {
     public static final Distance SOURCE_HEIGHT          = Meters.of(0.95); // 95cm
 
     //Elevator stages effective data
-    public static final Distance ELEVATOR_SOURCE_DELTA = Inches.of(16);
+    public static final Distance ELEVATOR_SOURCE_DELTA = Inches.of(16);//check
     public static final Distance STAGE_1_HEIGHT_DELTA  = Inches.of(0); 
     public static final Distance STAGE_2_HEIGHT_DELTA  = Inches.of(11.5); 
     public static final Distance STAGE_3_HEIGHT_DELTA  = Inches.of(0);
