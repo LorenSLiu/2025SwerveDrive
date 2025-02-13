@@ -86,7 +86,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     }
 
-    public void setElevatorPosition(Distance targetHeight, double GEAR_RATIO, Distance PULLEY_DIAMETER) {
+    public void setElevatorPosition(Distance targetHeight, Distance PULLEY_DIAMETER) {
         // Prevent exceeding software limits
         double Rotations = (targetHeight.in(Meters) * GEAR_RATIO) / (Math.PI * PULLEY_DIAMETER.in(Meters));
 
@@ -121,10 +121,10 @@ public class ElevatorSubsystem extends SubsystemBase {
         //     stop();
         // } else {
             
-                System.out.println("facts"+speed);
+        System.out.println("facts"+speed);
             
-            m_elevatorKraken.set(speed);
-            m_elevatorKrakenFollower.set(speed);
+        m_elevatorKraken.set(speed);
+        m_elevatorKrakenFollower.set(speed);
         //}
     }
 

@@ -53,6 +53,11 @@ public class RobotContainer {
     private final Trigger auxX = m_auxController.x();
     private final Trigger auxRightBumper = m_auxController.rightBumper();
 
+    private final Trigger driveY = m_driverController.y();
+    private final Trigger driveA = m_driverController.a();
+    private final Trigger driveB = m_driverController.b();
+    private final Trigger driveX = m_driverController.x();
+
     public RobotContainer() {
 
         configureBindings();
@@ -103,19 +108,19 @@ public class RobotContainer {
         // end of swerve drive bindings
 
         // Elevator and Arm bindings
-        auxA.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT)
+        driveA.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_DELTA)
                 .alongWith(Commands
                         .print("Elevator Level 1, Height: "
                                 + Constants.ElevatorConstants.STAGE_1_HEIGHT.in(Units.Meters))));
-        auxB.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT)
+        driveB.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT_DELTA)
                 .alongWith(Commands
                         .print("Elevator Level 2, Height: "
                                 + Constants.ElevatorConstants.STAGE_2_HEIGHT.in(Units.Meters))));
-        auxX.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_3_HEIGHT)
+        driveX.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_3_HEIGHT_DELTA)
                 .alongWith(Commands
                         .print("Elevator Level 3, Height: "
                                 + Constants.ElevatorConstants.STAGE_3_HEIGHT.in(Units.Meters))));
-        auxY.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT)
+        driveY.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA)
                 .alongWith(Commands
                         .print("Elevator Level 4, Height: "
                                 + Constants.ElevatorConstants.STAGE_4_HEIGHT.in(Units.Meters))));

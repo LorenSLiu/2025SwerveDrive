@@ -22,7 +22,7 @@ public class ElevatorSetPositionCommand extends Command {
 
     @Override
     public void initialize() {
-        elevator.setElevatorPosition(targetPosition, ElevatorConstants.GEAR_RATIO, ElevatorConstants.PULLEY_DIAMETER);
+        elevator.setElevatorPosition(targetPosition, ElevatorConstants.PULLEY_DIAMETER);
     }
 
     @Override

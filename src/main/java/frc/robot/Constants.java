@@ -108,7 +108,11 @@ public final class Constants {
     public static final Distance SOURCE_HEIGHT          = Meters.of(0.95); // 95cm
 
     //Elevator stages effective data
-    public static final Distance ELEVATOR_SOURCE_DELTA  = Meters.of(0.2338);
+    public static final Distance ELEVATOR_SOURCE_DELTA = Inches.of(16);
+    public static final Distance STAGE_1_HEIGHT_DELTA  = Inches.of(0); 
+    public static final Distance STAGE_2_HEIGHT_DELTA  = Inches.of(11.5); 
+    public static final Distance STAGE_3_HEIGHT_DELTA  = Inches.of(0);
+    public static final Distance STAGE_4_HEIGHT_DELTA  = Inches.of(27);
 
     // public static final Distance ELEVATOR_SOURCE_DELTA  = Meters.of(SOURCE_HEIGHT.in(Meters)-(Elevator_HEIGHT_NOUGHT.in(Meters)-(Math.cos(ArmConstant.COROAL_STATION_ANGLE.in(Degrees))*ArmConstant.ArmLength.in(Meters))));
     // public static final double STAGE_1_HEIGHT_ROTATIONS =
