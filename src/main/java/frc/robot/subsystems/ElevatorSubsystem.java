@@ -88,10 +88,10 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public void setElevatorPosition(Distance targetHeight, Distance PULLEY_DIAMETER) {
         // Prevent exceeding software limits
-        double Rotations = (targetHeight.in(Meters) * GEAR_RATIO) / (Math.PI * PULLEY_DIAMETER.in(Meters));
-
-        setpoint = Math.max(ElevatorConstants.kMinHeight, Math.min(Rotations, ElevatorConstants.kMaxHeight));//todo: check the safe height
+        double Rotations = (3*targetHeight.in(Meters))/(Math.PI*PULLEY_DIAMETER.in(Meters));
         System.out.println("Setting elevator position to " + Rotations + " rotations");
+        setpoint = Math.max(ElevatorConstants.kMinHeight, Math.min(Rotations, ElevatorConstants.kMaxHeight));//todo: check the safe height
+        System.out.println("Setting elevator position to final " + Rotations + " rotations");
 
         m_elevatorKraken.setControl(motionMagicControl.withPosition(setpoint));
     }
