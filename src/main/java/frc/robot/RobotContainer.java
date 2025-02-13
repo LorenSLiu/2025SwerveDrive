@@ -87,10 +87,10 @@ public class RobotContainer {
         // )
         );
 
-        m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        m_driverController.b().whileTrue(drivetrain
-                .applyRequest(() -> point.withModuleDirection(
-                        new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))));
+        // m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
+        // m_driverController.b().whileTrue(drivetrain
+        //         .applyRequest(() -> point.withModuleDirection(
+        //                 new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))));
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
@@ -108,7 +108,7 @@ public class RobotContainer {
         // end of swerve drive bindings
 
         // Elevator and Arm bindings
-        driveA.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_DELTA)
+        driveA.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA)
                 .alongWith(Commands
                         .print("Elevator Level 1, Height: "
                                 + Constants.ElevatorConstants.STAGE_1_HEIGHT.in(Units.Meters))));

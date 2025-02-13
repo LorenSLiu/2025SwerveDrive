@@ -7,6 +7,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DynamicMotionMagicVoltage;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -76,6 +77,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
 
         m_elevatorKraken.setNeutralMode(NeutralModeValue.Brake);
+        m_elevatorKrakenFollower.setNeutralMode(NeutralModeValue.Brake);
         resetEncoder();
 
         
@@ -93,7 +95,9 @@ public class ElevatorSubsystem extends SubsystemBase {
         setpoint = Math.max(ElevatorConstants.kMinHeight, Math.min(Rotations, ElevatorConstants.kMaxHeight));//todo: check the safe height
         System.out.println("Setting elevator position to final " + Rotations + " rotations");
 
-        m_elevatorKraken.setControl(motionMagicControl.withPosition(setpoint));
+        //m_elevatorKraken.setControl(motionMagicControl.withPosition(setpoint));
+        m_elevatorKraken.setPosition(Rotations);
+        m_elevatorKrakenFollower.setPosition(Rotations);
     }
 
     public void resetEncoder() {
