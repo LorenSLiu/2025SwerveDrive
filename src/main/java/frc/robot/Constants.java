@@ -84,7 +84,7 @@ public final class Constants {
 
     // Software limits (to prevent breaking the elevator)
     public static final double kMinHeight = 0; // Lowest safe position
-    public static final double kMaxHeight = 72.8; // Highest safe position
+    public static final double kMaxHeight = 15.5; // Highest safe position
     public static final double kManualSpeedMultiplier = 1000; // Adjust for fine control
 
     public static final double ENCODER_TICKS_PER_REV = 2048; // Kraken default
