@@ -64,10 +64,10 @@ public class ElevatorSubsystem extends SubsystemBase {
         slot0Configs.kD = frc.robot.Constants.ElevatorConstants.kElevatorD; // A velocity error of 1 rps results in 0.1 V output
 
         // set Motion Magic settings
-        var motionMagicConfigs = talonFXConfigs.MotionMagic;
-        motionMagicConfigs.MotionMagicCruiseVelocity = 200; // Target cruise velocity of 80 rps
-        motionMagicConfigs.MotionMagicAcceleration = 300; // Target acceleration of 160 rps/s (0.5 seconds)
-        motionMagicConfigs.MotionMagicJerk = 100; // Target jerk of 1600 rps/s/s (0.1 seconds)
+        // var motionMagicConfigs = talonFXConfigs.MotionMagic;
+        // motionMagicConfigs.MotionMagicCruiseVelocity = 200; // Target cruise velocity of 80 rps
+        // motionMagicConfigs.MotionMagicAcceleration = 300; // Target acceleration of 160 rps/s (0.5 seconds)
+        // motionMagicConfigs.MotionMagicJerk = 100; // Target jerk of 1600 rps/s/s (0.1 seconds)
         m_elevatorKraken.getConfigurator().apply(talonFXConfigs);
 
         //current limit
