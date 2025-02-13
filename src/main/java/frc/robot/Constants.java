@@ -42,7 +42,7 @@ public final class Constants {
   public static class ArmConstant {
     public static final CANBus kArmCANbus = new CANBus("rio");
 
-    public static final int kArmMotorID = 17;
+    public static final int kArmMotorID = 5;
 
     public static final double TOLERANCE = 0.01;
 
@@ -66,15 +66,15 @@ public final class Constants {
 
   public static class ElevatorConstants {
     public static final CANBus kElevatorCANbus = new CANBus("rio");
-    public static final int kElevatorMotorID = 16;
-    public static final int kElevatorMotorFollowerID = 18;
+    public static final int kElevatorMotorID = 2;
+    public static final int kElevatorMotorFollowerID = 3;
 
     public static final double kElevatorP = 4.8;
     public static final double kElevatorI = 0;
     public static final double kElevatorD = 0.1;
     public static final double kElevatorS = 0.1;
     public static final double kElevatorV = 3.11;
-    public static final double kElevatorA = 0.02;
+    public static final double kElevatorA = 0.5;
 
     public static final double kElevatorMinOutput = -1;
     public static final double kElevatorMaxOutput = 1;

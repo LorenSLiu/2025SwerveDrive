@@ -61,10 +61,10 @@ public class ElevatorSubsystem extends SubsystemBase {
         slot0Configs.kD = frc.robot.Constants.ElevatorConstants.kElevatorD; // A velocity error of 1 rps results in 0.1 V output
 
         // set Motion Magic settings
-        var motionMagicConfigs = talonFXConfigs.MotionMagic;
-        motionMagicConfigs.MotionMagicCruiseVelocity = 70; // Target cruise velocity of 80 rps
-        motionMagicConfigs.MotionMagicAcceleration = 100; // Target acceleration of 160 rps/s (0.5 seconds)
-        motionMagicConfigs.MotionMagicJerk = 40; // Target jerk of 1600 rps/s/s (0.1 seconds)
+        //var motionMagicConfigs = talonFXConfigs.MotionMagic;
+        //motionMagicConfigs.MotionMagicCruiseVelocity = 200; // Target cruise velocity of 80 rps
+        //motionMagicConfigs.MotionMagicAcceleration = 300; // Target acceleration of 160 rps/s (0.5 seconds)
+        //motionMagicConfigs.MotionMagicJerk = 100; // Target jerk of 1600 rps/s/s (0.1 seconds)
         m_elevatorKraken.getConfigurator().apply(talonFXConfigs);
 
         //current limit
@@ -112,16 +112,20 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void manualControl(double speed) {
-        double newPosition = m_elevatorKraken.getPosition().getValueAsDouble()
-                + (speed * ElevatorConstants.kManualSpeedMultiplier);
+        // double newPosition = m_elevatorKraken.getPosition().getValueAsDouble()
+        //         + (speed * ElevatorConstants.kManualSpeedMultiplier);
 
-        // Enforce software limits
-        if ((speed < 0 && newPosition <= ElevatorConstants.kMinHeight) ||
-                (speed > 0 && newPosition >= ElevatorConstants.kMaxHeight)) {
-            stop();
-        } else {
+        // // Enforce software limits
+        // if ((speed < 0 && newPosition <= ElevatorConstants.kMinHeight) ||
+        //         (speed > 0 && newPosition >= ElevatorConstants.kMaxHeight)) {
+        //     stop();
+        // } else {
+            
+                System.out.println("facts"+speed);
+            
             m_elevatorKraken.set(speed);
-        }
+            m_elevatorKrakenFollower.set(speed);
+        //}
     }
 
     public double getElevatorHeightMeters() {

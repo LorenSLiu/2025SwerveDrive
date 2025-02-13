@@ -67,9 +67,9 @@ public class RobotContainer {
                 drivetrain
                         .applyRequest(() -> drive
                                 .withVelocityX(
-                                        -mathProfiles.exponentialDrive(m_driverController.getLeftY(), 2) * MaxSpeed)
+                                        -mathProfiles.exponentialDrive(m_driverController.getLeftY(), 3) * MaxSpeed)
                                 .withVelocityY(
-                                        -mathProfiles.exponentialDrive(m_driverController.getLeftX(), 2) * MaxSpeed)
+                                        -mathProfiles.exponentialDrive(m_driverController.getLeftX(), 3) * MaxSpeed)
                                 .withRotationalRate(-mathProfiles.exponentialDrive(m_driverController.getRightX(), 2)
                                         * MaxAngularRate))
         // drivetrain.applyRequest(() ->
@@ -128,7 +128,7 @@ public class RobotContainer {
         elevatorSubsystem.setDefaultCommand(new RunCommand(() -> {
             double rightXAxis = m_auxController.getRightX();
             elevatorSubsystem.manualControl(rightXAxis);
-        }, elevatorSubsystem));
+        }, elevatorSubsystem).alongWith(Commands.print("value for controller: "+m_auxController.getRightX())));
 
         auxRightBumper.onTrue(
                 new ParallelCommandGroup(
