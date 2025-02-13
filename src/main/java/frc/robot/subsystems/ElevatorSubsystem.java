@@ -98,7 +98,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         System.out.println("Setting elevator position to final " + Rotations + " rotations");
 
         //m_elevatorKraken.setControl(motionMagicControl.withPosition(setpoint));
-        m_elevatorKraken.setPosition(Rotations+10);
+        m_elevatorKraken.setPosition(10);
     }
 
     public void resetEncoder() {
