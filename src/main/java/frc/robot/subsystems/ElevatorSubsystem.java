@@ -6,6 +6,7 @@ import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DynamicMotionMagicVoltage;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -73,11 +74,12 @@ public class ElevatorSubsystem extends SubsystemBase {
         cuurentLimitConfigs.StatorCurrentLimit = frc.robot.Constants.ElevatorConstants.kElevatorCurrentLimit;
         cuurentLimitConfigs.StatorCurrentLimitEnable = true;
         m_elevatorKraken.getConfigurator().apply(cuurentLimitConfigs);
+
         motionMagicControl  = new MotionMagicVoltage(0);
 
 
         m_elevatorKraken.setNeutralMode(NeutralModeValue.Brake);
-        m_elevatorKrakenFollower.setNeutralMode(NeutralModeValue.Brake);
+        m_elevatorKrakenFollower.setControl(new Follower(ElevatorConstants.kElevatorMotorID, false));
         resetEncoder();
 
         
@@ -96,8 +98,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         System.out.println("Setting elevator position to final " + Rotations + " rotations");
 
         //m_elevatorKraken.setControl(motionMagicControl.withPosition(setpoint));
-        m_elevatorKraken.setPosition(Rotations);
-        m_elevatorKrakenFollower.setPosition(Rotations);
+        m_elevatorKraken.setPosition(Rotations+10);
     }
 
     public void resetEncoder() {
@@ -116,20 +117,17 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void manualControl(double speed) {
-        // double newPosition = m_elevatorKraken.getPosition().getValueAsDouble()
-        //         + (speed * ElevatorConstants.kManualSpeedMultiplier);
+        double newPosition = m_elevatorKraken.getPosition().getValueAsDouble()
+                + (speed * ElevatorConstants.kManualSpeedMultiplier);
 
-        // // Enforce software limits
-        // if ((speed < 0 && newPosition <= ElevatorConstants.kMinHeight) ||
-        //         (speed > 0 && newPosition >= ElevatorConstants.kMaxHeight)) {
-        //     stop();
-        // } else {
-            
-        System.out.println("facts"+speed);
-            
+        // Enforce software limits
+        if ((speed < 0 && newPosition <= ElevatorConstants.kMinHeight) ||
+                (speed > 0 && newPosition >= ElevatorConstants.kMaxHeight)) {
+            stop();
+        } else {            
         m_elevatorKraken.set(speed);
         m_elevatorKrakenFollower.set(speed);
-        //}
+        }
     }
 
     public double getElevatorHeightMeters() {
