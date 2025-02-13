@@ -34,6 +34,7 @@ import edu.wpi.first.units.measure.Distance;
 public class ElevatorSubsystem extends SubsystemBase {
     private TalonFX m_elevatorKraken;
     private TalonFX m_elevatorKrakenFollower;
+    private PositionDutyCycle m_pidPosition = new PositionDutyCycle(0);
 
     private double setpoint = 0;  // Stores the last commanded position
     private final MotionMagicVoltage motionMagicControl;
@@ -55,18 +56,18 @@ public class ElevatorSubsystem extends SubsystemBase {
 
         // set slot 0 gains
         var slot0Configs = talonFXConfigs.Slot0;
-        // slot0Configs.kS = frc.robot.Constants.ElevatorConstants.kElevatorS; // Add 0.25 V output to overcome static friction
-        // slot0Configs.kV = frc.robot.Constants.ElevatorConstants.kElevatorV; // A velocity target of 1 rps results in 0.12 V output
-        // slot0Configs.kA = frc.robot.Constants.ElevatorConstants.kElevatorA; // An acceleration of 1 rps/s requires 0.01 V output
+        slot0Configs.kS = frc.robot.Constants.ElevatorConstants.kElevatorS; // Add 0.25 V output to overcome static friction
+        slot0Configs.kV = frc.robot.Constants.ElevatorConstants.kElevatorV; // A velocity target of 1 rps results in 0.12 V output
+        slot0Configs.kA = frc.robot.Constants.ElevatorConstants.kElevatorA; // An acceleration of 1 rps/s requires 0.01 V output
         slot0Configs.kP = frc.robot.Constants.ElevatorConstants.kElevatorP; // A position error of 2.5 rotations results in 12 V output
         slot0Configs.kI = frc.robot.Constants.ElevatorConstants.kElevatorI; // no output for integrated error
         slot0Configs.kD = frc.robot.Constants.ElevatorConstants.kElevatorD; // A velocity error of 1 rps results in 0.1 V output
 
         // set Motion Magic settings
-        //var motionMagicConfigs = talonFXConfigs.MotionMagic;
-        //motionMagicConfigs.MotionMagicCruiseVelocity = 200; // Target cruise velocity of 80 rps
-        //motionMagicConfigs.MotionMagicAcceleration = 300; // Target acceleration of 160 rps/s (0.5 seconds)
-        //motionMagicConfigs.MotionMagicJerk = 100; // Target jerk of 1600 rps/s/s (0.1 seconds)
+        var motionMagicConfigs = talonFXConfigs.MotionMagic;
+        motionMagicConfigs.MotionMagicCruiseVelocity = 200; // Target cruise velocity of 80 rps
+        motionMagicConfigs.MotionMagicAcceleration = 300; // Target acceleration of 160 rps/s (0.5 seconds)
+        motionMagicConfigs.MotionMagicJerk = 100; // Target jerk of 1600 rps/s/s (0.1 seconds)
         m_elevatorKraken.getConfigurator().apply(talonFXConfigs);
 
         //current limit
@@ -75,11 +76,12 @@ public class ElevatorSubsystem extends SubsystemBase {
         cuurentLimitConfigs.StatorCurrentLimitEnable = true;
         m_elevatorKraken.getConfigurator().apply(cuurentLimitConfigs);
 
-        motionMagicControl  = new MotionMagicVoltage(0);
 
+        motionMagicControl  = new MotionMagicVoltage(0);
 
         m_elevatorKraken.setNeutralMode(NeutralModeValue.Brake);
         m_elevatorKrakenFollower.setControl(new Follower(ElevatorConstants.kElevatorMotorID, false));
+        
         resetEncoder();
 
         
@@ -97,9 +99,12 @@ public class ElevatorSubsystem extends SubsystemBase {
         setpoint = Math.max(ElevatorConstants.kMinHeight, Math.min(Rotations, ElevatorConstants.kMaxHeight));//todo: check the safe height
         System.out.println("Setting elevator position to final " + Rotations + " rotations");
 
-        //m_elevatorKraken.setControl(motionMagicControl.withPosition(setpoint));
-        m_elevatorKraken.setPosition(10);
-    }
+        System.out.println("setted");
+        m_elevatorKraken.setControl(m_pidPosition.withPosition(10));
+        //m_elevatorKraken.setControl(motionMagicControl.withPosition(-10));
+// //        m_elevatorKraken.setPosition(10);
+// m_elevatorKraken.set(0.09);  
+}
 
     public void resetEncoder() {
         m_elevatorKraken.setPosition(0);
@@ -145,6 +150,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("Elevator Postition", getCurrentPosition());
         updateTelemetry();
     }
    
