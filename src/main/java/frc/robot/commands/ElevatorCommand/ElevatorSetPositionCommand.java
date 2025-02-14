@@ -8,16 +8,16 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort.StopBits;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.newElevatorSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.Constants.ElevatorConstants;
 
 
 public class ElevatorSetPositionCommand extends Command {
-    private final newElevatorSubsystem elevator;
+    private final ElevatorSubsystem elevator;
     private Distance targetPosition;
     
 
-    public ElevatorSetPositionCommand(newElevatorSubsystem elevator, Distance targetPosition) {
+    public ElevatorSetPositionCommand(ElevatorSubsystem elevator, Distance targetPosition) {
         this.elevator = elevator;
         this.targetPosition = targetPosition;
         addRequirements(elevator);

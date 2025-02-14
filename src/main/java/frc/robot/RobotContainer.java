@@ -3,7 +3,7 @@ package frc.robot;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ElevatorCommand.ElevatorSetPositionCommand;
 import frc.robot.subsystems.newArmSubsystem;
-import frc.robot.subsystems.newElevatorSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.SwerveSubsystem.CommandSwerveDrivetrain;
 import frc.robot.subsystems.SwerveSubsystem.TunerConstants;
 
@@ -45,7 +45,7 @@ public class RobotContainer {
             OIConstants.kDriverControllerPort);
     public static CommandXboxController m_auxController = new CommandXboxController(OIConstants.kAuxControllerPort);
 
-    private final newElevatorSubsystem elevatorSubsystem = new newElevatorSubsystem();
+    private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
     private final newArmSubsystem arm = new newArmSubsystem();
 
     private final Trigger auxY = m_auxController.y();
