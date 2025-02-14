@@ -68,7 +68,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         // motionMagicConfigs.MotionMagicCruiseVelocity = 200; // Target cruise velocity of 80 rps
         // motionMagicConfigs.MotionMagicAcceleration = 300; // Target acceleration of 160 rps/s (0.5 seconds)
         // motionMagicConfigs.MotionMagicJerk = 100; // Target jerk of 1600 rps/s/s (0.1 seconds)
-        m_elevatorKraken.getConfigurator().apply(talonFXConfigs);
+    m_elevatorKraken.getConfigurator().apply(talonFXConfigs);
 
         //current limit
         var cuurentLimitConfigs = new CurrentLimitsConfigs();

@@ -69,7 +69,7 @@ public final class Constants {
     public static final int kElevatorMotorID = 2;
     public static final int kElevatorMotorFollowerID = 3;
 
-    public static final double kElevatorP = 5;
+    public static final double kElevatorP = 7;
     public static final double kElevatorI = 0;
     public static final double kElevatorD = 0.1;
     public static final double kElevatorS = 0.1;
