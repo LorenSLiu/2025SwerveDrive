@@ -44,4 +44,5 @@ public class ElevatorSetPositionCommand extends Command {
         //return Math.abs(elevator.getCurrentPosition_Meters() - targetPosition.in(Meters)) < 0.02;
         return false;
     }
+    
 }

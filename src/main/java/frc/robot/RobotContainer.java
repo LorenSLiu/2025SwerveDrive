@@ -5,6 +5,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArmCommand.ArmSetPositionCommand;
 import frc.robot.commands.ElevatorCommand.ElevatorSetPositionCommand;
 import frc.robot.subsystems.newArmSubsystem;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.SwerveSubsystem.CommandSwerveDrivetrain;
 import frc.robot.subsystems.SwerveSubsystem.TunerConstants;
@@ -49,12 +50,15 @@ public class RobotContainer {
 
     private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
     private final newArmSubsystem arm = new newArmSubsystem();
+    private final ClimbSubsystem climb = new ClimbSubsystem();
 
     private final Trigger auxY = m_auxController.y();
     private final Trigger auxA = m_auxController.a();
     private final Trigger auxB = m_auxController.b();
     private final Trigger auxX = m_auxController.x();
     private final Trigger auxRightBumper = m_auxController.rightBumper();
+    private final Trigger auxPovUP = m_auxController.povUp();
+    private final Trigger auxPovDOWN = m_auxController.povDown();
 
     private final Trigger driveY = m_driverController.y();
     private final Trigger driveA = m_driverController.a();
@@ -142,6 +146,11 @@ public class RobotContainer {
         // auxY.onTrue(new ArmSetPositionCommand(arm, ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))
         //         .alongWith(Commands.print("Arm Level 4, Angles: " + ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))));
 
+        // auxPovUP.whileTrue(new RunCommand(
+        //         () -> {
+        //                 elevatorSubsystem.manualControl(0.5);
+        //                 arm.manualControl(0.5);
+        //         }, elevatorSubsystem, arm).alongWith(Commands.print("value for controller: "+m_auxController.getRightX())));
 
         // auxRightBumper.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem,
         // Constants.ElevatorConstants.SOURCE_HEIGHT)
