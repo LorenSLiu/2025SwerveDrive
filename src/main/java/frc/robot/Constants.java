@@ -46,7 +46,7 @@ public final class Constants {
 
     public static final double TOLERANCE = 0.01;
 
-    public static final double ArmGearRatio = 62 / 12;// 62:12 from onshape
+    public static final Angle ArmGearRatio = Rotations.of(52.09722 / 1);
 
     public static final Distance ArmLength = Inches.of(16.1);
 
@@ -55,10 +55,11 @@ public final class Constants {
     public static final double kArmP = 4.8;
     public static final double kArmI = 0;
     public static final double kArmD = 0.1;
-    public static final double kArmS = 0.25;
-    public static final double kArmV = 6.47;
-    public static final double kArmA = 0.01; //r^s^2
-    public static final double kArmG = 0.11; //r^s
+
+    // public static final double kArmS = 0.25;
+    // public static final double kArmV = 6.47;
+    // public static final double kArmA = 0.01; //r^s^2
+    // public static final double kArmG = 0.11; //r^s
     public static final double kArmMinOutput = -1;
     public static final double kArmMaxOutput = 1;
     public static final int kArmCurrentLimit = 60;
@@ -66,38 +67,46 @@ public final class Constants {
 
   public static class ElevatorConstants {
     public static final CANBus kElevatorCANbus = new CANBus("rio");
+
     public static final int kElevatorMotorID = 2;
     public static final int kElevatorMotorFollowerID = 3;
 
-    public static final double kElevatorP = 7;
+    public static final double kElevatorP = 0.05;
     public static final double kElevatorI = 0;
-    public static final double kElevatorD = 0.1;
+    public static final double kElevatorD = 0;
+    public static final double kElevatorG = 0;
     public static final double kElevatorS = 0.1;
-    public static final double kElevatorV = 3.11;
-    public static final double kElevatorA = 0.5;
+
+
+    // public static final double kElevatorP = 7;
+    // public static final double kElevatorI = 0;
+    // public static final double kElevatorD = 0.1;
+    // public static final double kElevatorS = 0.1;
+    // public static final double kElevatorV = 3.11;
+    // public static final double kElevatorA = 0.5;
 
     public static final double kElevatorMinOutput = -1;
     public static final double kElevatorMaxOutput = 1;
     public static final int kElevatorCurrentLimit = 60;
 
-    public static final double TOLERANCE = 1; // 1 rotation from motor, 2.51cm
+    //public static final double TOLERANCE = 1; // 1 rotation from motor, 2.51cm// determine if need to delete
 
-    // Software limits (to prevent breaking the elevator)
-    public static final double kMinHeight = 0; // Lowest safe position
-    public static final double kMaxHeight = 15.5; // Highest safe position
+    public static final Distance kMinHeight = Inches.of(0); // Lowest safe position
+    public static final Distance kMaxHeight = Inches.of(27); // Highest safe position
+
     public static final double kManualSpeedMultiplier = 1000; // Adjust for fine control
 
-    public static final double ENCODER_TICKS_PER_REV = 2048; // Kraken default
-    public static final double GEAR_RATIO = 3; // 3:1, confirmed
-    public static final Distance PULLEY_DIAMETER = Meters.of(0.048); // 4.8cm
-    public static final double PULLEY_CIRCUMFERENCE = PULLEY_DIAMETER.in(Meters) * Math.PI; // cm
+//    public static final double ENCODER_TICKS_PER_REV = 2048; // Kraken default
+    public static final double GEAR_RATIO = 3/1;
+    public static final Distance SprocketRadius = Inches.of(1.638/2);
 
-    public static final double kElevatorEncoderDistancePerPulse = PULLEY_CIRCUMFERENCE
-        / (ENCODER_TICKS_PER_REV * GEAR_RATIO);
+
+    // public static final double kElevatorEncoderDistancePerPulse = PULLEY_CIRCUMFERENCE
+    //     / (ENCODER_TICKS_PER_REV * GEAR_RATIO);
 
     // conversion factors
-    public static final double METERS_PER_TICK = PULLEY_CIRCUMFERENCE / (ENCODER_TICKS_PER_REV * GEAR_RATIO);
-    public static final double METERS_PER_ROTATION = PULLEY_CIRCUMFERENCE / GEAR_RATIO;
+    //public static final double METERS_PER_TICK = PULLEY_CIRCUMFERENCE / (ENCODER_TICKS_PER_REV * GEAR_RATIO);
+    //public static final double METERS_PER_ROTATION = PULLEY_CIRCUMFERENCE / GEAR_RATIO;
 
     // Elevator stages raw data
     public static final Distance Elevator_HEIGHT_NOUGHT = Inches.of(37.433); // ok
@@ -113,22 +122,6 @@ public final class Constants {
     public static final Distance STAGE_2_HEIGHT_DELTA  = Inches.of(11.5); 
     public static final Distance STAGE_3_HEIGHT_DELTA  = Inches.of(0);
     public static final Distance STAGE_4_HEIGHT_DELTA  = Inches.of(27);
-
-    // public static final Distance ELEVATOR_SOURCE_DELTA  = Meters.of(SOURCE_HEIGHT.in(Meters)-(Elevator_HEIGHT_NOUGHT.in(Meters)-(Math.cos(ArmConstant.COROAL_STATION_ANGLE.in(Degrees))*ArmConstant.ArmLength.in(Meters))));
-    // public static final double STAGE_1_HEIGHT_ROTATIONS =
-    // (STAGE_1_HEIGHT_METERS.in(Meters) * GEAR_RATIO) / (Math.PI *
-    // PULLEY_DIAMETER.in(Meters));
-    // public static final double STAGE_2_HEIGHT_ROTATIONS =
-    // (STAGE_2_HEIGHT_METERS.in(Meters) * GEAR_RATIO) / (Math.PI *
-    // PULLEY_DIAMETER.in(Meters));
-    // public static final double STAGE_3_HEIGHT_ROTATIONS =
-    // (STAGE_3_HEIGHT_METERS.in(Meters) * GEAR_RATIO) / (Math.PI *
-    // PULLEY_DIAMETER.in(Meters));
-    // public static final double STAGE_4_HEIGHT_ROTATIONS =
-    // (STAGE_4_HEIGHT_METERS.in(Meters) * GEAR_RATIO) / (Math.PI *
-    // PULLEY_DIAMETER.in(Meters));
-    // public static final double SOURCE_HEIGHT_ROTATIONS = (SOURCE_HEIGHT_METERS
-    // .in(Meters) * GEAR_RATIO) / (Math.PI * PULLEY_DIAMETER.in(Meters));
 
   }
 
