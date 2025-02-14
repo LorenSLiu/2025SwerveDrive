@@ -1,6 +1,8 @@
 package frc.robot;
 
+import frc.robot.Constants.ArmConstant;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.ArmCommand.ArmSetPositionCommand;
 import frc.robot.commands.ElevatorCommand.ElevatorSetPositionCommand;
 import frc.robot.subsystems.newArmSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -124,6 +126,23 @@ public class RobotContainer {
         auxY.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA)
                 .alongWith(Commands.print("Elevator Level 4, Height: " + Constants.ElevatorConstants.STAGE_4_HEIGHT.in(Units.Meters))));
 
+        // // Elevator and Arm bindings
+        // auxRightBumper.onTrue(new ArmSetPositionCommand(arm, ArmConstant.COROAL_STATION_ANGLE_VERTICAL.in(Degrees))
+        //         .alongWith(Commands.print("Arm Source, Angles: " + ArmConstant.COROAL_STATION_ANGLE_VERTICAL.in(Degrees))));
+
+        // auxA.onTrue(new ArmSetPositionCommand(arm, ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees))
+        //         .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees))));
+
+        // auxB.onTrue(new ArmSetPositionCommand(arm, ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees))
+        //         .alongWith(Commands.print("Arm Level 2, Angles: " + ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees))));
+
+        // auxX.onTrue(new ArmSetPositionCommand(arm, ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees))
+        //         .alongWith(Commands.print("Arm Level 3, Angles: " + ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees))));
+
+        // auxY.onTrue(new ArmSetPositionCommand(arm, ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))
+        //         .alongWith(Commands.print("Arm Level 4, Angles: " + ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))));
+
+
         // auxRightBumper.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem,
         // Constants.ElevatorConstants.SOURCE_HEIGHT)
         // .alongWith(Commands.print("Elevator Source, Height: " +
@@ -133,6 +152,11 @@ public class RobotContainer {
             double rightXAxis = m_auxController.getRightX();
             elevatorSubsystem.manualControl(rightXAxis);
         }, elevatorSubsystem).alongWith(Commands.print("value for controller: "+m_auxController.getRightX())));
+
+        arm.setDefaultCommand(new RunCommand(() -> {
+            double leftYAxis = m_auxController.getLeftY();
+            arm.manualControl(leftYAxis);
+        }, arm).alongWith(Commands.print("value for controller: "+m_auxController.getLeftY())));
 
         
 

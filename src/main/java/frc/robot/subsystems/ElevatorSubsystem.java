@@ -35,7 +35,7 @@ import edu.wpi.first.units.measure.Distance;
 public class ElevatorSubsystem extends SubsystemBase {
     private TalonFX m_elevatorKraken;
     private TalonFX m_elevatorKrakenFollower;
-    private PositionDutyCycle m_pidPosition = new PositionDutyCycle(0);
+    private PositionDutyCycle m_pidPosition;
     private final double kElevatorMinRotation = 0;
     private final double kElevatorMaxRotation = (3 * ElevatorConstants.kMaxHeight.in(Meters)) / (2* Math.PI * ElevatorConstants.SprocketRadius.in(Meters));
 
@@ -43,16 +43,15 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public ElevatorSubsystem() {
         m_elevatorKraken = new TalonFX(ElevatorConstants.kElevatorMotorID, ElevatorConstants.kElevatorCANbus);
-
         m_elevatorKrakenFollower = new TalonFX(ElevatorConstants.kElevatorMotorFollowerID,ElevatorConstants.kElevatorCANbus);
 
         var talonFXConfigs = new TalonFXConfiguration();
 
         // set slot 0 gains
         var slot0Configs = talonFXConfigs.Slot0;
-        slot0Configs.kP = frc.robot.Constants.ElevatorConstants.kElevatorP; 
-        slot0Configs.kI = frc.robot.Constants.ElevatorConstants.kElevatorI; 
-        slot0Configs.kD = frc.robot.Constants.ElevatorConstants.kElevatorD; 
+        slot0Configs.kP = ElevatorConstants.kElevatorP; 
+        slot0Configs.kI = ElevatorConstants.kElevatorI; 
+        slot0Configs.kD = ElevatorConstants.kElevatorD; 
         m_elevatorKraken.getConfigurator().apply(slot0Configs);
 
         var cuurentLimitConfigs = new CurrentLimitsConfigs();
@@ -60,6 +59,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         cuurentLimitConfigs.StatorCurrentLimitEnable = true;
         m_elevatorKraken.getConfigurator().apply(cuurentLimitConfigs);
 
+        m_pidPosition = new PositionDutyCycle(0);
         m_elevatorKraken.setNeutralMode(NeutralModeValue.Brake);
         m_elevatorKrakenFollower.setControl(new Follower(m_elevatorKraken.getDeviceID(), false));
 

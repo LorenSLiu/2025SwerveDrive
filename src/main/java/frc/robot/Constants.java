@@ -46,20 +46,29 @@ public final class Constants {
 
     public static final double TOLERANCE = 0.01;
 
-    public static final Angle ArmGearRatio = Rotations.of(52.09722 / 1);
+    public static final double ArmGearRatio = 52.09722 / 1;
 
     public static final Distance ArmLength = Inches.of(16.1);
 
-    public static final Angle COROAL_STATION_ANGLE = Degrees.of(55); // Coral Station Angle
+    public static final Angle COROAL_STATION_ANGLE_VERTICAL = Degrees.of(36);
+    public static final Angle STAGE_1_ANGLE_VERTICAL        = Degrees.of(23); 
+    public static final Angle STAGE_2_ANGLE_VERTICAL        = Degrees.of(16);
+    public static final Angle STAGE_3_ANGLE_VERTICAL        = Degrees.of(50); 
+    public static final Angle STAGE_4_ANGLE_VERTICAL        = Degrees.of(44);
 
-    public static final double kArmP = 4.8;
+    public static final double kArmP = 0.1;
     public static final double kArmI = 0;
     public static final double kArmD = 0.1;
+
+    public static final double kMaxAngle = 160;
+
+
 
     // public static final double kArmS = 0.25;
     // public static final double kArmV = 6.47;
     // public static final double kArmA = 0.01; //r^s^2
     // public static final double kArmG = 0.11; //r^s
+
     public static final double kArmMinOutput = -1;
     public static final double kArmMaxOutput = 1;
     public static final int kArmCurrentLimit = 60;
