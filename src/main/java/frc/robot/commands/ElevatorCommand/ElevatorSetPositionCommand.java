@@ -26,17 +26,22 @@ public class ElevatorSetPositionCommand extends Command {
 
     @Override
     public void initialize() {
+    }
+
+    @Override
+    public void execute(){
+        SmartDashboard.putNumber("Elevator Error", Math.abs(elevator.getCurrentPosition_Meters() - targetPosition.in(Meters)));
         elevator.setElevatorPosition(targetPosition);
     }
 
     @Override
     public boolean isFinished() {
-        SmartDashboard.putNumber("Elevator Error", Math.abs(elevator.getCurrentPosition_Meters() - targetPosition.in(Meters)));
-        System.out.println("Commandline output, Elevator Error: " + Math.abs(elevator.getCurrentPosition_Meters() - targetPosition.in(Meters)));
+        // System.out.println("Commandline output, Elevator Error: " + Math.abs(elevator.getCurrentPosition_Meters() - targetPosition.in(Meters)));
 
-        if(Math.abs(elevator.getCurrentPosition_Meters() - targetPosition.in(Meters)) < 0.02){
-            System.out.println("ElevatorSetPositionCommand isFinished");
-        }
-        return Math.abs(elevator.getCurrentPosition_Meters() - targetPosition.in(Meters)) < 0.02;
+        // if(Math.abs(elevator.getCurrentPosition_Meters() - targetPosition.in(Meters)) < 0.02){
+        //     System.out.println("ElevatorSetPositionCommand isFinished");
+        // }
+        //return Math.abs(elevator.getCurrentPosition_Meters() - targetPosition.in(Meters)) < 0.02;
+        return false;
     }
 }
