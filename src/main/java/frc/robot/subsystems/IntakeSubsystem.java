@@ -8,15 +8,15 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ClimbConstant;
+import frc.robot.Constants.IntakeConstant;
 
-public class ClimbSubsystem extends SubsystemBase {
-    private TalonFX m_climbKraken;
+public class IntakeSubsystem extends SubsystemBase {
+    private TalonFX m_IntakeKraken;
     private PositionDutyCycle m_pidPosition;
     private double setpoint = 0; // Stores the last commanded position
 
-    public ClimbSubsystem() {
-        m_climbKraken = new TalonFX(ClimbConstant.kClimbMotorID, ClimbConstant.kClimbCANbus);
+    public IntakeSubsystem() {
+        m_IntakeKraken = new TalonFX(IntakeConstant.kIntakeMotorID, IntakeConstant.kIntakeCANbus);
 
         var talonFXConfigs = new TalonFXConfiguration();
 
@@ -25,52 +25,43 @@ public class ClimbSubsystem extends SubsystemBase {
         slot0Configs.kP = 0.5;
         slot0Configs.kI = 0; // no output for integrated error
         slot0Configs.kD = 0; // A velocity error of 1 rps results in 0.1 V output
-        m_climbKraken.getConfigurator().apply(slot0Configs);
+        m_IntakeKraken.getConfigurator().apply(slot0Configs);
 
         // current limit
         var currentLimitConfigs = new CurrentLimitsConfigs();
-        currentLimitConfigs.StatorCurrentLimit = ClimbConstant.kClimbCurrentLimit;
+        currentLimitConfigs.StatorCurrentLimit = IntakeConstant.kIntakeCurrentLimit;
         currentLimitConfigs.StatorCurrentLimitEnable = true;
-        m_climbKraken.getConfigurator().apply(currentLimitConfigs);
+        m_IntakeKraken.getConfigurator().apply(currentLimitConfigs);
 
         m_pidPosition = new PositionDutyCycle(0);
-        m_climbKraken.setNeutralMode(NeutralModeValue.Brake);
+        m_IntakeKraken.setNeutralMode(NeutralModeValue.Brake);
         resetEncoder();
 
     }
 
     public void resetEncoder() {
-        m_climbKraken.setPosition(0);
+        m_IntakeKraken.setPosition(0);
     }
-
-    
 
     public void stop() {
-        m_climbKraken.set(0);
+        m_IntakeKraken.set(0);
     }
 
-    public void expand(){
-        m_climbKraken.set(-1);
+    public void feedWest(){
+        m_IntakeKraken.set(-1);
 
     }
-    public void retract(){
-        m_climbKraken.set(1);
+    public void feedEast(){
+        m_IntakeKraken.set(1);
 
     }
     public void manualControl(double speed) {
-        m_climbKraken.set(speed);        
+        m_IntakeKraken.set(speed);        
     }
-
-    public double ClimbAngle_Rotation() {
-        return m_climbKraken.getPosition().getValueAsDouble() / 152.4444444444;
-    }
-
-    
-
 
     @Override
     public void periodic() {
 
     }
-
+    
 }
