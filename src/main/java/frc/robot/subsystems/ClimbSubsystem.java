@@ -8,7 +8,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ArmConstant;
+import frc.robot.Constants.ClimbConstant;
 
 public class ClimbSubsystem extends SubsystemBase {
     private TalonFX m_climbKraken;
@@ -16,7 +16,7 @@ public class ClimbSubsystem extends SubsystemBase {
     private double setpoint = 0; // Stores the last commanded position
 
     public ClimbSubsystem() {
-        m_climbKraken = new TalonFX(ArmConstant.kArmMotorID, ArmConstant.kArmCANbus);
+        m_climbKraken = new TalonFX(ClimbConstant.kClimbMotorID, ClimbConstant.kClimbCANbus);
 
         var talonFXConfigs = new TalonFXConfiguration();
 
@@ -50,11 +50,11 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     public void expand(){
-        m_climbKraken.set(0.03);
+        m_climbKraken.set(-1);
 
     }
     public void retract(){
-        m_climbKraken.set(-0.03);
+        m_climbKraken.set(1);
 
     }
     public void manualControl(double speed) {

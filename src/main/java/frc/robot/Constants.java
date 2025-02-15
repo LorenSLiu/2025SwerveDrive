@@ -39,6 +39,11 @@ public final class Constants {
     public static final double kDriveDeadband = 0.05;
   }
 
+  public static class ClimbConstant {
+    public static final int kClimbMotorID = 4;
+    public static final CANBus kClimbCANbus = new CANBus("rio");
+  }
+
   public static class ArmConstant {
     public static final CANBus kArmCANbus = new CANBus("rio");
 
