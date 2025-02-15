@@ -40,14 +40,14 @@ public final class Constants {
   }
 
   public static class ClimbConstant {
-    public static final int kClimbMotorID = 4;
+    public static final int kClimbMotorID = 40;
     public static final CANBus kClimbCANbus = new CANBus("rio");
   }
 
   public static class ArmConstant {
     public static final CANBus kArmCANbus = new CANBus("rio");
 
-    public static final int kArmMotorID = 5;
+    public static final int kArmMotorID = 30;
 
     public static final double TOLERANCE = 0.01;
 
@@ -55,15 +55,17 @@ public final class Constants {
 
     public static final Distance ArmLength = Inches.of(16.1);
 
-    public static final Angle COROAL_STATION_ANGLE_VERTICAL = Degrees.of(36);
+    public static final Angle CORAL_STATION_ANGLE_VERTICAL  = Degrees.of(36);
+    public static final Angle ARM_BASE_ANGLE_VERTICAL       = Degrees.of(0);
     public static final Angle STAGE_1_ANGLE_VERTICAL        = Degrees.of(23); 
     public static final Angle STAGE_2_ANGLE_VERTICAL        = Degrees.of(16);
-    public static final Angle STAGE_3_ANGLE_VERTICAL        = Degrees.of(50); 
-    public static final Angle STAGE_4_ANGLE_VERTICAL        = Degrees.of(44);
+    public static final Angle STAGE_3_ANGLE_VERTICAL        = Degrees.of(140); 
+    public static final Angle STAGE_4_ANGLE_VERTICAL        = Degrees.of(134);
 
-    public static final double kArmP = 0.1;
-    public static final double kArmI = 0;
-    public static final double kArmD = 0.1;
+    //public static final double kArmP = 0.2;
+    public static final double kArmP = 0.05;
+    public static final double kArmI = 0.01;
+    public static final double kArmD = 0;
 
     public static final double kMaxAngle = 160;
 
@@ -82,8 +84,8 @@ public final class Constants {
   public static class ElevatorConstants {
     public static final CANBus kElevatorCANbus = new CANBus("rio");
 
-    public static final int kElevatorMotorID = 2;
-    public static final int kElevatorMotorFollowerID = 3;
+    public static final int kElevatorMotorID = 21;
+    public static final int kElevatorMotorFollowerID = 20;
 
     public static final double kElevatorP = 0.05;
     public static final double kElevatorI = 0;
@@ -132,6 +134,7 @@ public final class Constants {
 
     //Elevator stages effective data
     public static final Distance ELEVATOR_SOURCE_DELTA = Inches.of(16);//check
+    public static final Distance ELEVATOR_BASE_DELTA = Inches.of(0);
     public static final Distance STAGE_1_HEIGHT_DELTA  = Inches.of(0); 
     public static final Distance STAGE_2_HEIGHT_DELTA  = Inches.of(11.5); 
     public static final Distance STAGE_3_HEIGHT_DELTA  = Inches.of(0);
