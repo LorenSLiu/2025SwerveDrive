@@ -66,11 +66,11 @@ public final class Constants {
     public static final Angle ARM_BASE_ANGLE_VERTICAL       = Degrees.of(0);
     public static final Angle STAGE_1_ANGLE_VERTICAL        = Degrees.of(23); 
     public static final Angle STAGE_2_ANGLE_VERTICAL        = Degrees.of(16);
-    public static final Angle STAGE_3_ANGLE_VERTICAL        = Degrees.of(140); 
-    public static final Angle STAGE_4_ANGLE_VERTICAL        = Degrees.of(134);
+    public static final Angle STAGE_3_ANGLE_VERTICAL        = Degrees.of(-230); 
+    public static final Angle STAGE_4_ANGLE_VERTICAL        = Degrees.of(-224);
 
-    //public static final double kArmP = 0.2;
-    public static final double kArmP = 0.05;
+    //public static final double kArmP = 0.05;
+    public static final double kArmP = 0.01;
     public static final double kArmI = 0.01;
     public static final double kArmD = 0;
 
