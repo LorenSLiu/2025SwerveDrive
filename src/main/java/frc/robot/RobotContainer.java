@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -166,6 +167,19 @@ public class RobotContainer {
             double leftYAxis = m_auxController.getLeftY();
             arm.manualControl(leftYAxis);
         }, arm).alongWith(Commands.print("value for controller: "+m_auxController.getLeftY())));
+
+        //Climber Bindings
+        auxPovUP.onTrue(new RunCommand(() -> {
+                climb.expand();
+        }, climb)).onFalse(new RunCommand(() -> {
+                climb.stop();
+        }, climb));
+
+        auxPovDOWN.onTrue(new RunCommand(() -> {
+                climb.retract();
+        }, climb)).onFalse(new RunCommand(() -> {
+                climb.stop();
+        }, climb));
 
         
 
