@@ -65,13 +65,13 @@ public final class Constants {
     public static final Angle CORAL_STATION_ANGLE_VERTICAL  = Degrees.of(36);
     public static final Angle ARM_BASE_ANGLE_VERTICAL       = Degrees.of(0);
     public static final Angle STAGE_1_ANGLE_VERTICAL        = Degrees.of(23); 
-    public static final Angle STAGE_2_ANGLE_VERTICAL        = Degrees.of(16);
-    public static final Angle STAGE_3_ANGLE_VERTICAL        = Degrees.of(-230); 
+    public static final Angle STAGE_2_ANGLE_VERTICAL        = Degrees.of(26);
+    public static final Angle STAGE_3_ANGLE_VERTICAL        = Degrees.of(-225);
     public static final Angle STAGE_4_ANGLE_VERTICAL        = Degrees.of(-224);
 
     //public static final double kArmP = 0.05;
-    public static final double kArmP = 0.01;
-    public static final double kArmI = 0.01;
+    public static final double kArmP = 0.04;
+    public static final double kArmI = 0.004;
     public static final double kArmD = 0;
 
     public static final double kMaxAngle = 160;
@@ -143,7 +143,7 @@ public final class Constants {
     public static final Distance ELEVATOR_SOURCE_DELTA = Inches.of(16);//check
     public static final Distance ELEVATOR_BASE_DELTA = Inches.of(0);
     public static final Distance STAGE_1_HEIGHT_DELTA  = Inches.of(0); 
-    public static final Distance STAGE_2_HEIGHT_DELTA  = Inches.of(11.5); 
+    public static final Distance STAGE_2_HEIGHT_DELTA  = Inches.of(11); 
     public static final Distance STAGE_3_HEIGHT_DELTA  = Inches.of(0);
     public static final Distance STAGE_4_HEIGHT_DELTA  = Inches.of(27);
 
