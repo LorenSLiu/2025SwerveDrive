@@ -44,7 +44,7 @@ public class RobotContainer {
     private final Telemetry logger = new Telemetry(MaxSpeed);
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
-    // end of swerve drive stuff
+    // end of swerve drive things
 
     private final CommandXboxController m_driverController = new CommandXboxController(
             OIConstants.kDriverControllerPort);
