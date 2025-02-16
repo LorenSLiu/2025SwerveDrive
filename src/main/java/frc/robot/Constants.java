@@ -65,7 +65,7 @@ public final class Constants {
 
     public static final Distance ArmLength = Inches.of(16.1);
 
-    public static final Angle CORAL_STATION_ANGLE_VERTICAL  = Degrees.of(36);
+    public static final Angle CORAL_STATION_ANGLE_VERTICAL  = Degrees.of(-36);
     public static final Angle ARM_BASE_ANGLE_VERTICAL       = Degrees.of(0);
     public static final Angle STAGE_1_ANGLE_VERTICAL        = Degrees.of(23); 
     public static final Angle STAGE_2_ANGLE_VERTICAL        = Degrees.of(26);

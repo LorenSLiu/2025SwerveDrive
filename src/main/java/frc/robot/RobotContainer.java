@@ -128,47 +128,42 @@ public class RobotContainer {
         drivetrain.registerTelemetry(logger::telemeterize);
         // end of swerve drive bindings
 
-        //Intake binds
-        //auxPovRight.onTrue();
-        //auxPovLeft.onTrue();
+        ///////////////////////////////////////GIFTS AND TRINKETS (NON DRIVE BINDS)
 
         // Elevator and Arm bindings
-
         //SOURCE
         auxRightBumper.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA)
                 .alongWith(Commands.print("Elevator Source, Height: " + Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA.in(Units.Meters))));
         auxRightBumper.onTrue(new ArmSetPositionCommand(arm, ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
                 .alongWith(Commands.print("Arm Source, Angles: " + ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))));
-
         //GO DOWN
         auxRightTrigger.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_BASE_DELTA)
                 .alongWith(Commands.print("Elevator Down, Height: " + Constants.ElevatorConstants.ELEVATOR_BASE_DELTA.in(Units.Meters))));
         auxRightTrigger.onTrue(new ArmSetPositionCommand(arm, ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees))
                 .alongWith(Commands.print("Arm Base, Angles: " + ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees))));
-
         //L1
         auxA.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_DELTA)
                 .alongWith(Commands.print("Elevator Level 1, Height: " + Constants.ElevatorConstants.STAGE_1_HEIGHT.in(Units.Meters))));
         auxA.onTrue(new ArmSetPositionCommand(arm, ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees))
                 .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees))));
-
         //L1
         auxB.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT_DELTA)
                 .alongWith(Commands.print("Elevator Level 2, Height: " + Constants.ElevatorConstants.STAGE_2_HEIGHT.in(Units.Meters))));
         auxB.onTrue(new ArmSetPositionCommand(arm, ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees))
                 .alongWith(Commands.print("Arm Level 2, Angles: " + ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees))));
-
         //L3
         auxX.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_3_HEIGHT_DELTA)
                 .alongWith(Commands.print("Elevator Level 3, Height: " + Constants.ElevatorConstants.STAGE_3_HEIGHT.in(Units.Meters))));
         auxX.onTrue(new ArmSetPositionCommand(arm, ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees))
                 .alongWith(Commands.print("Arm Level 3, Angles: " + ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees))));
-
         //L4
         auxY.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA)
                 .alongWith(Commands.print("Elevator Level 4, Height: " + Constants.ElevatorConstants.STAGE_4_HEIGHT.in(Units.Meters))));
         auxY.onTrue(new ArmSetPositionCommand(arm, ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))
                  .alongWith(Commands.print("Arm Level 4, Angles: " + ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))));
+
+        //score sad side
+        auxLeftBumper.onTrue(new Elevator)
 
         // auxPovUP.whileTrue(new RunCommand(
         //         () -> {
@@ -192,16 +187,12 @@ public class RobotContainer {
         }, arm).alongWith(Commands.print("value for controller: "+m_auxController.getLeftY())));
 
         //Climber Bindings
-        auxPovUP.onTrue(new RunCommand(() -> {climb.expand();}, climb))
-                .onFalse(new RunCommand(() -> {climb.stop();}, climb));
-        auxPovDOWN.onTrue(new RunCommand(() -> {climb.retract();}, climb))
-                .onFalse(new RunCommand(() -> {climb.stop();}, climb));
+        auxPovUP.onTrue(new RunCommand(() -> {climb.expand();}, climb)).onFalse(new RunCommand(() -> {climb.stop();}, climb));
+        auxPovDOWN.onTrue(new RunCommand(() -> {climb.retract();}, climb)).onFalse(new RunCommand(() -> {climb.stop();}, climb));
 
         //Intake Bindings
-        driveRightBumper.onTrue(new RunCommand(() -> {intake.feedWest();}, intake))
-                     .onFalse(new RunCommand(() -> {intake.stop();}, intake));
-        driveRightTrigger.onTrue(new RunCommand(() -> {intake.feedEast();}, intake))
-                      .onFalse(new RunCommand(() -> {intake.stop();}, intake));
+        driveRightBumper.onTrue(new RunCommand(() -> {intake.feedWest();}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
+        driveRightTrigger.onTrue(new RunCommand(() -> {intake.feedEast();}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
 
         driveLeftBumper.onTrue(new IntakeWithDetectionCommand(intake, intake.getCANrangeE())).onFalse(new RunCommand(() -> {intake.stop();}, intake));
         
