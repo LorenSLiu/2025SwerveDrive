@@ -31,7 +31,7 @@ public class IntakeWithDetectionCommand extends Command {
 
     @Override
     public boolean isFinished(){
-        //hiiiiiiiiiiiiiiiiiiiiiii
+        //hiiiiiiiiiiiiiiiiiiiiii
         if(CANrangeE.getDistance().getValue().in(Inches) > 4){
             return false;
         }
