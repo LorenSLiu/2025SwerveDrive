@@ -10,13 +10,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstant;
 
+import com.ctre.phoenix6.configs.CANrangeConfiguration;
+import com.ctre.phoenix6.hardware.CANrange;
+
 public class IntakeSubsystem extends SubsystemBase {
     private TalonFX m_IntakeKraken;
+    private CANrange CANrangeE;
     private PositionDutyCycle m_pidPosition;
     private double setpoint = 0; // Stores the last commanded position
 
     public IntakeSubsystem() {
         m_IntakeKraken = new TalonFX(IntakeConstant.kIntakeMotorID, IntakeConstant.kIntakeCANbus);
+        CANrangeE = new CANrange(IntakeConstant.kCANrange1ID, IntakeConstant.kIntakeCANbus);
+        CANrangeConfiguration configs = new CANrangeConfiguration();
+        CANrangeE.getConfigurator().apply(configs);
 
         var talonFXConfigs = new TalonFXConfiguration();
 
@@ -41,6 +48,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void resetEncoder() {
         m_IntakeKraken.setPosition(0);
+    }
+
+    public CANrange getCANrangeE() {
+        return CANrangeE;
     }
 
     public void stop() {

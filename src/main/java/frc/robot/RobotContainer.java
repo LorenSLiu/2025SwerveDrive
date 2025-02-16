@@ -4,6 +4,7 @@ import frc.robot.Constants.ArmConstant;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArmCommand.ArmSetPositionCommand;
 import frc.robot.commands.ElevatorCommand.ElevatorSetPositionCommand;
+import frc.robot.commands.IntakeCommand.IntakeWithDetectionCommand;
 import frc.robot.subsystems.newArmSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -20,8 +21,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.math.geometry.Rotation2d;
-
-
+import com.ctre.phoenix6.hardware.CANrange;
+import frc.robot.Constants.IntakeConstant;;
 
 import edu.wpi.first.units.Units;
 import static edu.wpi.first.units.Units.*;
@@ -72,6 +73,11 @@ public class RobotContainer {
     private final Trigger driveA = m_driverController.a();
     private final Trigger driveB = m_driverController.b();
     private final Trigger driveX = m_driverController.x();
+    private final Trigger driveRightBumper = m_driverController.rightBumper();
+    private final Trigger driveRightTrigger = m_driverController.rightTrigger();
+    private final Trigger driveLeftBumper = m_driverController.leftBumper();
+    private final Trigger driveLeftTrigger = m_driverController.leftTrigger();
+    private final Trigger drivePovDOWN = m_driverController.povDown();
 
     public RobotContainer() {
 
@@ -116,8 +122,8 @@ public class RobotContainer {
         m_driverController.start().and(m_driverController.x())
                 .whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
-        // reset the field-centric heading on left bumper press
-        m_driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        // reset the field-centric heading on POV down press
+        drivePovDOWN.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         drivetrain.registerTelemetry(logger::telemeterize);
         // end of swerve drive bindings
@@ -192,10 +198,12 @@ public class RobotContainer {
                 .onFalse(new RunCommand(() -> {climb.stop();}, climb));
 
         //Intake Bindings
-        auxLeftBumper.onTrue(new RunCommand(() -> {intake.feedWest();}, intake))
+        driveRightBumper.onTrue(new RunCommand(() -> {intake.feedWest();}, intake))
                      .onFalse(new RunCommand(() -> {intake.stop();}, intake));
-        auxLeftTrigger.onTrue(new RunCommand(() -> {intake.feedEast();}, intake))
+        driveRightTrigger.onTrue(new RunCommand(() -> {intake.feedEast();}, intake))
                       .onFalse(new RunCommand(() -> {intake.stop();}, intake));
+
+        driveLeftBumper.onTrue(new IntakeWithDetectionCommand(intake, intake.getCANrangeE())).onFalse(new RunCommand(() -> {intake.stop();}, intake));
         
 
 

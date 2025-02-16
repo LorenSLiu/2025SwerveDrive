@@ -42,13 +42,16 @@ public final class Constants {
   public static class ClimbConstant {
     public static final int kClimbMotorID = 40;
     public static final CANBus kClimbCANbus = new CANBus("rio");
-    public static final int kClimbCurrentLimit = 40;
+    public static final int kClimbCurrentLimit = 80;
   }
 
   public static class IntakeConstant {
     public static final int kIntakeMotorID = 31;
     public static final CANBus kIntakeCANbus = new CANBus("rio");
     public static final int kIntakeCurrentLimit = 40;
+
+    public static final int kCANrange1ID = 32;
+    //public static final int kCANrange2ID = ;
   }
 
   public static class ArmConstant {
