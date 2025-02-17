@@ -1,13 +1,13 @@
 package frc.robot.commands.ArmCommand;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.newArmSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
 
 public class ArmSetPositionCommand extends Command {
-    private final newArmSubsystem arm;
+    private final ArmSubsystem arm;
     private final double targetPositionRotations;
 
-    public ArmSetPositionCommand(newArmSubsystem arm, double targetPosition) {
+    public ArmSetPositionCommand(ArmSubsystem arm, double targetPosition) {
         this.arm = arm;
         this.targetPositionRotations = targetPosition;
         addRequirements(arm);

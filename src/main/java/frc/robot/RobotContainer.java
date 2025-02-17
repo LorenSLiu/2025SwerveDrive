@@ -5,8 +5,8 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArmCommand.ArmSetPositionCommand;
 import frc.robot.commands.ElevatorCommand.ElevatorSetPositionCommand;
 import frc.robot.commands.IntakeCommand.IntakeWithDetectionCommand;
-import frc.robot.subsystems.newArmSubsystem;
-import frc.robot.subsystems.newArmSubsystem.ArmState;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ArmSubsystem.ArmState;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -53,7 +53,7 @@ public class RobotContainer {
     public static CommandXboxController m_auxController = new CommandXboxController(OIConstants.kAuxControllerPort);
 
     private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
-    private final newArmSubsystem arm = new newArmSubsystem();
+    private final ArmSubsystem arm = new ArmSubsystem();
     private final ClimbSubsystem climb = new ClimbSubsystem();
     private final IntakeSubsystem intake = new IntakeSubsystem();
 
@@ -304,7 +304,7 @@ public class RobotContainer {
         //driveRightTrigger.onTrue(new RunCommand(() -> {intake.feedEast();}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
 
         driveLeftBumper.onTrue(new RunCommand(() ->{
-                
+
                 if(arm.getState() == 5){
                         new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), false); //sad is false
                 }
