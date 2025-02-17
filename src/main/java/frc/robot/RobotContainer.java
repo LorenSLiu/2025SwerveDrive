@@ -79,6 +79,8 @@ public class RobotContainer {
     private final Trigger driveLeftTrigger = m_driverController.leftTrigger();
     private final Trigger drivePovDOWN = m_driverController.povDown();
 
+    private boolean sadMode = false;
+
     public RobotContainer() {
 
         configureBindings();
@@ -137,35 +139,82 @@ public class RobotContainer {
         auxRightTrigger.onTrue(new ArmSetPositionCommand(arm, ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees))
                 .alongWith(Commands.print("Arm Base, Angles: " + ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees))));
         
-        //INITIALIZATION (HERE BECAUSE OTHERWISE NOTHING HAPPENS BEFORE YOU HIT SHIFT)
+        //SADMODE TRIGGER
+        auxLeftBumper.onTrue(new InstantCommand(() -> {
+                sadMode = true;
+                System.out.println("sadMode: " + sadMode);
+        })).onFalse(new InstantCommand(() -> {
+                sadMode = false;
+                System.out.println("sadMode: " + sadMode);
+        }));
         //SOURCE
         auxRightBumper.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA)
                         .alongWith(Commands.print("Elevator Source, Height: " + Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA.in(Units.Meters))));
-        auxRightBumper.onTrue(new ArmSetPositionCommand(arm, ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
-                        .alongWith(Commands.print("Arm Source, Angles: " + ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))));
+        auxRightBumper.onTrue(new InstantCommand(() -> {
+                if(sadMode){
+                        new ArmSetPositionCommand(arm, ArmConstant.SAD_CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
+                                .alongWith(Commands.print("Arm Source, Angles: " + ArmConstant.SAD_CORAL_STATION_ANGLE_VERTICAL.in(Degrees)));
+                }
+                else{
+                        new ArmSetPositionCommand(arm, ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
+                                .alongWith(Commands.print("Arm Source, Angles: " + ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees)));
+                }
+        }));
         //L1
         auxA.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_DELTA)
                         .alongWith(Commands.print("Elevator Level 1, Height: " + Constants.ElevatorConstants.STAGE_1_HEIGHT.in(Units.Meters))));
-        auxA.onTrue(new ArmSetPositionCommand(arm, ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees))
-                        .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees))));
+        auxA.onTrue(new InstantCommand(() -> {
+                if(sadMode){
+                        new ArmSetPositionCommand(arm, ArmConstant.SAD_STAGE_1_ANGLE_VERTICAL.in(Degrees))
+                        .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.SAD_STAGE_1_ANGLE_VERTICAL.in(Degrees)));
+                }
+                else{
+                        new ArmSetPositionCommand(arm, ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees))
+                        .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees)));
+                }
+        }));
         //L2
         auxB.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT_DELTA)
                 .alongWith(Commands.print("Elevator Level 2, Height: " + Constants.ElevatorConstants.STAGE_2_HEIGHT.in(Units.Meters))));
-        auxB.onTrue(new ArmSetPositionCommand(arm, ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees))
-                .alongWith(Commands.print("Arm Level 2, Angles: " + ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees))));
+        auxB.onTrue(new InstantCommand(() -> {
+                if(sadMode){
+                        new ArmSetPositionCommand(arm, ArmConstant.SAD_STAGE_2_ANGLE_VERTICAL.in(Degrees))
+                        .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.SAD_STAGE_2_ANGLE_VERTICAL.in(Degrees)));
+                }
+                else{
+                        new ArmSetPositionCommand(arm, ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees))
+                        .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees)));
+                }
+        }));
         //L3
         auxX.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_3_HEIGHT_DELTA)
                 .alongWith(Commands.print("Elevator Level 3, Height: " + Constants.ElevatorConstants.STAGE_3_HEIGHT.in(Units.Meters))));
-        auxX.onTrue(new ArmSetPositionCommand(arm, ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees))
-                .alongWith(Commands.print("Arm Level 3, Angles: " + ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees))));
+        auxX.onTrue(new InstantCommand(() -> {
+                if(sadMode){
+                        new ArmSetPositionCommand(arm, ArmConstant.SAD_STAGE_3_ANGLE_VERTICAL.in(Degrees))
+                        .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.SAD_STAGE_3_ANGLE_VERTICAL.in(Degrees)));
+                }
+                else{
+                        new ArmSetPositionCommand(arm, ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees))
+                        .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees)));
+                }
+        }));
         //L4
         auxY.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA)
                 .alongWith(Commands.print("Elevator Level 4, Height: " + Constants.ElevatorConstants.STAGE_4_HEIGHT.in(Units.Meters))));
-        auxY.onTrue(new ArmSetPositionCommand(arm, ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))
-                 .alongWith(Commands.print("Arm Level 4, Angles: " + ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))));
+        auxY.onTrue(new InstantCommand(() -> {
+                if(sadMode){
+                        new ArmSetPositionCommand(arm, ArmConstant.SAD_STAGE_4_ANGLE_VERTICAL.in(Degrees))
+                        .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.SAD_STAGE_4_ANGLE_VERTICAL.in(Degrees)));
+                }
+                else{
+                        new ArmSetPositionCommand(arm, ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))
+                        .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees)));
+                }
+        }));
 
-        //SADNESS
-        auxLeftBumper.onTrue(new RunCommand(() -> { //sad commands
+        //SADNESS aura
+        /*auxLeftBumper.onTrue(new RunCommand(() -> { //sad commands
 
                 auxRightBumper.onTrue(new ArmSetPositionCommand(arm, ArmConstant.SAD_CORAL_STATION_ANGLE_VERTICAL.in(Degrees))           //SOURCE
                         .alongWith(Commands.print("Arm Source, Angles: " + ArmConstant.SAD_CORAL_STATION_ANGLE_VERTICAL.in(Degrees))));
@@ -192,19 +241,8 @@ public class RobotContainer {
                 auxY.onTrue(new ArmSetPositionCommand(arm, ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))                               //L4
                         .alongWith(Commands.print("Arm Level 4, Angles: " + ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))));
                 
-        }, elevatorSubsystem));
+        }, elevatorSubsystem));*/
         
-
-        // auxPovUP.whileTrue(new RunCommand(
-        //         () -> {
-        //                 elevatorSubsystem.manualControl(0.5);
-        //                 arm.manualControl(0.5);
-        //         }, elevatorSubsystem, arm).alongWith(Commands.print("value for controller: "+m_auxController.getRightX())));
-
-        // auxRightBumper.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem,
-        // Constants.ElevatorConstants.SOURCE_HEIGHT)
-        // .alongWith(Commands.print("Elevator Source, Height: " +
-        // Constants.ElevatorConstants.SOURCE_HEIGHT.in(Units.Meters))));
 
         elevatorSubsystem.setDefaultCommand(new RunCommand(() -> {
             double rightXAxis = m_auxController.getRightX();
