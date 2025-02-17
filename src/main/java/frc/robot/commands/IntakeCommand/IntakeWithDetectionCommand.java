@@ -12,10 +12,12 @@ import com.ctre.phoenix6.hardware.CANrange;
 public class IntakeWithDetectionCommand extends Command {
     private final IntakeSubsystem intake;
     private final CANrange CANrangeE;
+    private boolean isSad;
 
-    public IntakeWithDetectionCommand(IntakeSubsystem intake, CANrange CANrangeE){
+    public IntakeWithDetectionCommand(IntakeSubsystem intake, CANrange CANrangeE, boolean isSad){
         this.intake = intake;
         this.CANrangeE = CANrangeE;
+        this.isSad = isSad;
         addRequirements(intake);
         System.out.println("Intake With Detection Command Initialized");
     }
@@ -27,7 +29,12 @@ public class IntakeWithDetectionCommand extends Command {
 
     @Override
     public void execute(){
-        intake.manualControl(-0.3);
+        if(isSad){
+            intake.manualControl(0.3);
+        }
+        else{
+            intake.manualControl(-0.3);
+        }
     }
 
     @Override
