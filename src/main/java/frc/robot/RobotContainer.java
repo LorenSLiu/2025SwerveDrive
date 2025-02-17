@@ -221,8 +221,18 @@ public class RobotContainer {
         auxPovDOWN.onTrue(new RunCommand(() -> {climb.retract();}, climb)).onFalse(new RunCommand(() -> {climb.stop();}, climb));
 
         //Intake Bindings
-        driveRightBumper.onTrue(new RunCommand(() -> {intake.feedWest();}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
-        driveRightTrigger.onTrue(new RunCommand(() -> {intake.feedEast();}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
+        driveRightBumper.onTrue(new RunCommand(() ->{
+                if(arm.getState() == 0){
+                        intake.feedWest();
+                }
+                else{
+                        intake.feedEast();
+                }
+        }, intake))
+        .onFalse(new RunCommand(() ->{intake.stop();}, intake));
+
+        //driveRightBumper.onTrue(new RunCommand(() -> {intake.feedWest();}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
+        //driveRightTrigger.onTrue(new RunCommand(() -> {intake.feedEast();}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
 
         driveLeftBumper.onTrue(new IntakeWithDetectionCommand(intake, intake.getCANrangeE())).onFalse(new RunCommand(() -> {intake.stop();}, intake));
         
