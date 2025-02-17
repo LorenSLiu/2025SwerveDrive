@@ -131,22 +131,24 @@ public class RobotContainer {
         ///////////////////////////////////////GIFTS AND TRINKETS (NON DRIVE BINDS)
 
         // Elevator and Arm bindings
-        //SOURCE
-        auxRightBumper.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA)
-                .alongWith(Commands.print("Elevator Source, Height: " + Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA.in(Units.Meters))));
-        auxRightBumper.onTrue(new ArmSetPositionCommand(arm, ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
-                .alongWith(Commands.print("Arm Source, Angles: " + ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))));
         //GO DOWN
         auxRightTrigger.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_BASE_DELTA)
                 .alongWith(Commands.print("Elevator Down, Height: " + Constants.ElevatorConstants.ELEVATOR_BASE_DELTA.in(Units.Meters))));
         auxRightTrigger.onTrue(new ArmSetPositionCommand(arm, ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees))
                 .alongWith(Commands.print("Arm Base, Angles: " + ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees))));
+        
+        //INITIALIZATION (HERE BECAUSE OTHERWISE NOTHING HAPPENS BEFORE YOU HIT SHIFT)
+        //SOURCE
+        auxRightBumper.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA)
+                        .alongWith(Commands.print("Elevator Source, Height: " + Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA.in(Units.Meters))));
+        auxRightBumper.onTrue(new ArmSetPositionCommand(arm, ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
+                        .alongWith(Commands.print("Arm Source, Angles: " + ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))));
         //L1
         auxA.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_DELTA)
-                .alongWith(Commands.print("Elevator Level 1, Height: " + Constants.ElevatorConstants.STAGE_1_HEIGHT.in(Units.Meters))));
+                        .alongWith(Commands.print("Elevator Level 1, Height: " + Constants.ElevatorConstants.STAGE_1_HEIGHT.in(Units.Meters))));
         auxA.onTrue(new ArmSetPositionCommand(arm, ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees))
-                .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees))));
-        //L1
+                        .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees))));
+        //L2
         auxB.onTrue(new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT_DELTA)
                 .alongWith(Commands.print("Elevator Level 2, Height: " + Constants.ElevatorConstants.STAGE_2_HEIGHT.in(Units.Meters))));
         auxB.onTrue(new ArmSetPositionCommand(arm, ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees))
@@ -162,8 +164,36 @@ public class RobotContainer {
         auxY.onTrue(new ArmSetPositionCommand(arm, ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))
                  .alongWith(Commands.print("Arm Level 4, Angles: " + ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))));
 
-        //score sad side
-        //auxLeftBumper.onTrue(new Elevator)
+        //SADNESS
+        auxLeftBumper.onTrue(new RunCommand(() -> { //sad commands
+
+                auxRightBumper.onTrue(new ArmSetPositionCommand(arm, ArmConstant.SAD_CORAL_STATION_ANGLE_VERTICAL.in(Degrees))           //SOURCE
+                        .alongWith(Commands.print("Arm Source, Angles: " + ArmConstant.SAD_CORAL_STATION_ANGLE_VERTICAL.in(Degrees))));
+                auxA.onTrue(new ArmSetPositionCommand(arm, ArmConstant.SAD_STAGE_1_ANGLE_VERTICAL.in(Degrees))                           //L1
+                        .alongWith(Commands.print("Arm Source, Angles: " + ArmConstant.SAD_STAGE_1_ANGLE_VERTICAL.in(Degrees))));
+                auxB.onTrue(new ArmSetPositionCommand(arm, ArmConstant.SAD_STAGE_2_ANGLE_VERTICAL.in(Degrees))                           //L2
+                        .alongWith(Commands.print("Arm Level 2, Angles: " + ArmConstant.SAD_STAGE_2_ANGLE_VERTICAL.in(Degrees))));
+                auxX.onTrue(new ArmSetPositionCommand(arm, ArmConstant.SAD_STAGE_3_ANGLE_VERTICAL.in(Degrees))                               //L3
+                        .alongWith(Commands.print("Arm Level 3, Angles: " + ArmConstant.SAD_STAGE_3_ANGLE_VERTICAL.in(Degrees))));
+                auxY.onTrue(new ArmSetPositionCommand(arm, ArmConstant.SAD_STAGE_4_ANGLE_VERTICAL.in(Degrees))                               //L4
+                        .alongWith(Commands.print("Arm Level 4, Angles: " + ArmConstant.SAD_STAGE_4_ANGLE_VERTICAL.in(Degrees))));
+
+        }, elevatorSubsystem))
+        .onFalse(new RunCommand(() -> { //normal commands
+
+                auxRightBumper.onTrue(new ArmSetPositionCommand(arm, ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))               //SOURCE
+                        .alongWith(Commands.print("Arm Source, Angles: " + ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))));
+                auxA.onTrue(new ArmSetPositionCommand(arm, ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees))                               //L1
+                        .alongWith(Commands.print("Arm Source, Angles: " + ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees))));
+                auxB.onTrue(new ArmSetPositionCommand(arm, ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees))                               //L2
+                        .alongWith(Commands.print("Arm Level 2, Angles: " + ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees))));
+                auxX.onTrue(new ArmSetPositionCommand(arm, ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees))                               //L3
+                        .alongWith(Commands.print("Arm Level 3, Angles: " + ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees))));
+                auxY.onTrue(new ArmSetPositionCommand(arm, ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))                               //L4
+                        .alongWith(Commands.print("Arm Level 4, Angles: " + ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))));
+                
+        }, elevatorSubsystem));
+        
 
         // auxPovUP.whileTrue(new RunCommand(
         //         () -> {

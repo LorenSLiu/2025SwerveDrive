@@ -14,6 +14,7 @@ public class newArmSubsystem extends SubsystemBase {
     private TalonFX m_armKraken;
     private PositionDutyCycle m_pidPosition;
     private double setpoint = 0; // Stores the last commanded position
+    
 
     public newArmSubsystem() {
         m_armKraken = new TalonFX(ArmConstant.kArmMotorID, ArmConstant.kArmCANbus);

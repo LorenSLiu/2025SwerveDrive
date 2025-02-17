@@ -65,12 +65,20 @@ public final class Constants {
 
     public static final Distance ArmLength = Inches.of(16.1);
 
-    public static final Angle CORAL_STATION_ANGLE_VERTICAL  = Degrees.of(-36);
     public static final Angle ARM_BASE_ANGLE_VERTICAL       = Degrees.of(0);
+
+    public static final Angle CORAL_STATION_ANGLE_VERTICAL  = Degrees.of(-36);
     public static final Angle STAGE_1_ANGLE_VERTICAL        = Degrees.of(23); 
     public static final Angle STAGE_2_ANGLE_VERTICAL        = Degrees.of(26);
     public static final Angle STAGE_3_ANGLE_VERTICAL        = Degrees.of(-220);
     public static final Angle STAGE_4_ANGLE_VERTICAL        = Degrees.of(-224);
+
+    //public static final Angle SAD_CORAL_STATION_ANGLE_VERTICAL  = Degrees.of(CORAL_STATION_ANGLE_VERTICAL.in(Degrees) * -1);
+    public static final Angle SAD_CORAL_STATION_ANGLE_VERTICAL  = Degrees.of(CORAL_STATION_ANGLE_VERTICAL.in(Degrees) * -1);
+    public static final Angle SAD_STAGE_1_ANGLE_VERTICAL        = Degrees.of(STAGE_1_ANGLE_VERTICAL.in(Degrees) * -1); 
+    public static final Angle SAD_STAGE_2_ANGLE_VERTICAL        = Degrees.of(STAGE_2_ANGLE_VERTICAL.in(Degrees) * -1);
+    public static final Angle SAD_STAGE_3_ANGLE_VERTICAL        = Degrees.of(STAGE_3_ANGLE_VERTICAL.in(Degrees) * -1);
+    public static final Angle SAD_STAGE_4_ANGLE_VERTICAL        = Degrees.of(STAGE_4_ANGLE_VERTICAL.in(Degrees) * -1);
 
     //public static final double kArmP = 0.05;
     public static final double kArmP = 0.04;
