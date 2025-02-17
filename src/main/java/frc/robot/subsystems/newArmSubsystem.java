@@ -14,6 +14,8 @@ public class newArmSubsystem extends SubsystemBase {
     private TalonFX m_armKraken;
     private PositionDutyCycle m_pidPosition;
     private double setpoint = 0; // Stores the last commanded position
+    private int state = 0;
+    // 0 = base, 1/-1 = L1/Sad L1, 2/-2 = L2/Sad L2, 3/-3 = L3/Sad L3, 4/-4 = L4/Sad L4, 5/-5 = Source/Sad Source
 
     public newArmSubsystem() {
         m_armKraken = new TalonFX(ArmConstant.kArmMotorID, ArmConstant.kArmCANbus);
@@ -52,6 +54,14 @@ public class newArmSubsystem extends SubsystemBase {
 
         m_armKraken.setControl(m_pidPosition.withPosition(setpoint));
 
+    }
+
+    public void setState(int newState){
+        state = newState;
+    }
+
+    public int getState(){
+        return state;
     }
 
     public void manualControl(double speed) {
