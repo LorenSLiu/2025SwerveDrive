@@ -32,7 +32,7 @@ public class IntakeWithDetectionCommand extends Command {
 
     @Override
     public boolean isFinished(){
-        //hiiiiiiiiiiiiiiiiiiiiii
+        //hiiiiiiiiiiiiiiiiiiiii
         if(CANrangeE.getDistance().getValue().in(Centimeters) > 4){
             return false;
         }
