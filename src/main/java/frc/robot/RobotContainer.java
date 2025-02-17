@@ -138,6 +138,7 @@ public class RobotContainer {
                 .alongWith(Commands.print("Elevator Down, Height: " + Constants.ElevatorConstants.ELEVATOR_BASE_DELTA.in(Units.Meters))));
         auxRightTrigger.onTrue(new ArmSetPositionCommand(arm, ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees))
                 .alongWith(Commands.print("Arm Base, Angles: " + ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees))));
+        auxRightTrigger.onTrue(new RunCommand(() -> {arm.setState(0);}, arm));
         
         //SADMODE TRIGGER
         auxLeftBumper.onTrue(new InstantCommand(() -> {
@@ -154,10 +155,12 @@ public class RobotContainer {
                 if(sadMode){
                         new ArmSetPositionCommand(arm, ArmConstant.SAD_CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
                                 .alongWith(Commands.print("Arm Source, Angles: " + ArmConstant.SAD_CORAL_STATION_ANGLE_VERTICAL.in(Degrees)));
+                        arm.setState(-5);
                 }
                 else{
                         new ArmSetPositionCommand(arm, ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
                                 .alongWith(Commands.print("Arm Source, Angles: " + ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees)));
+                        arm.setState(5);
                 }
         }));
         //L1
@@ -166,11 +169,13 @@ public class RobotContainer {
         auxA.onTrue(new InstantCommand(() -> {
                 if(sadMode){
                         new ArmSetPositionCommand(arm, ArmConstant.SAD_STAGE_1_ANGLE_VERTICAL.in(Degrees))
-                        .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.SAD_STAGE_1_ANGLE_VERTICAL.in(Degrees)));
+                                .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.SAD_STAGE_1_ANGLE_VERTICAL.in(Degrees)));
+                        arm.setState(-1);
                 }
                 else{
                         new ArmSetPositionCommand(arm, ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees))
-                        .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees)));
+                                .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees)));
+                        arm.setState(1);
                 }
         }));
         //L2
@@ -179,11 +184,13 @@ public class RobotContainer {
         auxB.onTrue(new InstantCommand(() -> {
                 if(sadMode){
                         new ArmSetPositionCommand(arm, ArmConstant.SAD_STAGE_2_ANGLE_VERTICAL.in(Degrees))
-                        .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.SAD_STAGE_2_ANGLE_VERTICAL.in(Degrees)));
+                                .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.SAD_STAGE_2_ANGLE_VERTICAL.in(Degrees)));
+                        arm.setState(-2);
                 }
                 else{
                         new ArmSetPositionCommand(arm, ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees))
-                        .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees)));
+                                .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees)));
+                        arm.setState(2);
                 }
         }));
         //L3
@@ -193,10 +200,12 @@ public class RobotContainer {
                 if(sadMode){
                         new ArmSetPositionCommand(arm, ArmConstant.SAD_STAGE_3_ANGLE_VERTICAL.in(Degrees))
                         .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.SAD_STAGE_3_ANGLE_VERTICAL.in(Degrees)));
+                        arm.setState(-3);
                 }
                 else{
                         new ArmSetPositionCommand(arm, ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees))
                         .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees)));
+                        arm.setState(3);
                 }
         }));
         //L4
@@ -206,10 +215,12 @@ public class RobotContainer {
                 if(sadMode){
                         new ArmSetPositionCommand(arm, ArmConstant.SAD_STAGE_4_ANGLE_VERTICAL.in(Degrees))
                         .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.SAD_STAGE_4_ANGLE_VERTICAL.in(Degrees)));
+                        arm.setState(-4);
                 }
                 else{
                         new ArmSetPositionCommand(arm, ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))
                         .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees)));
+                        arm.setState(4);
                 }
         }));
 
@@ -259,12 +270,21 @@ public class RobotContainer {
         auxPovDOWN.onTrue(new RunCommand(() -> {climb.retract();}, climb)).onFalse(new RunCommand(() -> {climb.stop();}, climb));
 
         //Intake Bindings
-        driveRightBumper.onTrue(new RunCommand(() ->{
-                if(arm.getState() == 0){
+        driveRightTrigger.onTrue(new RunCommand(() ->{
+                if(arm.getState() == 1 ||
+                   arm.getState() == 2 ||
+                   arm.getState() == -3 ||
+                   arm.getState() == -4){
+                        intake.feedEast();
+                }
+                else if(arm.getState() == -1 ||
+                        arm.getState() == -2 ||
+                        arm.getState() == 3 ||
+                        arm.getState() == 4){
                         intake.feedWest();
                 }
                 else{
-                        intake.feedEast();
+                        intake.stop();
                 }
         }, intake))
         .onFalse(new RunCommand(() ->{intake.stop();}, intake));
@@ -272,7 +292,19 @@ public class RobotContainer {
         //driveRightBumper.onTrue(new RunCommand(() -> {intake.feedWest();}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
         //driveRightTrigger.onTrue(new RunCommand(() -> {intake.feedEast();}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
 
-        driveLeftBumper.onTrue(new IntakeWithDetectionCommand(intake, intake.getCANrangeE())).onFalse(new RunCommand(() -> {intake.stop();}, intake));
+        driveLeftBumper.onTrue(new RunCommand(() ->{
+                if(arm.getState() == 5){
+                        new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), false); //sad is false
+                }
+                else if(arm.getState() == -5){
+                        new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), true); //sad is true
+                }
+                else{
+                        intake.stop();
+                }
+        }, intake))
+        .onFalse(new RunCommand(() -> {intake.stop();}, intake));
+        
         
 
 
