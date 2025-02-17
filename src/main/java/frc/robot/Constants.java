@@ -69,7 +69,7 @@ public final class Constants {
     public static final Angle ARM_BASE_ANGLE_VERTICAL       = Degrees.of(0);
     public static final Angle STAGE_1_ANGLE_VERTICAL        = Degrees.of(23); 
     public static final Angle STAGE_2_ANGLE_VERTICAL        = Degrees.of(26);
-    public static final Angle STAGE_3_ANGLE_VERTICAL        = Degrees.of(-225);
+    public static final Angle STAGE_3_ANGLE_VERTICAL        = Degrees.of(-220);
     public static final Angle STAGE_4_ANGLE_VERTICAL        = Degrees.of(-224);
 
     //public static final double kArmP = 0.05;
@@ -134,7 +134,7 @@ public final class Constants {
     //public static final double METERS_PER_TICK = PULLEY_CIRCUMFERENCE / (ENCODER_TICKS_PER_REV * GEAR_RATIO);
     //public static final double METERS_PER_ROTATION = PULLEY_CIRCUMFERENCE / GEAR_RATIO;
 
-    // Elevator stages raw data
+    // Elevator stages raw data (wrong right now i think)
     public static final Distance Elevator_HEIGHT_NOUGHT = Inches.of(37.433); // ok
     public static final Distance STAGE_1_HEIGHT         = Meters.of(0.46); // 46cm
     public static final Distance STAGE_2_HEIGHT         = Meters.of(0.81); // 81cm

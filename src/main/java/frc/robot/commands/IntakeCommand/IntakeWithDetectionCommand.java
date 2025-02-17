@@ -3,6 +3,7 @@ package frc.robot.commands.IntakeCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubsystem;
 
+import static edu.wpi.first.units.Units.Centimeters;
 import static edu.wpi.first.units.Units.Inches;
 import java.util.concurrent.TimeUnit;
 
@@ -26,18 +27,18 @@ public class IntakeWithDetectionCommand extends Command {
 
     @Override
     public void execute(){
-        intake.manualControl(-0.75);
+        intake.manualControl(-0.3);
     }
 
     @Override
     public boolean isFinished(){
         //hiiiiiiiiiiiiiiiiiiiiii
-        if(CANrangeE.getDistance().getValue().in(Inches) > 4){
+        if(CANrangeE.getDistance().getValue().in(Centimeters) > 4){
             return false;
         }
         else{
-            /*try {TimeUnit.MILLISECONDS.sleep(100);}
-            catch(InterruptedException e){System.out.println("got interrupted!");}*/
+            try {TimeUnit.MILLISECONDS.sleep(25);}
+            catch(InterruptedException e){System.out.println("got interrupted!");}
             intake.stop();
             return true;
         }
