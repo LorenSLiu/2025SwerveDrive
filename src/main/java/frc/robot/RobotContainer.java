@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.math.geometry.Rotation2d;
 import com.ctre.phoenix6.hardware.CANrange;
-import frc.robot.Constants.IntakeConstant;;
+import frc.robot.Constants.IntakeConstant;
 
 import edu.wpi.first.units.Units;
 import static edu.wpi.first.units.Units.*;

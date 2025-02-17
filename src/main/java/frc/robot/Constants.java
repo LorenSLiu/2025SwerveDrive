@@ -80,6 +80,8 @@ public final class Constants {
     public static final Angle SAD_STAGE_3_ANGLE_VERTICAL        = Degrees.of(STAGE_3_ANGLE_VERTICAL.in(Degrees) * -1);
     public static final Angle SAD_STAGE_4_ANGLE_VERTICAL        = Degrees.of(STAGE_4_ANGLE_VERTICAL.in(Degrees) * -1);
 
+    //random stuff
+    public static final double test = 0.0;
     //public static final double kArmP = 0.05;
     public static final double kArmP = 0.04;
     public static final double kArmI = 0.004;
