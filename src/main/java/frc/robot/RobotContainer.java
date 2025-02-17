@@ -163,7 +163,7 @@ public class RobotContainer {
                  .alongWith(Commands.print("Arm Level 4, Angles: " + ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))));
 
         //score sad side
-        auxLeftBumper.onTrue(new Elevator)
+        //auxLeftBumper.onTrue(new Elevator)
 
         // auxPovUP.whileTrue(new RunCommand(
         //         () -> {

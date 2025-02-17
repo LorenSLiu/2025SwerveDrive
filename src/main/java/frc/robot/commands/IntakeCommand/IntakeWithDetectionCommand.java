@@ -26,7 +26,7 @@ public class IntakeWithDetectionCommand extends Command {
 
     @Override
     public void execute(){
-        intake.feedWest();
+        intake.manualControl(-0.75);
     }
 
     @Override
@@ -36,8 +36,8 @@ public class IntakeWithDetectionCommand extends Command {
             return false;
         }
         else{
-            try {TimeUnit.MILLISECONDS.sleep(100);}
-            catch(InterruptedException e){System.out.println("got interrupted!");}
+            /*try {TimeUnit.MILLISECONDS.sleep(100);}
+            catch(InterruptedException e){System.out.println("got interrupted!");}*/
             intake.stop();
             return true;
         }

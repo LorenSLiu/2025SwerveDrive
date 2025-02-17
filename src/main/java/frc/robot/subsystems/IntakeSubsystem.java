@@ -59,11 +59,11 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void feedWest(){
-        m_IntakeKraken.set(1);
+        m_IntakeKraken.set(0.1);
 
     }
     public void feedEast(){
-        m_IntakeKraken.set(-1);
+        m_IntakeKraken.set(-0.1);
 
     }
     public void manualControl(double speed) {
