@@ -6,6 +6,7 @@ import frc.robot.commands.ArmCommand.ArmSetPositionCommand;
 import frc.robot.commands.ElevatorCommand.ElevatorSetPositionCommand;
 import frc.robot.commands.IntakeCommand.IntakeWithDetectionCommand;
 import frc.robot.subsystems.newArmSubsystem;
+import frc.robot.subsystems.newArmSubsystem.ArmState;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -151,7 +152,7 @@ public class RobotContainer {
         //SOURCE
         auxRightBumper.onTrue(new InstantCommand(() -> {
                 new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA)
-                        .alongWith(Commands.print("Elevator Source, Height: " + Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA.in(Units.Meters)))
+                        .alongWith(Commands.print("Elevator Source, Height: " + Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA.in(Units.Meters)));
                 if(sadMode){
                         new ArmSetPositionCommand(arm, ArmConstant.SAD_CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
                                 .alongWith(Commands.print("Arm Source, Angles: " + ArmConstant.SAD_CORAL_STATION_ANGLE_VERTICAL.in(Degrees)));
@@ -166,7 +167,7 @@ public class RobotContainer {
         //L1
         auxA.onTrue(new InstantCommand(() -> {
                 new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_DELTA)
-                        .alongWith(Commands.print("Elevator Level 1, Height: " + Constants.ElevatorConstants.STAGE_1_HEIGHT.in(Units.Meters)))
+                        .alongWith(Commands.print("Elevator Level 1, Height: " + Constants.ElevatorConstants.STAGE_1_HEIGHT.in(Units.Meters)));
                 if(sadMode){
                         new ArmSetPositionCommand(arm, ArmConstant.SAD_STAGE_1_ANGLE_VERTICAL.in(Degrees))
                                 .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.SAD_STAGE_1_ANGLE_VERTICAL.in(Degrees)));
@@ -181,7 +182,7 @@ public class RobotContainer {
         //L2
         auxB.onTrue(new InstantCommand(() -> {
                 new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT_DELTA)
-                        .alongWith(Commands.print("Elevator Level 2, Height: " + Constants.ElevatorConstants.STAGE_2_HEIGHT.in(Units.Meters)))
+                        .alongWith(Commands.print("Elevator Level 2, Height: " + Constants.ElevatorConstants.STAGE_2_HEIGHT.in(Units.Meters)));
                 if(sadMode){
                         new ArmSetPositionCommand(arm, ArmConstant.SAD_STAGE_2_ANGLE_VERTICAL.in(Degrees))
                                 .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.SAD_STAGE_2_ANGLE_VERTICAL.in(Degrees)));
@@ -196,7 +197,7 @@ public class RobotContainer {
         //L3
         auxX.onTrue(new InstantCommand(() -> {
                 new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_3_HEIGHT_DELTA)
-                        .alongWith(Commands.print("Elevator Level 3, Height: " + Constants.ElevatorConstants.STAGE_3_HEIGHT.in(Units.Meters)))
+                        .alongWith(Commands.print("Elevator Level 3, Height: " + Constants.ElevatorConstants.STAGE_3_HEIGHT.in(Units.Meters)));
                 if(sadMode){
                         new ArmSetPositionCommand(arm, ArmConstant.SAD_STAGE_3_ANGLE_VERTICAL.in(Degrees))
                         .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.SAD_STAGE_3_ANGLE_VERTICAL.in(Degrees)));
@@ -211,7 +212,7 @@ public class RobotContainer {
         //L4
         auxY.onTrue(new InstantCommand(() -> {
                 new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA)
-                        .alongWith(Commands.print("Elevator Level 4, Height: " + Constants.ElevatorConstants.STAGE_4_HEIGHT.in(Units.Meters)))
+                        .alongWith(Commands.print("Elevator Level 4, Height: " + Constants.ElevatorConstants.STAGE_4_HEIGHT.in(Units.Meters)));
                 if(sadMode){
                         new ArmSetPositionCommand(arm, ArmConstant.SAD_STAGE_4_ANGLE_VERTICAL.in(Degrees))
                         .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.SAD_STAGE_4_ANGLE_VERTICAL.in(Degrees)));
@@ -270,7 +271,17 @@ public class RobotContainer {
         auxPovDOWN.onTrue(new RunCommand(() -> {climb.retract();}, climb)).onFalse(new RunCommand(() -> {climb.stop();}, climb));
 
         //Intake Bindings
-        driveRightTrigger.onTrue(new RunCommand(() ->{
+
+        // driveRightTrigger.onTrue(new RunCommand(() -> {
+        //         // Use the helper method
+        //         handleIntakeByArmState(arm.getStateE());
+        //     }, intake))
+        //     .onFalse(new RunCommand(() -> {
+        //         intake.stop();
+        //     }, intake));
+
+
+        driveRightTrigger.onTrue(new RunCommand(() ->{ //only scoring
                 if(arm.getState() == 1 ||
                    arm.getState() == 2 ||
                    arm.getState() == -3 ||
@@ -293,6 +304,7 @@ public class RobotContainer {
         //driveRightTrigger.onTrue(new RunCommand(() -> {intake.feedEast();}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
 
         driveLeftBumper.onTrue(new RunCommand(() ->{
+                
                 if(arm.getState() == 5){
                         new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), false); //sad is false
                 }
@@ -313,4 +325,24 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         return null;
     }
+
+    private void handleIntakeByArmState(ArmState state) {
+    switch (state) {
+        case LEVEL1:
+        case LEVEL2:
+        case SAD_LEVEL3:
+        case SAD_LEVEL4:
+            intake.feedEast();
+            break;
+        case SAD_LEVEL1:
+        case SAD_LEVEL2:
+        case LEVEL3:
+        case LEVEL4:
+            intake.feedWest();
+            break;
+        default:
+            intake.stop();
+            break;
+    }
+}
 }

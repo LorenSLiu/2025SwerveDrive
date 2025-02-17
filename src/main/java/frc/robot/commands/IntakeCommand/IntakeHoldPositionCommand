@@ -9,15 +9,13 @@ import java.util.concurrent.TimeUnit;
 
 import com.ctre.phoenix6.hardware.CANrange;
 
-public class IntakeWithDetectionCommand extends Command {
+public class IntakeHoldPositionCommand extends Command {
     private final IntakeSubsystem intake;
-    private final CANrange CANrangeE;
-    private boolean isSad;
+    private final double position;
 
-    public IntakeWithDetectionCommand(IntakeSubsystem intake, CANrange CANrangeE, boolean isSad){
+    public IntakeHoldPositionCommand(IntakeSubsystem intake, double position){
         this.intake = intake;
-        this.CANrangeE = CANrangeE;
-        this.isSad = isSad;
+        this.position = position;
         addRequirements(intake);
         System.out.println("Intake With Detection Command Initialized");
     }
@@ -29,12 +27,7 @@ public class IntakeWithDetectionCommand extends Command {
 
     @Override
     public void execute(){
-        if(isSad){
-            intake.manualControl(0.3);
-        }
-        else{
-            intake.manualControl(-0.3);
-        }
+       
     }
 
     @Override
@@ -52,7 +45,6 @@ public class IntakeWithDetectionCommand extends Command {
             }
             intake.stop();
             
-
             return true;
         }
     }

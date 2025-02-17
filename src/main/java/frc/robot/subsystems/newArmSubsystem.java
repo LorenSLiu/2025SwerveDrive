@@ -15,6 +15,7 @@ public class newArmSubsystem extends SubsystemBase {
     private PositionDutyCycle m_pidPosition;
     private double setpoint = 0; // Stores the last commanded position
     private int state = 0;
+    private ArmState currentState = ArmState.UNKNOWN;
     // 0 = base, 1/-1 = L1/Sad L1, 2/-2 = L2/Sad L2, 3/-3 = L3/Sad L3, 4/-4 = L4/Sad L4, 5/-5 = Source/Sad Source
 
     public newArmSubsystem() {
@@ -40,6 +41,23 @@ public class newArmSubsystem extends SubsystemBase {
         resetEncoder();
 
     }
+
+    public enum ArmState{
+        LEVEL1, LEVEL2, LEVEL3, LEVEL4,
+        SAD_LEVEL1, SAD_LEVEL2, SAD_LEVEL3, SAD_LEVEL4, 
+        SOURCE,
+        UNKNOWN
+    }
+
+
+    public ArmState getStateE() {
+     return currentState;
+    }
+
+    public void setState(ArmState newState) {
+        currentState = newState;
+    }
+    
 
      public void setArmAngle(double targetAngle) {
 
