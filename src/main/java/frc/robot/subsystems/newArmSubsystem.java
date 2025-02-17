@@ -46,11 +46,12 @@ public class newArmSubsystem extends SubsystemBase {
         double Rotations = (targetAngle/360) * ArmConstant.ArmGearRatio;
 
         setpoint = Math.min(Rotations, ArmConstant.kMaxAngle);
-        if(setpoint !=  Rotations){
-            System.out.println("Warning: Requested arm angle is out of bounds. Setting to " + setpoint + " rotations");
-        }
+        // if(setpoint !=  Rotations){
+        //     System.out.println("Warning: Requested arm angle is out of bounds. Setting to " + setpoint + " rotations");
+        // }
 
-        System.out.println("Setting elevator position to final " + Rotations + " rotations");
+
+        System.out.println("Setting Arm position to final " + setpoint + " rotations");
 
         m_armKraken.setControl(m_pidPosition.withPosition(setpoint));
 
