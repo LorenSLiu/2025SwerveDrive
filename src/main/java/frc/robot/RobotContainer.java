@@ -133,28 +133,27 @@ public class RobotContainer {
 
         ///////////////////////////////////////GIFTS AND TRINKETS (NON DRIVE BINDS)
 
-        // Elevator and Arm bindings
-        //GO DOWN
+        // Elevator and Arm bindings, move to zero position
         auxRightTrigger.onTrue(new ParallelCommandGroup(
-        
                 new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_BASE_DELTA)
-                .alongWith(Commands.print("Elevator Down, Height: " + Constants.ElevatorConstants.ELEVATOR_BASE_DELTA.in(Units.Meters))),
+                .alongWith(Commands.print("Elevator Zero Position, Height: " + Constants.ElevatorConstants.ELEVATOR_BASE_DELTA.in(Units.Meters))),
                 
                 new ArmSetPositionCommand(arm, ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees))
-                .alongWith(Commands.print("Arm Base, Angles: " + ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees))))
+                .alongWith(Commands.print("Arm Base/zero Position, Angles: " + ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees))))
         );
         // auxRightTrigger.onTrue(new InstantCommand(() -> {
         //         new ArmSetPositionCommand(arm, ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees))
         //         .alongWith(Commands.print("Arm Base, Angles: " + ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees))).schedule();
         // }));
                 
-        auxRightTrigger.onTrue(new RunCommand(() -> {arm.setState(0);}, arm));
+        // auxRightTrigger.onTrue(new RunCommand(() -> {arm.setState(0);}, arm));
         
         //SADMODE TRIGGER
         auxLeftBumper.onTrue(new InstantCommand(() -> {
                 sadMode = true;
                 System.out.println("sadMode: " + sadMode);
-        })).onFalse(new InstantCommand(() -> {
+        }))
+        .onFalse(new InstantCommand(() -> {
                 sadMode = false;
                 System.out.println("sadMode: " + sadMode);
         }));
@@ -265,54 +264,38 @@ public class RobotContainer {
         }, elevatorSubsystem));*/
         
 
+
+        //default elevator and arm manual control
         elevatorSubsystem.setDefaultCommand(new RunCommand(() -> {
             double rightXAxis = m_auxController.getRightX();
             elevatorSubsystem.manualControl(rightXAxis);
-        }, elevatorSubsystem).alongWith(Commands.print("value for controller: "+m_auxController.getRightX())));
+        }, elevatorSubsystem)
+        .alongWith(Commands.print("Elevator Manual Controlling: " + m_auxController.getRightX())));
 
         arm.setDefaultCommand(new RunCommand(() -> {
             double leftYAxis = m_auxController.getLeftY();
             arm.manualControl(leftYAxis);
-        }, arm).alongWith(Commands.print("value for controller: "+m_auxController.getLeftY())));
+        }, arm)
+        .alongWith(Commands.print("Arm Manual Controlling: "+m_auxController.getLeftY())));
 
         //Climber Bindings
         auxPovUP.onTrue(new RunCommand(() -> {climb.expand();}, climb)).onFalse(new RunCommand(() -> {climb.stop();}, climb));
         auxPovDOWN.onTrue(new RunCommand(() -> {climb.retract();}, climb)).onFalse(new RunCommand(() -> {climb.stop();}, climb));
 
         //Intake Bindings
+        //driver scoring, only control the intake and out take spinning
+        driveRightTrigger.onTrue(new RunCommand(() -> {
+                // Use the helper method
+                handleIntakeByArmState(arm.getStateE(), 0.6);
+            }, intake))
+            .onFalse(new RunCommand(() -> {
+                intake.stop();
+            }, intake));
 
-        // driveRightTrigger.onTrue(new RunCommand(() -> {
-        //         // Use the helper method
-        //         handleIntakeByArmState(arm.getStateE());
-        //     }, intake))
-        //     .onFalse(new RunCommand(() -> {
-        //         intake.stop();
-        //     }, intake));
 
 
-        driveRightTrigger.onTrue(new RunCommand(() ->{ //only scoring
-                if(arm.getState() == 1 ||
-                   arm.getState() == 2 ||
-                   arm.getState() == -3 ||
-                   arm.getState() == -4){
-                        intake.feedEast();
-                }
-                else if(arm.getState() == -1 ||
-                        arm.getState() == -2 ||
-                        arm.getState() == 3 ||
-                        arm.getState() == 4){
-                        intake.feedWest();
-                }
-                else{
-                        intake.stop();
-                }
-        }, intake))
-        .onFalse(new RunCommand(() ->{intake.stop();}, intake));
-
-        //driveRightBumper.onTrue(new RunCommand(() -> {intake.feedWest();}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
-        //driveRightTrigger.onTrue(new RunCommand(() -> {intake.feedEast();}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
-
-        driveLeftBumper.onTrue(new RunCommand(() ->{//source arm
+        //aux control the intake from the source
+        auxRightTrigger.onTrue(new RunCommand(() ->{//source arm
 
                 if(arm.getState() == 5){
                         new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), false); //sad is false
@@ -327,10 +310,37 @@ public class RobotContainer {
                         intake.stop();
                 }
         }, intake))
-        .onFalse(new RunCommand(() -> {intake.stop();}, intake));
+        .onFalse(new RunCommand(() -> {
+                intake.stop();
+        }, intake));
         
         
 
+            //delete if enum works
+        // //driver scoring, only control the 
+        // driveRightTrigger.onTrue(new RunCommand(() ->{ //only scoring
+        //         if(arm.getState() == 1 ||
+        //            arm.getState() == 2 ||
+        //            arm.getState() == -3 ||
+        //            arm.getState() == -4){
+        //                 intake.feedEast();
+        //         }
+        //         else if(arm.getState() == -1 ||
+        //                 arm.getState() == -2 ||
+        //                 arm.getState() == 3 ||
+        //                 arm.getState() == 4){
+        //                 intake.feedWest();
+        //         }
+        //         else{
+        //                 intake.stop();
+        //         }
+        // }, intake))
+        // .onFalse(new RunCommand(() ->{
+        //         intake.stop();
+        // }, intake));
+
+        //driveRightBumper.onTrue(new RunCommand(() -> {intake.feedWest();}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
+        //driveRightTrigger.onTrue(new RunCommand(() -> {intake.feedEast();}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
 
     }
 
@@ -338,19 +348,19 @@ public class RobotContainer {
         return null;
     }
 
-    private void handleIntakeByArmState(ArmState state) {
+    private void handleIntakeByArmState(ArmState state, double speed) {
     switch (state) {
         case LEVEL1:
         case LEVEL2:
         case SAD_LEVEL3:
         case SAD_LEVEL4:
-            intake.feedEast();
+            intake.feedEast(speed);
             break;
         case SAD_LEVEL1:
         case SAD_LEVEL2:
         case LEVEL3:
         case LEVEL4:
-            intake.feedWest();
+            intake.feedWest(speed);
             break;
         default:
             intake.stop();

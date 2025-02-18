@@ -21,16 +21,16 @@ public class ElevatorSetPositionCommand extends Command {
         this.elevator = elevator;
         this.targetPosition = targetPosition;
         addRequirements(elevator);
-        //System.out.println("ElevatorSetPositionCommand initialized");
     }
 
     @Override
     public void initialize() {
+        System.out.println("Elevator Target Position: "  + targetPosition);
     }
 
     @Override
     public void execute(){
-        SmartDashboard.putNumber("Elevator Error", Math.abs(elevator.getCurrentPosition_Meters() - targetPosition.in(Meters)));
+        SmartDashboard.putNumber("Elevator Distance Error", Math.abs(elevator.getCurrentPosition_Meters() - targetPosition.in(Meters)));
         elevator.setElevatorPosition(targetPosition);
     }
 
