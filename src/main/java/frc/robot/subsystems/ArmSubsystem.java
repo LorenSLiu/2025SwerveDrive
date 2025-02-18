@@ -16,6 +16,7 @@ public class ArmSubsystem extends SubsystemBase {
     private double setpoint = 0; // Stores the last commanded position
     private int state = 0;
     private ArmState currentState = ArmState.UNKNOWN;
+    
     // 0 = base, 1/-1 = L1/Sad L1, 2/-2 = L2/Sad L2, 3/-3 = L3/Sad L3, 4/-4 = L4/Sad L4, 5/-5 = Source/Sad Source
 
     public ArmSubsystem() {

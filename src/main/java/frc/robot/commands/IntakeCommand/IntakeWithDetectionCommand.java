@@ -2,7 +2,6 @@ package frc.robot.commands.IntakeCommand;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubsystem;
-
 import static edu.wpi.first.units.Units.Centimeters;
 import static edu.wpi.first.units.Units.Inches;
 import java.util.concurrent.TimeUnit;
@@ -54,7 +53,8 @@ public class IntakeWithDetectionCommand extends Command {
                 System.out.println("got interrupted!");
             }
             intake.stop();
-            
+            // new IntakeHoldPositionCommand(intake).schedule();
+
 
             return true;
         }
