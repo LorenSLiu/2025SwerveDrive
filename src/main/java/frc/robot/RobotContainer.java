@@ -5,6 +5,8 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArmCommand.ArmSetPositionCommand;
 import frc.robot.commands.ElevatorCommand.ElevatorSetPositionCommand;
 import frc.robot.commands.IntakeCommand.IntakeWithDetectionCommand;
+import frc.robot.commands.IntakeCommand.IntakeHoldPositionCommand;
+
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ArmSubsystem.ArmState;
 import frc.robot.subsystems.ClimbSubsystem;
@@ -13,7 +15,6 @@ import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.SwerveSubsystem.CommandSwerveDrivetrain;
 import frc.robot.subsystems.SwerveSubsystem.TunerConstants;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -22,8 +23,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.math.geometry.Rotation2d;
-import com.ctre.phoenix6.hardware.CANrange;
-import frc.robot.Constants.IntakeConstant;
 
 import edu.wpi.first.units.Units;
 import static edu.wpi.first.units.Units.*;
@@ -312,13 +311,16 @@ public class RobotContainer {
         //driveRightBumper.onTrue(new RunCommand(() -> {intake.feedWest();}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
         //driveRightTrigger.onTrue(new RunCommand(() -> {intake.feedEast();}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
 
-        driveLeftBumper.onTrue(new RunCommand(() ->{
+        driveLeftBumper.onTrue(new RunCommand(() ->{//source arm
 
                 if(arm.getState() == 5){
                         new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), false); //sad is false
+                        new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations());
                 }
                 else if(arm.getState() == -5){
                         new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), true); //sad is true
+                        new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations());
+
                 }
                 else{
                         intake.stop();

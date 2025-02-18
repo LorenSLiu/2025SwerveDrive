@@ -46,12 +46,20 @@ public class IntakeSubsystem extends SubsystemBase {
 
     }
 
+    public void holdPosition(double setpoint){
+        m_IntakeKraken.setControl(m_pidPosition.withPosition(setpoint));
+    }
+
     public void resetEncoder() {
         m_IntakeKraken.setPosition(0);
     }
 
     public CANrange getCANrangeE() {
         return CANrangeE;
+    }
+
+    public double getCurrentPosition_Rotations() {
+        return m_IntakeKraken.getPosition().getValueAsDouble();
     }
 
     public void stop() {
