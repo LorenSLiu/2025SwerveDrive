@@ -78,7 +78,7 @@ public class ElevatorSubsystem extends SubsystemBase {
             DriverStation.reportWarning("Requested elevator position is out of bounds. Setting to " + setpoint + " rotations", true);
         }
 
-        System.out.println("Setting elevator position to final " + Rotations + " rotations");
+        //System.out.println("Setting elevator position to final " + Rotations + " rotations");
 
         m_elevatorKraken.setControl(m_pidPosition.withPosition(setpoint));
 
