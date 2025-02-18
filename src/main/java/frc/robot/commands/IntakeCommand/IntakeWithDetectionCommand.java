@@ -29,10 +29,13 @@ public class IntakeWithDetectionCommand extends Command {
 
     @Override
     public void execute(){
+        System.out.println("weird yayy");
         if(isSad){
+            System.out.println("no yayyyyy");
             intake.manualControl(0.3);
         }
         else{
+            System.out.println("yayyyyy");
             intake.manualControl(-0.3);
         }
     }
