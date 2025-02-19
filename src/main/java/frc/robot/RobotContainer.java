@@ -27,10 +27,15 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.math.geometry.Rotation2d;
 
 import edu.wpi.first.units.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 public class RobotContainer {
     // swerve drive stuff
@@ -82,8 +87,16 @@ public class RobotContainer {
     private final Trigger drivePovDOWN = m_driverController.povDown();
 
     private boolean sadMode = false;
+      private final SendableChooser<Command> autoChooser;
+
 
     public RobotContainer() {
+        autoChooser = AutoBuilder.buildAutoChooser();
+        SmartDashboard.putData("Auto Chooser", autoChooser);
+        NamedCommands.registerCommand("ScorePreload", Commands.none());
+
+
+
 
         configureBindings();
     }
@@ -304,7 +317,7 @@ public class RobotContainer {
                         case SOURCE:
                                 new SequentialCommandGroup(
                                         new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), false),
-                                        new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations())).schedule();;
+                                        new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations())).schedule();
                             break;
                         case SAD_SOURCE:
                             new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), true).schedule();
@@ -362,7 +375,7 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return null;
+        return autoChooser.getSelected();
     }
 
     private void handleIntakeByArmState(ArmState state, double speed) {
