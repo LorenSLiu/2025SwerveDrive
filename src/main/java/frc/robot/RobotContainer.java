@@ -16,6 +16,7 @@ import frc.robot.subsystems.SwerveSubsystem.CommandSwerveDrivetrain;
 import frc.robot.subsystems.SwerveSubsystem.TunerConstants;
 
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -134,7 +135,8 @@ public class RobotContainer {
         ///////////////////////////////////////GIFTS AND TRINKETS (NON DRIVE BINDS)
 
         // Elevator and Arm bindings, move to zero position
-        auxRightTrigger.onTrue(new ParallelCommandGroup(
+        auxRightTrigger.onTrue(
+                new ParallelCommandGroup(
                 new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_BASE_DELTA)
                 .alongWith(Commands.print("Elevator Zero Position, Height: " + Constants.ElevatorConstants.ELEVATOR_BASE_DELTA.in(Units.Meters))),
                 
@@ -295,20 +297,35 @@ public class RobotContainer {
 
 
         //aux control the intake from the source
+        //this is for getting the game pieces from the source
         auxRightTrigger.onTrue(new RunCommand(() ->{//source arm
 
-                if(arm.getState() == 5){
-                        new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), false); //sad is false
-                        new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations());
-                }
-                else if(arm.getState() == -5){
-                        new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), true); //sad is true
-                        new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations());
+                switch (arm.getStateE()) {
+                        case SOURCE:
+                                new SequentialCommandGroup(
+                                        new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), false),
+                                        new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations())).schedule();;
+                            break;
+                        case SAD_SOURCE:
+                            new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), true).schedule();
+                            new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations()).schedule();
+                            break;
+                        default:
+                            intake.stop();
+                            break;
+                    }
+                // if(arm.getState() == 5){
+                //         new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), false); //sad is false
+                //         new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations());
+                // }
+                // else if(arm.getState() == -5){
+                //         new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), true); //sad is true
+                //         new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations());
 
-                }
-                else{
-                        intake.stop();
-                }
+                // }
+                // else{
+                //         intake.stop();
+                // }
         }, intake))
         .onFalse(new RunCommand(() -> {
                 intake.stop();

@@ -47,6 +47,7 @@ public class ArmSubsystem extends SubsystemBase {
         LEVEL1, LEVEL2, LEVEL3, LEVEL4,
         SAD_LEVEL1, SAD_LEVEL2, SAD_LEVEL3, SAD_LEVEL4, 
         SOURCE,
+        SAD_SOURCE,
         UNKNOWN
     }
 
