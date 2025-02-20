@@ -312,34 +312,34 @@ public class RobotContainer {
 
         //aux control the intake from the source
         //this is for getting the game pieces from the source
-        auxRightTrigger.onTrue(new RunCommand(() ->{//source arm
+        auxLeftTrigger.onTrue(new RunCommand(() ->{//source arm
 
-                switch (arm.getStateE()) {
-                        case SOURCE:
-                                new SequentialCommandGroup(
-                                        new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), false),
-                                        new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations())).schedule();
-                            break;
-                        case SAD_SOURCE:
-                            new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), true).schedule();
-                            new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations()).schedule();
-                            break;
-                        default:
-                            intake.stop();
-                            break;
-                    }
-                // if(arm.getState() == 5){
-                //         new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), false); //sad is false
-                //         new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations());
-                // }
-                // else if(arm.getState() == -5){
-                //         new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), true); //sad is true
-                //         new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations());
+                // switch (arm.getStateE()) {
+                //         case SOURCE:
+                //                 new SequentialCommandGroup(
+                //                         new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), false),
+                //                         new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations())).schedule();
+                //             break;
+                //         case SAD_SOURCE:
+                //             new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), true).schedule();
+                //             new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations()).schedule();
+                //             break;
+                //         default:
+                //             intake.stop();
+                //             break;
+                //     }
+                if(arm.getState() == 5){
+                        new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), false); //sad is false
+                        new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations());
+                }
+                else if(arm.getState() == -5){
+                        new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), true); //sad is true
+                        new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations());
 
-                // }
-                // else{
-                //         intake.stop();
-                // }
+                }
+                else{
+                        intake.stop();
+                }
         }, intake))
         .onFalse(new RunCommand(() -> {
                 intake.stop();
@@ -348,27 +348,27 @@ public class RobotContainer {
         
 
             //delete if enum works
-        // //driver scoring, only control the 
-        // driveRightTrigger.onTrue(new RunCommand(() ->{ //only scoring
-        //         if(arm.getState() == 1 ||
-        //            arm.getState() == 2 ||
-        //            arm.getState() == -3 ||
-        //            arm.getState() == -4){
-        //                 intake.feedEast();
-        //         }
-        //         else if(arm.getState() == -1 ||
-        //                 arm.getState() == -2 ||
-        //                 arm.getState() == 3 ||
-        //                 arm.getState() == 4){
-        //                 intake.feedWest();
-        //         }
-        //         else{
-        //                 intake.stop();
-        //         }
-        // }, intake))
-        // .onFalse(new RunCommand(() ->{
-        //         intake.stop();
-        // }, intake));
+        //driver scoring, only control the 
+        driveRightTrigger.onTrue(new RunCommand(() ->{ //only scoring
+                if(arm.getState() == 1 ||
+                   arm.getState() == 2 ||
+                   arm.getState() == -3 ||
+                   arm.getState() == -4){
+                        intake.feedEast(0.4);
+                }
+                else if(arm.getState() == -1 ||
+                        arm.getState() == -2 ||
+                        arm.getState() == 3 ||
+                        arm.getState() == 4){
+                        intake.feedWest(0.4);
+                }
+                else{
+                        intake.stop();
+                }
+        }, intake))
+        .onFalse(new RunCommand(() ->{
+                intake.stop();
+        }, intake));
 
         //driveRightBumper.onTrue(new RunCommand(() -> {intake.feedWest();}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
         //driveRightTrigger.onTrue(new RunCommand(() -> {intake.feedEast();}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
