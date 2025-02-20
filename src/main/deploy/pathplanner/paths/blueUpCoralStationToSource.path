@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.0,
-        "y": 7.0
+        "x": 3.5831313285111164,
+        "y": 5.336587636742567
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.0,
-        "y": 7.0
+        "x": 3.1368140249594028,
+        "y": 5.728600699207698
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.4626320286800985,
-        "y": 5.224894955283717
+        "x": 1.3318297305367914,
+        "y": 7.216472457632131
       },
       "prevControl": {
-        "x": 5.4172697495801145,
-        "y": 5.522664701622764
-      },
-      "nextControl": {
-        "x": 1.749196905838816,
-        "y": 4.378522692228618
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 3.159942626953125,
-        "y": 2.3234982139185854
-      },
-      "prevControl": {
-        "x": 3.3513522499486004,
-        "y": 2.5632296913548553
+        "x": 2.456899012874978,
+        "y": 6.248054159721123
       },
       "nextControl": null,
       "isLocked": false,
@@ -47,14 +31,7 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "ScorePreload",
-      "waypointRelativePos": 1.002642463235295,
-      "endWaypointRelativePos": null,
-      "command": null
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -65,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 36.34791390200424
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 30.082483600884373
   },
   "useDefaultConstraints": true
 }

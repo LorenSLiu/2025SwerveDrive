@@ -7,13 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Swerve Example"
+            "pathName": "blueUpPreloadPath"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ScorePreload"
+            "name": "scorePreload"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "blueUpCoralStationToSource"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "sourceLoading"
           }
         }
       ]
