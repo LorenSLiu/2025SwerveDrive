@@ -87,11 +87,12 @@ public class RobotContainer {
     private final Trigger drivePovDOWN = m_driverController.povDown();
 
     private boolean sadMode = false;
-      private final SendableChooser<Command> autoChooser;
+    private final SendableChooser<Command> autoChooser;
+
 
 
     public RobotContainer() {
-        autoChooser = AutoBuilder.buildAutoChooser();
+        autoChooser = AutoBuilder.buildAutoChooser("First");
         SmartDashboard.putData("Auto Chooser", autoChooser);
         NamedCommands.registerCommand("ScorePreload", Commands.none());
 
