@@ -299,6 +299,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
     private void configureAutoBuilder() {
         try {
+            System.out.println("buildling");
             var config = RobotConfig.fromGUISettings();
             AutoBuilder.configure(
                 () -> getState().Pose,   // Supplier of current robot pose
@@ -306,15 +307,16 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 () -> getState().Speeds, // Supplier of current robot speeds
                 // Consumer of ChassisSpeeds and feedforwards to drive the robot
                 (speeds, feedforwards) -> setControl(
+                
                     m_pathApplyRobotSpeeds.withSpeeds(speeds)
                         .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesXNewtons())
                         .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesYNewtons())
                 ),
                 new PPHolonomicDriveController(
                     // PID constants for translation
-                    new PIDConstants(10, 0, 0),
+                    new PIDConstants(4, 0, 0),
                     // PID constants for rotation
-                    new PIDConstants(7, 0, 0)
+                    new PIDConstants(4, 0, 0)
                 ),
                 config,
                 // Assume the path needs to be flipped for Red vs Blue, this is normally the case
