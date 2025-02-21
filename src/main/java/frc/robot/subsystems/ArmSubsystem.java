@@ -30,12 +30,15 @@ public class ArmSubsystem extends SubsystemBase {
         slot0Configs.kI = ArmConstant.kArmI; // no output for integrated error
         slot0Configs.kD = ArmConstant.kArmD; // A velocity error of 1 rps results in 0.1 V output
         m_armKraken.getConfigurator().apply(slot0Configs);
+        
 
         // current limit
         var currentLimitConfigs = new CurrentLimitsConfigs();
         currentLimitConfigs.StatorCurrentLimit = ArmConstant.kArmCurrentLimit;
         currentLimitConfigs.StatorCurrentLimitEnable = true;
         m_armKraken.getConfigurator().apply(currentLimitConfigs);
+
+
 
         m_pidPosition = new PositionDutyCycle(0);
         m_armKraken.setNeutralMode(NeutralModeValue.Brake);
@@ -62,11 +65,15 @@ public class ArmSubsystem extends SubsystemBase {
     
 
      public void setArmAngle(double targetAngle) {
+        double optimized = targetAngle;
+        optimized = Math.min(targetAngle, ArmConstant.kMaxAngle);
+        optimized = Math.max(targetAngle, ArmConstant.kMinAngle);
 
+        setpoint = optimized;
         double Rotations = (targetAngle/360) * ArmConstant.ArmGearRatio;
 
-        setpoint = Math.min(Rotations, ArmConstant.kMaxAngle);
-        if(setpoint !=  Rotations){
+
+        if(optimized !=  targetAngle){
             System.out.println("Warning: Requested arm angle is out of bounds. Setting to " + setpoint + " rotations");
         }
 

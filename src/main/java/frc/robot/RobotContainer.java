@@ -180,12 +180,12 @@ public class RobotContainer {
                 if(sadMode){
                         new ArmSetPositionCommand(arm, ArmConstant.SAD_CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
                                 .alongWith(Commands.print("Arm Source, Angles: " + ArmConstant.SAD_CORAL_STATION_ANGLE_VERTICAL.in(Degrees))).schedule();
-                        arm.setState(-5);
+                        arm.setState(5);
                 }
                 else{
                         new ArmSetPositionCommand(arm, ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
                                 .alongWith(Commands.print("Arm Source, Angles: " + ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))).schedule();
-                        arm.setState(5);
+                        arm.setState(-5);
                 }
         }));
         //L1
@@ -298,48 +298,46 @@ public class RobotContainer {
         auxPovUP.onTrue(new RunCommand(() -> {climb.expand();}, climb)).onFalse(new RunCommand(() -> {climb.stop();}, climb));
         auxPovDOWN.onTrue(new RunCommand(() -> {climb.retract();}, climb)).onFalse(new RunCommand(() -> {climb.stop();}, climb));
 
-        //Intake Bindings
-        //driver scoring, only control the intake and out take spinning
-        driveRightTrigger.onTrue(new RunCommand(() -> {
-                // Use the helper method
-                handleIntakeByArmState(arm.getStateE(), 0.6);
-            }, intake))
-            .onFalse(new RunCommand(() -> {
-                intake.stop();
-            }, intake));
-
+        auxPovLEFT.onTrue(new RunCommand(() -> {intake.feedEast();}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
+        auxPovRIGHT.onTrue(new RunCommand(() -> {intake.feedWest();}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
 
 
         //aux control the intake from the source
         //this is for getting the game pieces from the source
-        auxRightTrigger.onTrue(new RunCommand(() ->{//source arm
+        auxRightTrigger.onTrue(new RunCommand(() ->{//source intake
 
-                switch (arm.getStateE()) {
-                        case SOURCE:
-                                new SequentialCommandGroup(
-                                        new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), false),
-                                        new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations())).schedule();
-                            break;
-                        case SAD_SOURCE:
-                            new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), true).schedule();
-                            new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations()).schedule();
-                            break;
-                        default:
-                            intake.stop();
-                            break;
-                    }
-                // if(arm.getState() == 5){
-                //         new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), false); //sad is false
-                //         new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations());
-                // }
-                // else if(arm.getState() == -5){
-                //         new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), true); //sad is true
-                //         new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations());
+                // switch (arm.getStateE()) {
+                //         case SOURCE:
+                //                 new SequentialCommandGroup(
+                //                         new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), false),
+                //                         new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations())).schedule();
+                //             break;
+                //         case SAD_SOURCE:
+                //             new IntakeWithDetectionCommand(intake, intake.getCANrangeE(), true).schedule();
+                //             new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations()).schedule();
+                //             break;
+                //         default:
+                //             intake.stop();
+                //             break;
+                //     }
+                if(arm.getState() == 5){
+                        System.out.println("arm source state 5, sad is false");
+                        new SequentialCommandGroup(
+                        new IntakeWithDetectionCommand(intake, intake.getCANrangeELeft(),intake.getCANrangeERight(), false), //sad is false
+                        new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations())
+                        ).schedule();
+                }
+                else if(arm.getState() == -5){
+                        System.out.println("arm source state -5, sad is true");
+                        new SequentialCommandGroup(
+                        new IntakeWithDetectionCommand(intake, intake.getCANrangeELeft(),intake.getCANrangeERight(), true), //sad is true
+                        new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations())
+                        ).schedule();
 
-                // }
-                // else{
-                //         intake.stop();
-                // }
+                }
+                else{
+                        intake.stop();
+                }
         }, intake))
         .onFalse(new RunCommand(() -> {
                 intake.stop();
@@ -349,29 +347,38 @@ public class RobotContainer {
 
             //delete if enum works
         // //driver scoring, only control the 
-        // driveRightTrigger.onTrue(new RunCommand(() ->{ //only scoring
-        //         if(arm.getState() == 1 ||
-        //            arm.getState() == 2 ||
-        //            arm.getState() == -3 ||
-        //            arm.getState() == -4){
-        //                 intake.feedEast();
-        //         }
-        //         else if(arm.getState() == -1 ||
-        //                 arm.getState() == -2 ||
-        //                 arm.getState() == 3 ||
-        //                 arm.getState() == 4){
-        //                 intake.feedWest();
-        //         }
-        //         else{
-        //                 intake.stop();
-        //         }
-        // }, intake))
-        // .onFalse(new RunCommand(() ->{
+        driveRightTrigger.onTrue(new RunCommand(() ->{ //only scoring
+                if(arm.getState() == 1 ||
+                   arm.getState() == 2 ||
+                   arm.getState() == -3 ||
+                   arm.getState() == -4){
+                        intake.feedEast();
+                }
+                else if(arm.getState() == -1 ||
+                        arm.getState() == -2 ||
+                        arm.getState() == 3 ||
+                        arm.getState() == 4){
+                        intake.feedWest();
+                }
+                else{
+                        intake.stop();
+                }
+        }, intake))
+        .onFalse(new RunCommand(() ->{
+                intake.stop();
+        }, intake));
+        //Intake Bindings
+        //driver scoring, only control the intake and out take spinning
+        // driveRightTrigger.onTrue(new RunCommand(() -> {
+        //         // Use the helper method
+        //         handleIntakeByArmState(arm.getStateE(), 0.6);
+        //     }, intake))
+        //     .onFalse(new RunCommand(() -> {
         //         intake.stop();
-        // }, intake));
+        //     }, intake));
 
-        //driveRightBumper.onTrue(new RunCommand(() -> {intake.feedWest();}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
-        //driveRightTrigger.onTrue(new RunCommand(() -> {intake.feedEast();}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
+
+
 
     }
 
