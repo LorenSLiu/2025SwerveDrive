@@ -15,15 +15,19 @@ import com.ctre.phoenix6.hardware.CANrange;
 
 public class IntakeSubsystem extends SubsystemBase {
     private TalonFX m_IntakeKraken;
-    private CANrange CANrangeE;
+    private CANrange CANrangeELeft;
+    private CANrange CANrangeERight;
+
     private PositionDutyCycle m_pidPosition;
     private double setpoint = 0; // Stores the last commanded position
 
     public IntakeSubsystem() {
         m_IntakeKraken = new TalonFX(IntakeConstant.kIntakeMotorID, IntakeConstant.kIntakeCANbus);
-        CANrangeE = new CANrange(IntakeConstant.kCANrange1ID, IntakeConstant.kIntakeCANbus);
+        CANrangeELeft = new CANrange(IntakeConstant.kCANrange1ID, IntakeConstant.kIntakeCANbus);
+        CANrangeERight = new CANrange(IntakeConstant.kCANrange2ID, IntakeConstant.kIntakeCANbus);
         CANrangeConfiguration configs = new CANrangeConfiguration();
-        CANrangeE.getConfigurator().apply(configs);
+        CANrangeELeft.getConfigurator().apply(configs);
+        CANrangeERight.getConfigurator().apply(configs);
 
         var talonFXConfigs = new TalonFXConfiguration();
 
@@ -54,9 +58,14 @@ public class IntakeSubsystem extends SubsystemBase {
         m_IntakeKraken.setPosition(0);
     }
 
-    public CANrange getCANrangeE() {
-        return CANrangeE;
+    public CANrange getCANrangeELeft() {
+        return CANrangeELeft;
     }
+
+    public CANrange getCANrangeERight() {
+        return CANrangeERight;
+    }
+
 
     public double getCurrentPosition_Rotations() {
         return m_IntakeKraken.getPosition().getValueAsDouble();
