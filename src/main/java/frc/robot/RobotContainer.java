@@ -306,6 +306,7 @@ public class RobotContainer {
         //this is for getting the game pieces from the source
         auxRightTrigger.onTrue(new RunCommand(() ->{//source intake
 
+
                 // switch (arm.getStateE()) {
                 //         case SOURCE:
                 //                 new SequentialCommandGroup(
@@ -334,6 +335,7 @@ public class RobotContainer {
                         new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations())
                         ).schedule();
 
+
                 }
                 else{
                         intake.stop();
@@ -346,18 +348,20 @@ public class RobotContainer {
         
 
             //delete if enum works
-        // //driver scoring, only control the 
+        // //driver scoring, only control the
         driveRightTrigger.onTrue(new RunCommand(() ->{ //only scoring
                 if(arm.getState() == 1 ||
                    arm.getState() == 2 ||
                    arm.getState() == -3 ||
                    arm.getState() == -4){
                         intake.feedEast();
+                     
                 }
                 else if(arm.getState() == -1 ||
                         arm.getState() == -2 ||
                         arm.getState() == 3 ||
                         arm.getState() == 4){
+
                         intake.feedWest();
                 }
                 else{
@@ -367,6 +371,7 @@ public class RobotContainer {
         .onFalse(new RunCommand(() ->{
                 intake.stop();
         }, intake));
+
         //Intake Bindings
         //driver scoring, only control the intake and out take spinning
         // driveRightTrigger.onTrue(new RunCommand(() -> {
