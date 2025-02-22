@@ -32,10 +32,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.io.IOException;
+
+import org.json.simple.parser.ParseException;
+
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.FileVersionException;
 
 public class RobotContainer {
     // swerve drive stuff
@@ -393,6 +399,22 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         return autoChooser.getSelected();
+        // try {
+        //         PathPlannerPath path = PathPlannerPath.fromPathFile("blueUpPreloadPath");
+        //         return AutoBuilder.followPath(path);
+        // } catch (FileVersionException e) {
+        //         // TODO Auto-generated catch block
+        //         e.printStackTrace();
+        // } catch (IOException e) {
+        //         // TODO Auto-generated catch block
+        //         e.printStackTrace();
+        // } catch (ParseException e) {
+        //         // TODO Auto-generated catch block
+        //         e.printStackTrace();
+        // }
+        // return Commands.none();
+
+
     }
 
     private void handleIntakeByArmState(ArmState state, double speed) {
