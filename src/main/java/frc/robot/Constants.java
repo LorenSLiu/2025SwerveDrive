@@ -84,7 +84,7 @@ public final class Constants {
 
     //random stuff
     public static final double test = 0.0;
-    public static final double kArmP = 0.03;
+    public static final double kArmP = 0.02;
     public static final double kArmI = 0;
     public static final double kArmD = 0;
 

@@ -15,9 +15,9 @@ public class IntakeWithDetectionCommand extends Command {
 
     private boolean isSad;
 
-    public IntakeWithDetectionCommand(IntakeSubsystem intake, CANrange CANrangeELeft, CANrange CANrangeERight, boolean isSad){
+    public IntakeWithDetectionCommand(IntakeSubsystem intake, CANrange CANrangeLeft, CANrange CANrangeERight, boolean isSad){
         this.intake = intake;
-        this.CANrangeELeft = CANrangeELeft;
+        this.CANrangeELeft = CANrangeLeft;
         this.CANrangeERight = CANrangeERight;
         this.isSad = isSad;
         addRequirements(intake);
@@ -47,8 +47,15 @@ public class IntakeWithDetectionCommand extends Command {
         double distance = isSad 
         ? CANrangeERight.getDistance().getValue().in(Centimeters) 
         : CANrangeELeft.getDistance().getValue().in(Centimeters);
-        return distance <= 4;
 
+        if(distance <= 18){
+            intake.stop();
+            intake.holdPositionStore(intake.getCurrentPosition_Rotations());
+            return true;
+        }
+        else{
+            return false;
+        }
 
 
 

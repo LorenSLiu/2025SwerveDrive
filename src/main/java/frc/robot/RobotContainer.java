@@ -304,7 +304,7 @@ public class RobotContainer {
 
         //aux control the intake from the source
         //this is for getting the game pieces from the source
-        auxRightTrigger.onTrue(new RunCommand(() ->{//source intake
+        driveLeftTrigger.onTrue(new RunCommand(() ->{//source intake
 
 
                 // switch (arm.getStateE()) {
@@ -324,30 +324,29 @@ public class RobotContainer {
                 if(arm.getState() == 5){
                         System.out.println("arm source state 5, sad is false");
                         new SequentialCommandGroup(
-                        new IntakeWithDetectionCommand(intake, intake.getCANrangeELeft(),intake.getCANrangeERight(), false), //sad is false
-                        new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations())
+                        new IntakeWithDetectionCommand(intake, intake.getCANrangeELeft(),intake.getCANrangeERight(), true), //sad is false
+                        new IntakeHoldPositionCommand(intake)
                         ).schedule();
                 }
                 else if(arm.getState() == -5){
                         System.out.println("arm source state -5, sad is true");
                         new SequentialCommandGroup(
-                        new IntakeWithDetectionCommand(intake, intake.getCANrangeELeft(),intake.getCANrangeERight(), true), //sad is true
-                        new IntakeHoldPositionCommand(intake, intake.getCurrentPosition_Rotations())
+                        new IntakeWithDetectionCommand(intake, intake.getCANrangeELeft(),intake.getCANrangeERight(), false), //sad is true
+                        new IntakeHoldPositionCommand(intake)
                         ).schedule();
 
 
                 }
                 else{
+                        System.out.println("nothing for now");
                         intake.stop();
                 }
         }, intake))
         .onFalse(new RunCommand(() -> {
                 intake.stop();
         }, intake));
-        
-        
 
-            //delete if enum works
+
         // //driver scoring, only control the
         driveRightTrigger.onTrue(new RunCommand(() ->{ //only scoring
                 if(arm.getState() == 1 ||
@@ -372,6 +371,11 @@ public class RobotContainer {
                 intake.stop();
         }, intake));
 
+        
+        
+
+            //delete if enum works
+        
         //Intake Bindings
         //driver scoring, only control the intake and out take spinning
         // driveRightTrigger.onTrue(new RunCommand(() -> {

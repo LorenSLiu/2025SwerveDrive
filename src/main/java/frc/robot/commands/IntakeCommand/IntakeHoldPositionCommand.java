@@ -11,13 +11,11 @@ import com.ctre.phoenix6.hardware.CANrange;
 
 public class IntakeHoldPositionCommand extends Command {
     private final IntakeSubsystem intake;
-    private final double position;
 
-    public IntakeHoldPositionCommand(IntakeSubsystem intake, double position){
+    public IntakeHoldPositionCommand(IntakeSubsystem intake){
         this.intake = intake;
-        this.position = position;
         addRequirements(intake);
-        System.out.println("Intake H O L D  P O S I T I O N");
+        System.out.println("Intake HOLD initialized");
     }
 
     @Override
@@ -27,7 +25,8 @@ public class IntakeHoldPositionCommand extends Command {
 
     @Override
     public void execute(){
-       intake.holdPosition(position);
+        System.out.println("HOLDING HOLDING WOWW");
+       intake.holdPositionWrite(intake.READPositionPoint());
     }
 
     @Override
