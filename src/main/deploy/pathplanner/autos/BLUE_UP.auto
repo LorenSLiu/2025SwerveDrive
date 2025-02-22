@@ -1,0 +1,124 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BPreloadUP_BPUP"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Elevator_L4_Happy"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Arm_L4_Happy"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake_Scoring"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.5
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BReefToSource_BRUP"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Elevator_Source"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Arm_Source_Happy"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake_Source"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BSourceToReef_BSUP"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Elevator_L4_Happy"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Arm_L4_Happy"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake_Scoring"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.5
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "BLUEAUTO",
+  "choreoAuto": false
+}
