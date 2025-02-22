@@ -65,17 +65,16 @@ public class ArmSubsystem extends SubsystemBase {
     
 
      public void setArmAngle(double targetAngle) {
-        double optimized = targetAngle;
-        optimized = Math.min(targetAngle, ArmConstant.kMaxAngle);
-        optimized = Math.max(targetAngle, ArmConstant.kMinAngle);
 
-        setpoint = optimized;
         double Rotations = (targetAngle/360) * ArmConstant.ArmGearRatio;
 
+        setpoint = Math.min(Rotations, ArmConstant.kMaxAngle);
 
-        if(optimized !=  targetAngle){
+
+        if(setpoint !=  Rotations){
             System.out.println("Warning: Requested arm angle is out of bounds. Setting to " + setpoint + " rotations");
         }
+
 
         System.out.println("Setting elevator position to final " + Rotations + " rotations");
 
