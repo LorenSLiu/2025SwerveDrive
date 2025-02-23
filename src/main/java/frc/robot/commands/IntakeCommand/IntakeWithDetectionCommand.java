@@ -49,6 +49,11 @@ public class IntakeWithDetectionCommand extends Command {
         : CANrangeLeft.getDistance().getValue().in(Centimeters);
 
         if(distance <= 18){
+            try {
+                TimeUnit.MILLISECONDS.sleep(20);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             intake.stop();
             intake.holdPositionStore(intake.getCurrentPosition_Rotations());
             return true;

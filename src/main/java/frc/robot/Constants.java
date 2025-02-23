@@ -69,8 +69,8 @@ public final class Constants {
 
     public static final Angle ARM_BASE_ANGLE_VERTICAL       = Degrees.of(0);
 
-    public static final Angle CORAL_STATION_ANGLE_VERTICAL  = Degrees.of(-36);
-    public static final Angle STAGE_1_ANGLE_VERTICAL        = Degrees.of(23); 
+    public static final Angle CORAL_STATION_ANGLE_VERTICAL  = Degrees.of(-49);
+    public static final Angle STAGE_1_ANGLE_VERTICAL        = Degrees.of(28); 
     public static final Angle STAGE_2_ANGLE_VERTICAL        = Degrees.of(26);
     public static final Angle STAGE_3_ANGLE_VERTICAL        = Degrees.of(-220);
     public static final Angle STAGE_4_ANGLE_VERTICAL        = Degrees.of(-224);
@@ -80,11 +80,11 @@ public final class Constants {
     public static final Angle SAD_STAGE_1_ANGLE_VERTICAL        = Degrees.of(STAGE_1_ANGLE_VERTICAL.in(Degrees) * -1); 
     public static final Angle SAD_STAGE_2_ANGLE_VERTICAL        = Degrees.of(STAGE_2_ANGLE_VERTICAL.in(Degrees) * -1);
     public static final Angle SAD_STAGE_3_ANGLE_VERTICAL        = Degrees.of(STAGE_3_ANGLE_VERTICAL.in(Degrees) * -1);
-    public static final Angle SAD_STAGE_4_ANGLE_VERTICAL        = Degrees.of(STAGE_4_ANGLE_VERTICAL.in(Degrees) * -1);
+    public static final Angle SAD_STAGE_4_ANGLE_VERTICAL        = Degrees.of(STAGE_4_ANGLE_VERTICAL.in(Degrees) -1);
 
     //random stuff
     public static final double test = 0.0;
-    public static final double kArmP = 0.02;
+    public static final double kArmP = 0.025;
     public static final double kArmI = 0;
     public static final double kArmD = 0;
 
@@ -158,7 +158,7 @@ public final class Constants {
     public static final Distance ELEVATOR_SOURCE_DELTA = Inches.of(14);//check
     public static final Distance ELEVATOR_BASE_DELTA = Inches.of(0);
     public static final Distance STAGE_1_HEIGHT_DELTA  = Inches.of(0); 
-    public static final Distance STAGE_2_HEIGHT_DELTA  = Inches.of(11); 
+    public static final Distance STAGE_2_HEIGHT_DELTA  = Inches.of(10); 
     public static final Distance STAGE_3_HEIGHT_DELTA  = Inches.of(0);
     public static final Distance STAGE_4_HEIGHT_DELTA  = Inches.of(27);
 
