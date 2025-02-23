@@ -1,4 +1,4 @@
-package frc.robot.commands.IntakeCommand;
+package frc.robot.commands.AutoCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -8,17 +8,17 @@ import java.util.concurrent.TimeUnit;
 
 import com.ctre.phoenix6.hardware.CANrange;
 
-public class IntakeWithDetectionCommand extends Command {
+public class AutonIntakeWithDetectionCommand extends Command {
     private final IntakeSubsystem intake;
-    private final CANrange CANrangeLeft;
-    private final CANrange CANrangeRight;
+    private final CANrange CANrangeELeft;
+    private final CANrange CANrangeERight;
 
     private boolean isSad;
 
-    public IntakeWithDetectionCommand(IntakeSubsystem intake, CANrange CANrangeLeft, CANrange CANrangeERight, boolean isSad){
+    public AutonIntakeWithDetectionCommand(IntakeSubsystem intake, CANrange CANrangeLeft, CANrange CANrangeERight, boolean isSad){
         this.intake = intake;
-        this.CANrangeLeft = CANrangeLeft;
-        this.CANrangeRight = CANrangeERight;
+        this.CANrangeELeft = CANrangeLeft;
+        this.CANrangeERight = CANrangeERight;
         this.isSad = isSad;
         addRequirements(intake);
         System.out.println("Intake With Detection Command Initialized");
@@ -45,8 +45,8 @@ public class IntakeWithDetectionCommand extends Command {
     @Override
     public boolean isFinished(){
         double distance = isSad 
-        ? CANrangeRight.getDistance().getValue().in(Centimeters) 
-        : CANrangeLeft.getDistance().getValue().in(Centimeters);
+        ? CANrangeERight.getDistance().getValue().in(Centimeters) 
+        : CANrangeELeft.getDistance().getValue().in(Centimeters);
 
         if(distance <= 18){
             intake.stop();

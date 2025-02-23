@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BPreloadUP_BPUP"
+                  "pathName": "BPreloadSIDE_BPSIDE"
                 }
               },
               {
@@ -75,7 +75,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 2.0
+            "waitTime": 3.0
           }
         },
         {

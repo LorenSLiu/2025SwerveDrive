@@ -1,4 +1,4 @@
-package frc.robot.commands.IntakeCommand;
+package frc.robot.commands.AutoCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -8,10 +8,10 @@ import static edu.wpi.first.units.Units.Inches;
 import java.util.concurrent.TimeUnit;
 
 
-public class IntakeHoldPositionCommand extends Command {
+public class AutonIntakeHoldPositionCommand extends Command {
     private final IntakeSubsystem intake;
 
-    public IntakeHoldPositionCommand(IntakeSubsystem intake){
+    public AutonIntakeHoldPositionCommand(IntakeSubsystem intake){
         this.intake = intake;
         addRequirements(intake);
         System.out.println("Intake HOLD initialized");

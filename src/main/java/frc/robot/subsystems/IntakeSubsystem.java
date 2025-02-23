@@ -66,11 +66,11 @@ public class IntakeSubsystem extends SubsystemBase {
         this.setpoint = setpoint;
     }
 
-    public CANrange getCANrangeELeft() {
+    public CANrange getCANrangeLeft() {
         return CANrangeELeft;
     }
 
-    public CANrange getCANrangeERight() {
+    public CANrange getCANrangeRight() {
         return CANrangeERight;
     }
 

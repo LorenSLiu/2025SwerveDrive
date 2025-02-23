@@ -3,6 +3,9 @@ package frc.robot;
 import frc.robot.Constants.ArmConstant;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArmCommand.ArmSetPositionCommand;
+import frc.robot.commands.AutoCommands.ElevatorAutonComomands;
+import frc.robot.commands.AutoCommands.ArmAutonCommands;
+import frc.robot.commands.AutoCommands.AutonIntakeWithDetectionCommand;
 import frc.robot.commands.ElevatorCommand.ElevatorSetPositionCommand;
 import frc.robot.commands.IntakeCommand.IntakeWithDetectionCommand;
 import frc.robot.commands.IntakeCommand.IntakeHoldPositionCommand;
@@ -100,7 +103,27 @@ public class RobotContainer {
     public RobotContainer() {
         autoChooser = AutoBuilder.buildAutoChooser("First");
         SmartDashboard.putData("Auto Chooser", autoChooser);
-        NamedCommands.registerCommand("ScorePreload", Commands.none());
+        NamedCommands.registerCommand("Elevator_Zero", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_BASE_DELTA));
+        NamedCommands.registerCommand("Elevator_Source_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA));
+        NamedCommands.registerCommand("Elevator_L1_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_DELTA));
+        NamedCommands.registerCommand("Elevator_L2_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT_DELTA));
+        NamedCommands.registerCommand("Elevator_L3_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_3_HEIGHT_DELTA));
+        NamedCommands.registerCommand("Elevator_L4_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA));
+
+
+        NamedCommands.registerCommand("Arm_L4_Happy", new ArmAutonCommands(arm, ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees)));
+        NamedCommands.registerCommand("Arm_L3_Happy", new ArmAutonCommands(arm, ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees)));
+        NamedCommands.registerCommand("Arm_L2_Happy", new ArmAutonCommands(arm, ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees)));
+        NamedCommands.registerCommand("Arm_L1_Happy", new ArmAutonCommands(arm, ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees)));
+
+        NamedCommands.registerCommand("Arm_Source_Happy", new ArmAutonCommands(arm, ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees)));
+
+
+        NamedCommands.registerCommand("Intake_Scoring", new InstantCommand(() -> intake.feedEast()));
+
+        NamedCommands.registerCommand("Intake_Source", 
+        new SequentialCommandGroup(new AutonIntakeWithDetectionCommand(intake, intake.getCANrangeLeft(),intake.getCANrangeRight(), true), 
+                                   new IntakeHoldPositionCommand(intake)));
 
 
 
@@ -330,14 +353,14 @@ public class RobotContainer {
                 if(arm.getState() == 5){
                         System.out.println("arm source state 5, sad is false");
                         new SequentialCommandGroup(
-                        new IntakeWithDetectionCommand(intake, intake.getCANrangeELeft(),intake.getCANrangeERight(), true), //sad is false
+                        new IntakeWithDetectionCommand(intake, intake.getCANrangeLeft(),intake.getCANrangeRight(), true), //sad is false
                         new IntakeHoldPositionCommand(intake)
                         ).schedule();
                 }
                 else if(arm.getState() == -5){
                         System.out.println("arm source state -5, sad is true");
                         new SequentialCommandGroup(
-                        new IntakeWithDetectionCommand(intake, intake.getCANrangeELeft(),intake.getCANrangeERight(), false), //sad is true
+                        new IntakeWithDetectionCommand(intake, intake.getCANrangeLeft(),intake.getCANrangeRight(), false), //sad is true
                         new IntakeHoldPositionCommand(intake)
                         ).schedule();
 
