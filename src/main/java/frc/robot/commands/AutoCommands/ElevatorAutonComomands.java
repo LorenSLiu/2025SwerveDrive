@@ -6,7 +6,6 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.Constants;
 
 
 public class ElevatorAutonComomands extends Command {
