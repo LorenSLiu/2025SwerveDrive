@@ -3,13 +3,9 @@ package frc.robot.commands.ElevatorCommand;
 import static edu.wpi.first.units.Units.Meters;
 
 import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.util.datalog.DataLog;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.SerialPort.StopBits;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.Constants.ElevatorConstants;
 
 
 public class ElevatorSetPositionCommand extends Command {

@@ -298,8 +298,8 @@ public class RobotContainer {
         auxPovUP.onTrue(new RunCommand(() -> {climb.expand();}, climb)).onFalse(new RunCommand(() -> {climb.stop();}, climb));
         auxPovDOWN.onTrue(new RunCommand(() -> {climb.retract();}, climb)).onFalse(new RunCommand(() -> {climb.stop();}, climb));
 
-        auxPovLEFT.onTrue(new RunCommand(() -> {intake.feedEast();}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
-        auxPovRIGHT.onTrue(new RunCommand(() -> {intake.feedWest();}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
+        auxPovLEFT.onTrue(new RunCommand(() -> {intake.feedEast(0.1);}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
+        auxPovRIGHT.onTrue(new RunCommand(() -> {intake.feedWest(0.1);}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
 
 
         //aux control the intake from the source
