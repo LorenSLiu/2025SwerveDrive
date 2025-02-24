@@ -108,7 +108,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("Elevator_L1_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_DELTA));
         NamedCommands.registerCommand("Elevator_L2_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT_DELTA));
         NamedCommands.registerCommand("Elevator_L3_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_3_HEIGHT_DELTA));
-        NamedCommands.registerCommand("Elevator_L4_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA));
+        NamedCommands.registerCommand("Elevator_L4_Happy", new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA));
 
 
         NamedCommands.registerCommand("Arm_L4_Happy", new ArmAutonCommands(arm, ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees)));
@@ -319,7 +319,7 @@ public class RobotContainer {
 
         arm.setDefaultCommand(new RunCommand(() -> {
             double leftYAxis = m_auxController.getLeftY();
-            arm.manualControl(leftYAxis);
+            arm.manualControl(leftYAxis*0.25);
         }, arm)
         .alongWith(Commands.print("Arm Manual Controlling: "+m_auxController.getLeftY())));
 
@@ -421,7 +421,8 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return autoChooser.getSelected();
+        return new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA);
+        //return autoChooser.getSelected();
         // try {
         //         PathPlannerPath path = PathPlannerPath.fromPathFile("blueUpPreloadPath");
         //         return AutoBuilder.followPath(path);

@@ -5,22 +5,15 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "D_blueDownPreloadPath"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Elevator_L4_Happy"
-                }
-              }
-            ]
+            "pathName": "D_blueDownPreloadPath"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Elevator_L4_Happy"
           }
         }
       ]
