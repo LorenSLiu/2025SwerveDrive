@@ -5,28 +5,15 @@
     "data": {
       "commands": [
         {
-          "type": "sequential",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "BPreloadSIDE_BPSIDE"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Elevator_L4_Happy"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Arm_L4_Happy"
-                }
-              }
-            ]
+            "pathName": "BPreloadSIDE_BPSIDE"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AE_L4_Happy"
           }
         },
         {
@@ -42,15 +29,15 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "BReefToSource_BRUP"
+          }
+        },
+        {
           "type": "sequential",
           "data": {
             "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "BReefToSource_BRUP"
-                }
-              },
               {
                 "type": "named",
                 "data": {

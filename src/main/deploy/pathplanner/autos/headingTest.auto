@@ -15,6 +15,12 @@
           "data": {
             "name": "Elevator_L4_Happy"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Arm_L4_Happy"
+          }
         }
       ]
     }

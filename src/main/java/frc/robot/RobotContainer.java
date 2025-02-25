@@ -45,8 +45,6 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.util.FileVersionException;
 
 public class RobotContainer {
     // swerve drive stuff
@@ -105,23 +103,31 @@ public class RobotContainer {
 
     public RobotContainer() {
 
-        NamedCommands.registerCommand("Elevator_L4_Happy", new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA).withTimeout(3));
+        NamedCommands.registerCommand("Elevator_L4_Happy", new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA).withTimeout(2));
 
 
 
-        NamedCommands.registerCommand("Elevator_Zero", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_BASE_DELTA));
-        NamedCommands.registerCommand("Elevator_Source_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA));
-        NamedCommands.registerCommand("Elevator_L1_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_DELTA));
-        NamedCommands.registerCommand("Elevator_L2_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT_DELTA));
-        NamedCommands.registerCommand("Elevator_L3_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_3_HEIGHT_DELTA));
+        NamedCommands.registerCommand("Elevator_Zero", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_BASE_DELTA).withTimeout(2));
+        NamedCommands.registerCommand("Elevator_Source_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA).withTimeout(2));
+        NamedCommands.registerCommand("Elevator_L1_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_DELTA).withTimeout(2));
+        NamedCommands.registerCommand("Elevator_L2_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT_DELTA).withTimeout(2));
+        NamedCommands.registerCommand("Elevator_L3_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_3_HEIGHT_DELTA).withTimeout(2));
+        NamedCommands.registerCommand("Elevator_L4_Happy", new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA).withTimeout(2));
+
+        NamedCommands.registerCommand("Arm_Zero", new ArmAutonCommands(arm, ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees)).withTimeout(2));
+        NamedCommands.registerCommand("Arm_Source_Happy", new ArmAutonCommands(arm, ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees)).withTimeout(2));
+        NamedCommands.registerCommand("Arm_L4_Happy", new ArmAutonCommands(arm, ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees)).withTimeout(2));
+        NamedCommands.registerCommand("Arm_L3_Happy", new ArmAutonCommands(arm, ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees)).withTimeout(2));
+        NamedCommands.registerCommand("Arm_L2_Happy", new ArmAutonCommands(arm, ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees)).withTimeout(2));
+        NamedCommands.registerCommand("Arm_L1_Happy", new ArmAutonCommands(arm, ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees)).withTimeout(2));
 
 
-        NamedCommands.registerCommand("Arm_L4_Happy", new ArmAutonCommands(arm, ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees)));
-        NamedCommands.registerCommand("Arm_L3_Happy", new ArmAutonCommands(arm, ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees)));
-        NamedCommands.registerCommand("Arm_L2_Happy", new ArmAutonCommands(arm, ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees)));
-        NamedCommands.registerCommand("Arm_L1_Happy", new ArmAutonCommands(arm, ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees)));
+        NamedCommands.registerCommand("AE_L1_Happy", new ParallelCommandGroup(new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_DELTA), new ArmAutonCommands(arm, ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees))).withTimeout(2));
+        NamedCommands.registerCommand("AE_L2_Happy", new ParallelCommandGroup(new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT_DELTA), new ArmAutonCommands(arm, ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees))).withTimeout(2));
+        NamedCommands.registerCommand("AE_L3_Happy", new ParallelCommandGroup(new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_3_HEIGHT_DELTA), new ArmAutonCommands(arm, ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees))).withTimeout(2));
+        NamedCommands.registerCommand("AE_L4_Happy", new ParallelCommandGroup(new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA), new ArmAutonCommands(arm, ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))).withTimeout(2));
 
-        NamedCommands.registerCommand("Arm_Source_Happy", new ArmAutonCommands(arm, ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees)));
+
 
 
         NamedCommands.registerCommand("Intake_Scoring", new InstantCommand(() -> intake.feedEast()));
@@ -284,6 +290,7 @@ public class RobotContainer {
                         new ArmSetPositionCommand(arm, ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))
                         .alongWith(Commands.print("Arm Level 4, Angles: " + ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))).schedule();
                         arm.setState(4);
+
                 }
         }));
 
