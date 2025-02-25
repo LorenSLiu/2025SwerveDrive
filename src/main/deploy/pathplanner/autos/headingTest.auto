@@ -7,7 +7,43 @@
         {
           "type": "path",
           "data": {
-            "pathName": "testHeadingPath"
+            "pathName": "D_blueDownPreloadPath"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AE_L4_Happy"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake_Scoring_West"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AE_Zero"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "D_blueSidePreReefToSource"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AE_Source_Happy"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake_Source"
           }
         }
       ]

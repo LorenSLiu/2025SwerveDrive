@@ -69,7 +69,7 @@ public final class Constants {
 
     public static final Angle ARM_BASE_ANGLE_VERTICAL       = Degrees.of(0);
 
-    public static final Angle CORAL_STATION_ANGLE_VERTICAL  = Degrees.of(-49);
+    public static final Angle CORAL_STATION_ANGLE_VERTICAL  = Degrees.of(-46);
     public static final Angle STAGE_1_ANGLE_VERTICAL        = Degrees.of(28); 
     public static final Angle STAGE_2_ANGLE_VERTICAL        = Degrees.of(26);
     public static final Angle STAGE_3_ANGLE_VERTICAL        = Degrees.of(-220);
@@ -80,7 +80,7 @@ public final class Constants {
     public static final Angle SAD_STAGE_1_ANGLE_VERTICAL        = Degrees.of(STAGE_1_ANGLE_VERTICAL.in(Degrees) * -1); 
     public static final Angle SAD_STAGE_2_ANGLE_VERTICAL        = Degrees.of(STAGE_2_ANGLE_VERTICAL.in(Degrees) * -1);
     public static final Angle SAD_STAGE_3_ANGLE_VERTICAL        = Degrees.of(STAGE_3_ANGLE_VERTICAL.in(Degrees) * -1);
-    public static final Angle SAD_STAGE_4_ANGLE_VERTICAL        = Degrees.of(STAGE_4_ANGLE_VERTICAL.in(Degrees) -1);
+    public static final Angle SAD_STAGE_4_ANGLE_VERTICAL        = Degrees.of(STAGE_4_ANGLE_VERTICAL.in(Degrees) * -1);
 
     //random stuff
     public static final double test = 0.0;
@@ -112,7 +112,7 @@ public final class Constants {
     public static final double kElevatorP = 0.05;
     public static final double kElevatorI = 0;
     public static final double kElevatorD = 0;
-    public static final double kElevatorG = 0;
+    public static final double kElevatorG = 0.;
     public static final double kElevatorS = 0.1;
 
 

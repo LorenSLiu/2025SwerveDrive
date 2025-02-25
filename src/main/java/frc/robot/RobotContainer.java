@@ -7,6 +7,7 @@ import frc.robot.commands.AutoCommands.ElevatorAutonComomands;
 import frc.robot.commands.AutoCommands.ArmAutonCommands;
 import frc.robot.commands.AutoCommands.AutonIntakeWithDetectionCommand;
 import frc.robot.commands.ElevatorCommand.ElevatorSetPositionCommand;
+import frc.robot.commands.ElevatorCommand.youPary;
 import frc.robot.commands.IntakeCommand.IntakeWithDetectionCommand;
 import frc.robot.commands.IntakeCommand.IntakeHoldPositionCommand;
 
@@ -30,6 +31,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.math.geometry.Rotation2d;
 
 import edu.wpi.first.units.Units;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -43,8 +45,6 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.util.FileVersionException;
 
 public class RobotContainer {
     // swerve drive stuff
@@ -66,6 +66,7 @@ public class RobotContainer {
     private final CommandXboxController m_driverController = new CommandXboxController(
             OIConstants.kDriverControllerPort);
     public static CommandXboxController m_auxController = new CommandXboxController(OIConstants.kAuxControllerPort);
+    public static XboxController m_Controller = new XboxController(OIConstants.kAuxControllerPort);
 
     private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
     private final ArmSubsystem arm = new ArmSubsystem();
@@ -101,33 +102,49 @@ public class RobotContainer {
 
 
     public RobotContainer() {
-        autoChooser = AutoBuilder.buildAutoChooser("First");
-        SmartDashboard.putData("Auto Chooser", autoChooser);
-        NamedCommands.registerCommand("Elevator_Zero", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_BASE_DELTA));
-        NamedCommands.registerCommand("Elevator_Source_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA));
-        NamedCommands.registerCommand("Elevator_L1_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_DELTA));
-        NamedCommands.registerCommand("Elevator_L2_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT_DELTA));
-        NamedCommands.registerCommand("Elevator_L3_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_3_HEIGHT_DELTA));
-        NamedCommands.registerCommand("Elevator_L4_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA));
+
+        NamedCommands.registerCommand("Elevator_L4_Happy", new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA).withTimeout(1));
+
+        NamedCommands.registerCommand("Elevator_Zero", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_BASE_DELTA).withTimeout(1));
+        NamedCommands.registerCommand("Elevator_Source_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA).withTimeout(1));
+        NamedCommands.registerCommand("Elevator_L1_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_DELTA).withTimeout(1));
+        NamedCommands.registerCommand("Elevator_L2_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT_DELTA).withTimeout(1));
+        NamedCommands.registerCommand("Elevator_L3_Happy", new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_3_HEIGHT_DELTA).withTimeout(1));
+        NamedCommands.registerCommand("Elevator_L4_Happy", new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA).withTimeout(1));
+
+        NamedCommands.registerCommand("Arm_Zero", new ArmAutonCommands(arm, ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees)).withTimeout(1));
+        NamedCommands.registerCommand("Arm_Source_Happy", new ArmAutonCommands(arm, ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees)).withTimeout(1));
+        NamedCommands.registerCommand("Arm_L4_Happy", new ArmAutonCommands(arm, ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees)).withTimeout(1));
+        NamedCommands.registerCommand("Arm_L3_Happy", new ArmAutonCommands(arm, ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees)).withTimeout(1));
+        NamedCommands.registerCommand("Arm_L2_Happy", new ArmAutonCommands(arm, ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees)).withTimeout(1));
+        NamedCommands.registerCommand("Arm_L1_Happy", new ArmAutonCommands(arm, ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees)).withTimeout(1));
 
 
-        NamedCommands.registerCommand("Arm_L4_Happy", new ArmAutonCommands(arm, ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees)));
-        NamedCommands.registerCommand("Arm_L3_Happy", new ArmAutonCommands(arm, ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees)));
-        NamedCommands.registerCommand("Arm_L2_Happy", new ArmAutonCommands(arm, ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees)));
-        NamedCommands.registerCommand("Arm_L1_Happy", new ArmAutonCommands(arm, ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees)));
+        NamedCommands.registerCommand("AE_L1_Happy", new ParallelCommandGroup(new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_DELTA), new ArmAutonCommands(arm, ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees))).withTimeout(2));
+        NamedCommands.registerCommand("AE_L2_Happy", new ParallelCommandGroup(new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT_DELTA), new ArmAutonCommands(arm, ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees))).withTimeout(2));
+        NamedCommands.registerCommand("AE_L3_Happy", new ParallelCommandGroup(new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_3_HEIGHT_DELTA), new ArmAutonCommands(arm, ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees))).withTimeout(2));
+        NamedCommands.registerCommand("AE_L4_Happy", new ParallelCommandGroup(new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA), new ArmAutonCommands(arm, ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))).andThen(new InstantCommand(() -> intake.feedWest()).withTimeout(3)).withTimeout(2));
+        NamedCommands.registerCommand("AE_Source_Happy", new ParallelCommandGroup( new ArmAutonCommands(arm, ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees)), new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA)).withTimeout(2));
 
-        NamedCommands.registerCommand("Arm_Source_Happy", new ArmAutonCommands(arm, ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees)));
+        NamedCommands.registerCommand("AE_Zero", new ParallelCommandGroup( new ArmAutonCommands(arm, ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees)),new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_BASE_DELTA)).withTimeout(2));
 
 
-        NamedCommands.registerCommand("Intake_Scoring", new InstantCommand(() -> intake.feedEast()));
+
+
+
+        NamedCommands.registerCommand("Intake_Scoring_West", new InstantCommand(() -> intake.feedWest()).withTimeout(300));
 
         NamedCommands.registerCommand("Intake_Source", 
         new SequentialCommandGroup(new AutonIntakeWithDetectionCommand(intake, intake.getCANrangeLeft(),intake.getCANrangeRight(), true), 
                                    new IntakeHoldPositionCommand(intake)));
+        autoChooser = AutoBuilder.buildAutoChooser("headingTest");
+        SmartDashboard.putData("Auto Chooser", autoChooser);
 
 
 
 
+
+      
         configureBindings();
     }
 
@@ -208,7 +225,7 @@ public class RobotContainer {
                         .alongWith(Commands.print("Elevator Source, Height: " + Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA.in(Units.Meters))).schedule();
                 if(sadMode){
                         new ArmSetPositionCommand(arm, ArmConstant.SAD_CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
-                                .alongWith(Commands.print("Arm Source, Angles: " + ArmConstant.SAD_CORAL_STATION_ANGLE_VERTICAL.in(Degrees))).schedule();
+                                .alongWith(Commands.print("Arm Sad Source, Angles: " + ArmConstant.SAD_CORAL_STATION_ANGLE_VERTICAL.in(Degrees))).schedule();
                         arm.setState(5);
                 }
                 else{
@@ -223,7 +240,7 @@ public class RobotContainer {
                         .alongWith(Commands.print("Elevator Level 1, Height: " + Constants.ElevatorConstants.STAGE_1_HEIGHT.in(Units.Meters))).schedule();
                 if(sadMode){
                         new ArmSetPositionCommand(arm, ArmConstant.SAD_STAGE_1_ANGLE_VERTICAL.in(Degrees))
-                                .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.SAD_STAGE_1_ANGLE_VERTICAL.in(Degrees))).schedule();
+                                .alongWith(Commands.print("Arm Sad Level 1, Angles: " + ArmConstant.SAD_STAGE_1_ANGLE_VERTICAL.in(Degrees))).schedule();
                         arm.setState(-1);
                 }
                 else{
@@ -238,12 +255,12 @@ public class RobotContainer {
                         .alongWith(Commands.print("Elevator Level 2, Height: " + Constants.ElevatorConstants.STAGE_2_HEIGHT.in(Units.Meters))).schedule();
                 if(sadMode){
                         new ArmSetPositionCommand(arm, ArmConstant.SAD_STAGE_2_ANGLE_VERTICAL.in(Degrees))
-                                .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.SAD_STAGE_2_ANGLE_VERTICAL.in(Degrees))).schedule();
+                                .alongWith(Commands.print("Arm Sad Level 2, Angles: " + ArmConstant.SAD_STAGE_2_ANGLE_VERTICAL.in(Degrees))).schedule();
                         arm.setState(-2);
                 }
                 else{
                         new ArmSetPositionCommand(arm, ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees))
-                                .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees))).schedule();
+                                .alongWith(Commands.print("Arm Level 2, Angles: " + ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees))).schedule();
                         arm.setState(2);
                 }
         }));
@@ -253,12 +270,12 @@ public class RobotContainer {
                         .alongWith(Commands.print("Elevator Level 3, Height: " + Constants.ElevatorConstants.STAGE_3_HEIGHT.in(Units.Meters))).schedule();
                 if(sadMode){
                         new ArmSetPositionCommand(arm, ArmConstant.SAD_STAGE_3_ANGLE_VERTICAL.in(Degrees))
-                        .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.SAD_STAGE_3_ANGLE_VERTICAL.in(Degrees))).schedule();
+                        .alongWith(Commands.print("Arm Sad Level 3, Angles: " + ArmConstant.SAD_STAGE_3_ANGLE_VERTICAL.in(Degrees))).schedule();
                         arm.setState(-3);
                 }
                 else{
                         new ArmSetPositionCommand(arm, ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees))
-                        .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees))).schedule();
+                        .alongWith(Commands.print("Arm Level 3, Angles: " + ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees))).schedule();
                         arm.setState(3);
                 }
         }));
@@ -268,13 +285,14 @@ public class RobotContainer {
                         .alongWith(Commands.print("Elevator Level 4, Height: " + Constants.ElevatorConstants.STAGE_4_HEIGHT.in(Units.Meters))).schedule();
                 if(sadMode){
                         new ArmSetPositionCommand(arm, ArmConstant.SAD_STAGE_4_ANGLE_VERTICAL.in(Degrees))
-                        .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.SAD_STAGE_4_ANGLE_VERTICAL.in(Degrees))).schedule();
+                        .alongWith(Commands.print("Arm Sad Level 4, Angles: " + ArmConstant.SAD_STAGE_4_ANGLE_VERTICAL.in(Degrees))).schedule();
                         arm.setState(-4);
                 }
                 else{
                         new ArmSetPositionCommand(arm, ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))
-                        .alongWith(Commands.print("Arm Level 1, Angles: " + ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))).schedule();
+                        .alongWith(Commands.print("Arm Level 4, Angles: " + ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))).schedule();
                         arm.setState(4);
+
                 }
         }));
 
@@ -311,15 +329,17 @@ public class RobotContainer {
 
 
         //default elevator and arm manual control
+        m_auxController.start().whileTrue(new youPary(elevatorSubsystem));
         elevatorSubsystem.setDefaultCommand(new RunCommand(() -> {
-            double rightXAxis = m_auxController.getRightX();
-            elevatorSubsystem.manualControl(rightXAxis);
+            double rightXAxis = m_auxController.getRightY();
+            elevatorSubsystem.manualControl(-rightXAxis*0.25+0.035);
         }, elevatorSubsystem)
         .alongWith(Commands.print("Elevator Manual Controlling: " + m_auxController.getRightX())));
 
+        m_auxController.back().whileTrue(new youPary(elevatorSubsystem));
         arm.setDefaultCommand(new RunCommand(() -> {
-            double leftYAxis = m_auxController.getLeftY();
-            arm.manualControl(leftYAxis);
+            double leftYAxis = m_auxController.getLeftX();
+            arm.manualControl(-leftYAxis*0.25);
         }, arm)
         .alongWith(Commands.print("Arm Manual Controlling: "+m_auxController.getLeftY())));
 
@@ -421,6 +441,7 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
+//        return new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA);
         return autoChooser.getSelected();
         // try {
         //         PathPlannerPath path = PathPlannerPath.fromPathFile("blueUpPreloadPath");
