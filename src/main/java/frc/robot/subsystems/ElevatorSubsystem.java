@@ -53,6 +53,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         slot0Configs.kP = ElevatorConstants.kElevatorP; 
         slot0Configs.kI = ElevatorConstants.kElevatorI; 
         slot0Configs.kD = ElevatorConstants.kElevatorD; 
+        slot0Configs.kG = ElevatorConstants.kElevatorG;
         m_elevatorKraken.getConfigurator().apply(slot0Configs);
 
         var cuurentLimitConfigs = new CurrentLimitsConfigs();
@@ -85,7 +86,11 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void manualControl(double speed) {
-            m_elevatorKraken.set(speed);        
+            m_elevatorKraken.set(speed); 
+    }
+
+    public void manualControlHold(){
+        m_elevatorKraken.setControl(m_pidPosition.withPosition(m_elevatorKraken.getPosition().getValueAsDouble()));
     }
 
 

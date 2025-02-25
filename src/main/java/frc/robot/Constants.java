@@ -112,7 +112,7 @@ public final class Constants {
     public static final double kElevatorP = 0.05;
     public static final double kElevatorI = 0;
     public static final double kElevatorD = 0;
-    public static final double kElevatorG = 0;
+    public static final double kElevatorG = 0.;
     public static final double kElevatorS = 0.1;
 
 
