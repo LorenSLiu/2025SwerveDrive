@@ -27,12 +27,6 @@
           "data": {
             "name": "Intake_Scoring"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BPreloadSIDE_BPSIDE"
-          }
         }
       ]
     }
