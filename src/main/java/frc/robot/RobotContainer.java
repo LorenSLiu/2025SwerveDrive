@@ -99,6 +99,42 @@ public class RobotContainer {
     private boolean sadMode = false;
     private final SendableChooser<Command> autoChooser;
 
+    Command AEI_Scoring_L4 = new SequentialCommandGroup(
+        new ParallelCommandGroup(
+                                 new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA), 
+                                 new ArmAutonCommands(arm,ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))
+                                ).withTimeout(3),
+        new InstantCommand(() -> intake.feedWest()).withTimeout(2)
+        );
+    Command AEI_Scoring_L3 = new SequentialCommandGroup(
+    new ParallelCommandGroup(
+     new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_3_HEIGHT_DELTA), 
+     new ArmAutonCommands(arm,ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees))
+    ).withTimeout(3),
+    new InstantCommand(() -> intake.feedWest()).withTimeout(2)
+            );
+    Command AEI_Scoring_L2 = new SequentialCommandGroup(
+    new ParallelCommandGroup(
+     new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT_DELTA), 
+     new ArmAutonCommands(arm,ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees))
+    ).withTimeout(3),
+    new InstantCommand(() -> intake.feedWest()).withTimeout(2)
+            );
+    Command AEI_Scoring_L1 = new SequentialCommandGroup(
+    new ParallelCommandGroup(
+     new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_DELTA), 
+     new ArmAutonCommands(arm,ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees))
+    ).withTimeout(3),
+    new InstantCommand(() -> intake.feedWest()).withTimeout(2)
+            );
+    Command AEI_Source = new SequentialCommandGroup(
+    new ParallelCommandGroup(
+     new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA), 
+     new ArmAutonCommands(arm,ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees))
+    ).withTimeout(3),
+    new InstantCommand(() -> intake.feedEast()).withTimeout(2)
+            );
+
 
 
     public RobotContainer() {
@@ -139,41 +175,9 @@ public class RobotContainer {
                                    new IntakeHoldPositionCommand(intake)));
 
 
-        Command AEI_Scoring_L4 = new SequentialCommandGroup(
-                                                new ParallelCommandGroup(
-                                                                         new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA), 
-                                                                         new ArmAutonCommands(arm,ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))
-                                                                        ).withTimeout(3),
-                                                new InstantCommand(() -> intake.feedWest()).withTimeout(2)
-                                                );
-        Command AEI_Scoring_L3 = new SequentialCommandGroup(
-                new ParallelCommandGroup(
-                                         new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_3_HEIGHT_DELTA), 
-                                         new ArmAutonCommands(arm,ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees))
-                                        ).withTimeout(3),
-                new InstantCommand(() -> intake.feedWest()).withTimeout(2)
-                                                );
-        Command AEI_Scoring_L2 = new SequentialCommandGroup(
-                new ParallelCommandGroup(
-                                         new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT_DELTA), 
-                                         new ArmAutonCommands(arm,ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees))
-                                        ).withTimeout(3),
-                new InstantCommand(() -> intake.feedWest()).withTimeout(2)
-                                                );
-        Command AEI_Scoring_L1 = new SequentialCommandGroup(
-                new ParallelCommandGroup(
-                                         new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_DELTA), 
-                                         new ArmAutonCommands(arm,ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees))
-                                        ).withTimeout(3),
-                new InstantCommand(() -> intake.feedWest()).withTimeout(2)
-                                                );
-        Command AEI_Source = new SequentialCommandGroup(
-                new ParallelCommandGroup(
-                                         new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA), 
-                                         new ArmAutonCommands(arm,ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees))
-                                        ).withTimeout(3),
-                new InstantCommand(() -> intake.feedEast()).withTimeout(2)
-                                                );
+
+
+        NamedCommands.registerCommand("AEI_Scoring_L4",AEI_Scoring_L4);
 
 
         
@@ -263,6 +267,7 @@ public class RobotContainer {
         auxRightBumper.onTrue(new InstantCommand(() -> {
                 new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA)
                         .alongWith(Commands.print("Elevator Source, Height: " + Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA.in(Units.Meters))).schedule();
+                        System.out.println("!!!!!!!!!!!!Source");
                 if(sadMode){
                         new ArmSetPositionCommand(arm, ArmConstant.SAD_CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
                                 .alongWith(Commands.print("Arm Sad Source, Angles: " + ArmConstant.SAD_CORAL_STATION_ANGLE_VERTICAL.in(Degrees))).schedule();
