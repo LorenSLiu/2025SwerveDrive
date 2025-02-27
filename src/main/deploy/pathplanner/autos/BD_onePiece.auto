@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RM_PreloadPath"
+            "pathName": "BD_PreloadPath"
           }
         },
         {
@@ -20,6 +20,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "REDAUTO",
+  "folder": "BLUEAUTO",
   "choreoAuto": false
 }

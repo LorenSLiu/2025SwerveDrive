@@ -106,6 +106,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "BLUEAUTO",
+  "folder": null,
   "choreoAuto": false
 }

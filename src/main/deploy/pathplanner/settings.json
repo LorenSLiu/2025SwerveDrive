@@ -4,6 +4,7 @@
   "holonomicMode": true,
   "pathFolders": [
     "Blue",
+    "B_BLUEPATH",
     "R_REDPATH"
   ],
   "autoFolders": [

@@ -7,19 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RM_PreloadPath"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AEI_Scoring_L4"
+            "pathName": "Taxi"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "REDAUTO",
+  "folder": null,
   "choreoAuto": false
 }

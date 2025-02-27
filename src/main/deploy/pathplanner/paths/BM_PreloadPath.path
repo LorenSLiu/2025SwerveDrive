@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.629358552631578,
-        "y": 3.755592105263158
+        "x": 6.994382715979236,
+        "y": 4.01328942188553
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.07,
-        "y": 3.02
+        "x": 5.55172697368421,
+        "y": 3.8421875
       },
       "prevControl": {
-        "x": 6.1957401315789475,
-        "y": 3.241299342105263
+        "x": 6.507347910723029,
+        "y": 3.9278791688547474
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,7 +31,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 1,
-      "rotationDegrees": 0.0
+      "rotationDegrees": -16.449517546961083
     }
   ],
   "constraintZones": [],
@@ -54,10 +54,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -60.25511870305781
+    "rotation": -1.3019526725789163
   },
   "reversed": false,
-  "folder": null,
+  "folder": "B_BLUEPATH",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0
