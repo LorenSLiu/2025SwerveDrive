@@ -15,6 +15,12 @@
           "data": {
             "name": "AEI_Scoring_L4"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AEI_Zero"
+          }
         }
       ]
     }

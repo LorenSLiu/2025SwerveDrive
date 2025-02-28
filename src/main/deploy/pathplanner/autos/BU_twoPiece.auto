@@ -7,31 +7,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BD_PreloadPath"
+            "pathName": "BU_PreloadPath"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Elevator_L4_Happy"
+            "name": "AEI_Scoring_L4"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Arm_L4_Happy"
+            "name": "AEI_Zero"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Intake_Scoring"
+            "pathName": "BU_Preload2SourcePath"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "BLUEAUTO",
   "choreoAuto": false
 }

@@ -103,37 +103,44 @@ public class RobotContainer {
              new ParallelCommandGroup(
                                       new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA), 
                                       new ArmAutonCommands(arm,ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))
-                                     ).withTimeout(3),
+                                     ).withTimeout(2),
              new InstantCommand(() -> intake.feedWest()).withTimeout(2)
              );
     Command AEI_Scoring_L3 = new SequentialCommandGroup(
             new ParallelCommandGroup(
                                      new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_3_HEIGHT_DELTA), 
                                      new ArmAutonCommands(arm,ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees))
-                                    ).withTimeout(3),
+                                    ).withTimeout(1.8),
             new InstantCommand(() -> intake.feedWest()).withTimeout(2)
                                             );
     Command AEI_Scoring_L2 = new SequentialCommandGroup(
             new ParallelCommandGroup(
                                      new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT_DELTA), 
                                      new ArmAutonCommands(arm,ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees))
-                                    ).withTimeout(3),
+                                    ).withTimeout(1.7),
             new InstantCommand(() -> intake.feedWest()).withTimeout(2)
                                             );
     Command AEI_Scoring_L1 = new SequentialCommandGroup(
             new ParallelCommandGroup(
                                      new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_DELTA), 
                                      new ArmAutonCommands(arm,ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees))
-                                    ).withTimeout(3),
+                                    ).withTimeout(1.6),
             new InstantCommand(() -> intake.feedWest()).withTimeout(2)
                                             );
     Command AEI_Source = new SequentialCommandGroup(
             new ParallelCommandGroup(
                                      new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA), 
-                                     new ArmAutonCommands(arm,ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees))
-                                    ).withTimeout(3),
+                                     new ArmAutonCommands(arm,ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
+                                    ).withTimeout(1.9),
             new InstantCommand(() -> intake.feedEast()).withTimeout(2)
                                             );
+        Command AEI_Zero = new SequentialCommandGroup(
+            new ParallelCommandGroup(
+                                     new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_BASE_DELTA), 
+                                     new ArmAutonCommands(arm,ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees))
+                                     ).withTimeout(1.6),
+            new InstantCommand(() -> intake.stop()).withTimeout(2)
+                                       );
 
 
 
@@ -180,6 +187,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("AEI_Scoring_L3", AEI_Scoring_L3);
         NamedCommands.registerCommand("AEI_Scoring_L4", AEI_Scoring_L4);
         NamedCommands.registerCommand("AEI_Source", AEI_Source);
+        NamedCommands.registerCommand("AEI_Zero", AEI_Zero);
         
 
         
