@@ -7,13 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RM_PreloadPath"
+            "pathName": "RU_PreloadPath"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "AEI_Scoring_L4_OCR_FIX"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RU_Preload2SourcePath"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RU_Source2ReefPath"
           }
         }
       ]

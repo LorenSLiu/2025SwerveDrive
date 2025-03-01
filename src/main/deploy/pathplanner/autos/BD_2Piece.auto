@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RM_PreloadPath"
+            "pathName": "BD_PreloadPath"
           }
         },
         {
@@ -15,11 +15,17 @@
           "data": {
             "name": "AEI_Scoring_L4_OCR_FIX"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BD_Preload2SourcePath"
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "REDAUTO",
+  "folder": "BLUEAUTO",
   "choreoAuto": false
 }
