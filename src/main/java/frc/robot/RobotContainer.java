@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -153,16 +154,21 @@ public class RobotContainer {
                         Commands.startEnd(()->intake.feedWest(),() -> intake.stop(),intake).withTimeout(2),
                         AEI_Zero
                 );
-        // Command SourceLoading = new SequentialCommandGroup(
-        //         new ParallelCommandGroup(
-        //                 new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA), 
-        //                 new ArmAutonCommands(arm,ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
-        //                 ).withTimeout(2),
-        //                 Commands.startEnd(()->{
-
-        //                 },() -> intake.stop(),intake).withTimeout(5),
-        //                 AEI_Zero
-        //         );
+        Command SourceLoading = new SequentialCommandGroup(
+                new ParallelCommandGroup(
+                        new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA), 
+                        new ArmAutonCommands(arm,ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
+                        ).withTimeout(2),
+                        new FunctionalCommand(
+                        ()->{
+                        intake.feedEast();
+                        },
+                        interrupted -> intake.stop,
+                        () -> intake.getCANrangeRight().getDistance().getValue().in(Centimeter) < 18   
+                        ,
+                        intake),
+                        AEI_Zero
+                );
 
 
 
