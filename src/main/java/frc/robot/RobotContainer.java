@@ -150,25 +150,25 @@ public class RobotContainer {
                 new ParallelCommandGroup(
                         new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA), 
                         new ArmAutonCommands(arm,ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))
-                        ).withTimeout(2),
+                        ).withTimeout(1.3),
                         Commands.startEnd(()->intake.feedWest(),() -> intake.stop(),intake).withTimeout(2),
                         AEI_Zero
                 );
-        Command SourceLoading = new SequentialCommandGroup(
-                new ParallelCommandGroup(
-                        new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA), 
-                        new ArmAutonCommands(arm,ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
-                        ).withTimeout(2),
-                        new FunctionalCommand(
-                        ()->{
-                        intake.feedEast();
-                        },
-                        interrupted -> intake.stop,
-                        () -> intake.getCANrangeRight().getDistance().getValue().in(Centimeter) < 18   
-                        ,
-                        intake),
-                        AEI_Zero
-                );
+        // Command SourceLoading = new SequentialCommandGroup(
+        //         new ParallelCommandGroup(
+        //                 new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA), 
+        //                 new ArmAutonCommands(arm,ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
+        //                 ).withTimeout(2),
+        //                 new FunctionalCommand(
+        //                 ()->{
+        //                 intake.feedEast();
+        //                 },
+        //                 interrupted -> intake.stop,
+        //                 () -> intake.getCANrangeRight().getDistance().getValue().in(Centimeter) < 18   
+        //                 ,
+        //                 intake),
+        //                 AEI_Zero
+        //         );
 
 
 
@@ -198,6 +198,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("AE_Source_Happy", new ParallelCommandGroup( new ArmAutonCommands(arm, ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees)), new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA)).withTimeout(2));
 
         NamedCommands.registerCommand("AE_Zero", new ParallelCommandGroup( new ArmAutonCommands(arm, ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees)),new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_BASE_DELTA)).withTimeout(2));
+
 
 
 
