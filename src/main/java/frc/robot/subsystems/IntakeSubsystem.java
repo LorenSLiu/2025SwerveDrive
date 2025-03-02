@@ -50,6 +50,13 @@ public class IntakeSubsystem extends SubsystemBase {
 
     }
 
+    public CANrange getLeftCaNrange(){
+        return CANrangeELeft;
+    }
+
+    public CANrange getRIghtCaNrange(){
+        return CANrangeERight;
+    }
     public void holdPositionWrite(double setpoint){
         m_IntakeKraken.setControl(m_pidPosition.withPosition(setpoint));
     }

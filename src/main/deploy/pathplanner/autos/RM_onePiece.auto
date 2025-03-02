@@ -1,0 +1,25 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RM_PreloadPath"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AEI_Scoring_L4_OCR_FIX"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "REDAUTO",
+  "choreoAuto": false
+}

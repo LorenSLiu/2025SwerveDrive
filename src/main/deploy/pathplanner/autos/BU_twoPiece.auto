@@ -1,0 +1,37 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BU_PreloadPath"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AEI_Scoring_L4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AEI_Zero"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BU_Preload2SourcePath"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "BLUEAUTO",
+  "choreoAuto": false
+}

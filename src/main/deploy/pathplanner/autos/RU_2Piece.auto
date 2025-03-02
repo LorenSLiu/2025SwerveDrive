@@ -7,37 +7,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BD_PreloadPath"
+            "pathName": "RU_PreloadPath"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AE_L4_Happy"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake_Scoring_West"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AE_Zero"
+            "name": "AEI_Scoring_L4_OCR_FIX"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "D_blueSidePreReefToSource"
+            "pathName": "RU_Preload2SourcePath"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AE_Source_Happy"
+            "name": "Elevator_Source"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Arm_Source_Happy"
           }
         },
         {
@@ -45,11 +39,29 @@
           "data": {
             "name": "Intake_Source"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AEI_Zero"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RU_Source2ReefPath"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AEI_Scoring_L4_OCR_FIX"
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "REDAUTO",
   "choreoAuto": false
 }

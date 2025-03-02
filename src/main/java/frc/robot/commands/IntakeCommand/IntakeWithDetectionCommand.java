@@ -49,7 +49,7 @@ public class IntakeWithDetectionCommand extends Command {
 
         if(distance <= 18){
             try {
-                TimeUnit.MILLISECONDS.sleep(20);
+                TimeUnit.MILLISECONDS.sleep(11);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

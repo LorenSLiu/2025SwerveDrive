@@ -1,0 +1,25 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BM_PreloadPath"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AEI_Scoring_L4_OCR_FIX"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "BLUEAUTO",
+  "choreoAuto": false
+}

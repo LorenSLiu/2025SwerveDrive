@@ -3,6 +3,7 @@ package frc.robot;
 import frc.robot.Constants.ArmConstant;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArmCommand.ArmSetPositionCommand;
+import frc.robot.commands.ArmCommand.youParyArm;
 import frc.robot.commands.AutoCommands.ElevatorAutonComomands;
 import frc.robot.commands.AutoCommands.ArmAutonCommands;
 import frc.robot.commands.AutoCommands.AutonIntakeWithDetectionCommand;
@@ -21,9 +22,11 @@ import frc.robot.subsystems.SwerveSubsystem.TunerConstants;
 
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -99,6 +102,74 @@ public class RobotContainer {
     private boolean sadMode = false;
     private final SendableChooser<Command> autoChooser;
 
+    Command AEI_Scoring_L4 = new SequentialCommandGroup(
+        new ParallelCommandGroup(
+                new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA), 
+                new ArmAutonCommands(arm,ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))
+                ).withTimeout(2),
+        new InstantCommand(() -> intake.feedWest()).withTimeout(2)
+        );
+    Command AEI_Scoring_L3 = new SequentialCommandGroup(
+            new ParallelCommandGroup(
+                                     new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_3_HEIGHT_DELTA), 
+                                     new ArmAutonCommands(arm,ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees))
+                                    ).withTimeout(1.8),
+            new InstantCommand(() -> intake.feedWest()).withTimeout(2)
+                                            ).withTimeout(4);
+    Command AEI_Scoring_L2 = new SequentialCommandGroup(
+            new ParallelCommandGroup(
+                                     new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT_DELTA), 
+                                     new ArmAutonCommands(arm,ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees))
+                                    ).withTimeout(1.7),
+            new InstantCommand(() -> intake.feedWest()).withTimeout(2)
+                                            ).withTimeout(4);
+    Command AEI_Scoring_L1 = new SequentialCommandGroup(
+            new ParallelCommandGroup(
+                                     new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_DELTA), 
+                                     new ArmAutonCommands(arm,ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees))
+                                    ).withTimeout(1.6),
+            new InstantCommand(() -> intake.feedWest()).withTimeout(2)
+                                            ).withTimeout(4);
+    Command AEI_Source = new SequentialCommandGroup(
+            new ParallelCommandGroup(
+                                     new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA), 
+                                     new ArmAutonCommands(arm,ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
+                                    ).withTimeout(1.9),
+            new InstantCommand(() -> intake.feedEast()).withTimeout(2)
+                                            ).withTimeout(4);
+        Command AEI_Zero = new SequentialCommandGroup(
+            new ParallelCommandGroup(
+                                     new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_BASE_DELTA), 
+                                     new ArmAutonCommands(arm,ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees))
+                                     ).withTimeout(1.6),
+            new InstantCommand(() -> intake.stop()).withTimeout(2)
+                                       );
+
+                                       
+        Command AEI_Scoring_L4_OCR_FIX = new SequentialCommandGroup(
+                new ParallelCommandGroup(
+                        new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA), 
+                        new ArmAutonCommands(arm,ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))
+                        ).withTimeout(1.3),
+                        Commands.startEnd(()->intake.feedWest(),() -> intake.stop(),intake).withTimeout(2),
+                        AEI_Zero
+                );
+        // Command SourceLoading = new SequentialCommandGroup(
+        //         new ParallelCommandGroup(
+        //                 new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA), 
+        //                 new ArmAutonCommands(arm,ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
+        //                 ).withTimeout(2),
+        //                 new FunctionalCommand(
+        //                 ()->{
+        //                 intake.feedEast();
+        //                 },
+        //                 interrupted -> intake.stop,
+        //                 () -> intake.getCANrangeRight().getDistance().getValue().in(Centimeter) < 18   
+        //                 ,
+        //                 intake),
+        //                 AEI_Zero
+        //         );
+
 
 
     public RobotContainer() {
@@ -132,52 +203,23 @@ public class RobotContainer {
 
 
 
+
         NamedCommands.registerCommand("Intake_Scoring_West", new InstantCommand(() -> intake.feedWest()).withTimeout(300));
 
         NamedCommands.registerCommand("Intake_Source", 
         new SequentialCommandGroup(new AutonIntakeWithDetectionCommand(intake, intake.getCANrangeLeft(),intake.getCANrangeRight(), true), 
                                    new IntakeHoldPositionCommand(intake)));
 
-
-        Command AEI_Scoring_L4 = new SequentialCommandGroup(
-                                                new ParallelCommandGroup(
-                                                                         new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA), 
-                                                                         new ArmAutonCommands(arm,ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))
-                                                                        ).withTimeout(3),
-                                                new InstantCommand(() -> intake.feedWest()).withTimeout(2)
-                                                );
-        Command AEI_Scoring_L3 = new SequentialCommandGroup(
-                new ParallelCommandGroup(
-                                         new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_3_HEIGHT_DELTA), 
-                                         new ArmAutonCommands(arm,ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees))
-                                        ).withTimeout(3),
-                new InstantCommand(() -> intake.feedWest()).withTimeout(2)
-                                                );
-        Command AEI_Scoring_L2 = new SequentialCommandGroup(
-                new ParallelCommandGroup(
-                                         new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT_DELTA), 
-                                         new ArmAutonCommands(arm,ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees))
-                                        ).withTimeout(3),
-                new InstantCommand(() -> intake.feedWest()).withTimeout(2)
-                                                );
-        Command AEI_Scoring_L1 = new SequentialCommandGroup(
-                new ParallelCommandGroup(
-                                         new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_DELTA), 
-                                         new ArmAutonCommands(arm,ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees))
-                                        ).withTimeout(3),
-                new InstantCommand(() -> intake.feedWest()).withTimeout(2)
-                                                );
-        Command AEI_Source = new SequentialCommandGroup(
-                new ParallelCommandGroup(
-                                         new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA), 
-                                         new ArmAutonCommands(arm,ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees))
-                                        ).withTimeout(3),
-                new InstantCommand(() -> intake.feedEast()).withTimeout(2)
-                                                );
-
-
+        NamedCommands.registerCommand("AEI_Scoring_L1", AEI_Scoring_L1);
+        NamedCommands.registerCommand("AEI_Scoring_L2", AEI_Scoring_L2);
+        NamedCommands.registerCommand("AEI_Scoring_L3", AEI_Scoring_L3);
+        NamedCommands.registerCommand("AEI_Scoring_L4", AEI_Scoring_L4);
+        NamedCommands.registerCommand("AEI_Source", AEI_Source);
+        NamedCommands.registerCommand("AEI_Zero", AEI_Zero);
+        NamedCommands.registerCommand("AEI_Scoring_L4_OCR_FIX", AEI_Scoring_L4_OCR_FIX);
         
-        autoChooser = AutoBuilder.buildAutoChooser("headingTest");
+
+        autoChooser = AutoBuilder.buildAutoChooser("Taxi");
         SmartDashboard.putData("Auto Chooser", autoChooser);
 
 
@@ -376,16 +418,21 @@ public class RobotContainer {
         }, elevatorSubsystem)
         .alongWith(Commands.print("Elevator Manual Controlling: " + m_auxController.getRightX())));
 
-        m_auxController.back().whileTrue(new youPary(elevatorSubsystem));
+        m_auxController.back().whileTrue(new youParyArm(arm));
         arm.setDefaultCommand(new RunCommand(() -> {
             double leftYAxis = m_auxController.getLeftX();
-            arm.manualControl(-leftYAxis*0.25);
+            arm.manualControl(-leftYAxis*0.2);
         }, arm)
         .alongWith(Commands.print("Arm Manual Controlling: "+m_auxController.getLeftY())));
 
         //Climber Bindings
         auxPovUP.onTrue(new RunCommand(() -> {climb.expand();}, climb)).onFalse(new RunCommand(() -> {climb.stop();}, climb));
         auxPovDOWN.onTrue(new RunCommand(() -> {climb.retract();}, climb)).onFalse(new RunCommand(() -> {climb.stop();}, climb));
+
+        // auxPovUP.onTrue(new RunCommand(() -> {climb.expand();}, climb));
+        // System.out.println("climb" );
+        // auxPovDOWN.onTrue(new RunCommand(() -> {climb.retract();}, climb));
+
 
         auxPovLEFT.onTrue(new RunCommand(() -> {intake.feedEast(0.1);}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
         auxPovRIGHT.onTrue(new RunCommand(() -> {intake.feedWest(0.1);}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));

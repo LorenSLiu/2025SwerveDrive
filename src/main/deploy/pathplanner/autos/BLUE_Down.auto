@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "D_blueDownPreloadPath"
+                  "pathName": "BD_PreloadPath"
                 }
               },
               {
@@ -119,6 +119,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "BLUEAUTO",
+  "folder": null,
   "choreoAuto": false
 }
