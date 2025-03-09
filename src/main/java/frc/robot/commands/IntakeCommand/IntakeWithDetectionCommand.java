@@ -47,12 +47,15 @@ public class IntakeWithDetectionCommand extends Command {
         ? CANrangeRight.getDistance().getValue().in(Centimeters) 
         : CANrangeLeft.getDistance().getValue().in(Centimeters);
 
-        if(distance <= 18){
+        
+
+        if(distance <= 15){
             try {
                 TimeUnit.MILLISECONDS.sleep(11);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            System.out.println("current distance is leess than 18");
             intake.stop();
             intake.holdPositionStore(intake.getCurrentPosition_Rotations());
             return true;

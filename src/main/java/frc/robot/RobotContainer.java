@@ -460,14 +460,14 @@ public class RobotContainer {
                 if(arm.getState() == 5){
                         System.out.println("arm source state 5, sad is false");
                         new SequentialCommandGroup(
-                        new IntakeWithDetectionCommand(intake, intake.getCANrangeLeft(),intake.getCANrangeRight(), true), //sad is false
+                        new IntakeWithDetectionCommand(intake, intake.getCANrangeLeft(),intake.getCANrangeRight(), false), //sad is false
                         new IntakeHoldPositionCommand(intake)
                         ).schedule();
                 }
                 else if(arm.getState() == -5){
                         System.out.println("arm source state -5, sad is true");
                         new SequentialCommandGroup(
-                        new IntakeWithDetectionCommand(intake, intake.getCANrangeLeft(),intake.getCANrangeRight(), false), //sad is true
+                        new IntakeWithDetectionCommand(intake, intake.getCANrangeLeft(),intake.getCANrangeRight(), true), //sad is true
                         new IntakeHoldPositionCommand(intake)
                         ).schedule();
 
