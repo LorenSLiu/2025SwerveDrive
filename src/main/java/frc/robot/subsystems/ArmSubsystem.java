@@ -1,9 +1,12 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,6 +15,7 @@ import frc.robot.Constants.ArmConstant;
 
 public class ArmSubsystem extends SubsystemBase {
     private TalonFX m_armKraken;
+    private CANcoder m_armCANCoder;
     private PositionDutyCycle m_pidPosition;
     private double setpoint = 0; // Stores the last commanded position
     private int state = 0;
@@ -21,7 +25,10 @@ public class ArmSubsystem extends SubsystemBase {
 
     public ArmSubsystem() {
         m_armKraken = new TalonFX(ArmConstant.kArmMotorID, ArmConstant.kArmCANbus);
+        m_armCANCoder = new CANcoder(ArmConstant.kArmCANCoderID, ArmConstant.kArmCANbus);
 
+        var CANCoderConfig = new CANcoderConfiguration();
+        m_armCANCoder.getConfigurator().apply(CANCoderConfig);
         var talonFXConfigs = new TalonFXConfiguration();
 
         // set slot 0 gains
@@ -64,7 +71,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
     
 
-     public void setArmAngle(double targetAngle) {
+    public void setArmAngle(double targetAngle) {
 
         double Rotations = (targetAngle/360) * ArmConstant.ArmGearRatio;
 
@@ -79,6 +86,13 @@ public class ArmSubsystem extends SubsystemBase {
         System.out.println("Setting elevator position to final " + Rotations + " rotations");
 
         m_armKraken.setControl(m_pidPosition.withPosition(setpoint));
+
+    }
+
+    public double getArmAngle(){
+        System.out.println("CAN Coder reading"+m_armCANCoder.getPosition().getValueAsDouble());
+        System.out.println("Motor Reading: "+m_armKraken.getPosition().getValueAsDouble());
+        return m_armCANCoder.getPosition().getValueAsDouble();
 
     }
 
@@ -114,6 +128,7 @@ public class ArmSubsystem extends SubsystemBase {
     //    SmartDashboard.putNumber("Arm Angle (Rotations)", getArmAngle());
         SmartDashboard.putNumber("Arm Motor Output", m_armKraken.getMotorVoltage().getValueAsDouble());
         SmartDashboard.putNumber("Arm Degrees", getArmAngle_Rotation());
+        getArmAngle();
         
     }
 

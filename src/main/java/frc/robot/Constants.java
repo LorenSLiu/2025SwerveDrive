@@ -60,6 +60,7 @@ public final class Constants {
     public static final CANBus kArmCANbus = new CANBus("rio");
 
     public static final int kArmMotorID = 30;
+    public static final int kArmCANCoderID = 34;
 
     public static final double TOLERANCE = 0.01;
 
