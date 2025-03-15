@@ -16,12 +16,13 @@ public class ArmSetPositionCommand extends Command {
     @Override
     public void initialize() {
         System.out.println("Arm initialized");        
-        arm.setArmAngle(targetPositionRotations);
 
     }
 
     @Override
     public void execute(){
+        arm.setArmAngle(targetPositionRotations);
+
 //        System.out.println("--------------------------Target"+targetPositionRotations);
        // System.out.println("---------------------------current"+arm.getArmAngle_Rotation()+"my ideal postition: "+targetPositionRotations/360);
     }

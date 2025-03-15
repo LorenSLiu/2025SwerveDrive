@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.Degree;
+
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -9,6 +11,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstant;
@@ -146,6 +149,8 @@ public class ArmSubsystem extends SubsystemBase {
     //    SmartDashboard.putNumber("Arm Angle (Rotations)", getArmAngle());
         SmartDashboard.putNumber("Arm Motor Output", m_armKraken.getMotorVoltage().getValueAsDouble());
         SmartDashboard.putNumber("Arm Degrees", getArmAngle_Rotation());
+        SmartDashboard.putNumber("Measured", m_pidPosition.getPositionMeasure().in(Degree));
+        SmartDashboard.putNumber("Kraken", m_armKraken.getPosition().getValueAsDouble());
         getArmAngle();
         
     }
