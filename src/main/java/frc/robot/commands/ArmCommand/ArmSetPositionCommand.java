@@ -23,7 +23,7 @@ public class ArmSetPositionCommand extends Command {
     @Override
     public void execute(){
 //        System.out.println("--------------------------Target"+targetPositionRotations);
-        System.out.println("---------------------------current"+arm.getArmAngle_Rotation()+"my ideal postition: "+targetPositionRotations);
+       // System.out.println("---------------------------current"+arm.getArmAngle_Rotation()+"my ideal postition: "+targetPositionRotations/360);
     }
 
     @Override

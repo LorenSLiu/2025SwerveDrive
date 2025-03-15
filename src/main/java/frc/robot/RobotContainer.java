@@ -548,6 +548,10 @@ public class RobotContainer {
 
     }
 
+    public void setArmCoast(){
+        arm.Arm_Coast();
+    }
+
     private void handleIntakeByArmState(ArmState state, double speed) {
     switch (state) {
         case LEVEL1:

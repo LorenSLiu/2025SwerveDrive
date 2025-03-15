@@ -28,6 +28,7 @@ public class ArmSubsystem extends SubsystemBase {
         m_armCANCoder = new CANcoder(ArmConstant.kArmCANCoderID, ArmConstant.kArmCANbus);
 
         var CANCoderConfig = new CANcoderConfiguration();
+        CANCoderConfig.MagnetSensor.MagnetOffset = 0.14819;
         m_armCANCoder.getConfigurator().apply(CANCoderConfig);
         var talonFXConfigs = new TalonFXConfiguration();
 
@@ -38,6 +39,13 @@ public class ArmSubsystem extends SubsystemBase {
         slot0Configs.kD = ArmConstant.kArmD; // A velocity error of 1 rps results in 0.1 V output
         m_armKraken.getConfigurator().apply(slot0Configs);
         
+        TalonFXConfiguration fx_cfg = new TalonFXConfiguration();
+        fx_cfg.Feedback.FeedbackRemoteSensorID = m_armCANCoder.getDeviceID();
+        fx_cfg.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
+        fx_cfg.Feedback.SensorToMechanismRatio = 1;
+        fx_cfg.Feedback.RotorToSensorRatio = ArmConstant.ArmGearRatio;
+
+        m_armKraken.getConfigurator().apply(fx_cfg);
 
         // current limit
         var currentLimitConfigs = new CurrentLimitsConfigs();
@@ -72,8 +80,11 @@ public class ArmSubsystem extends SubsystemBase {
     
 
     public void setArmAngle(double targetAngle) {
+        m_armCANCoder.getPosition().refresh();
+        m_armKraken.getPosition().refresh();
+        System.out.println("you are in set arm angle");
 
-        double Rotations = (targetAngle/360) * ArmConstant.ArmGearRatio;
+        double Rotations = (targetAngle/360);
 
         setpoint = Math.min(Rotations, ArmConstant.kMaxAngle);
 
@@ -83,15 +94,22 @@ public class ArmSubsystem extends SubsystemBase {
         }
 
 
-        System.out.println("Setting elevator position to final " + Rotations + " rotations");
+        System.out.println("Setting ARMM position to final " + Rotations + " rotations");
 
         m_armKraken.setControl(m_pidPosition.withPosition(setpoint));
 
     }
 
+    public void Arm_Coast(){
+        m_armKraken.setNeutralMode(NeutralModeValue.Coast);
+    }
+
     public double getArmAngle(){
-        System.out.println("CAN Coder reading"+m_armCANCoder.getPosition().getValueAsDouble());
-        System.out.println("Motor Reading: "+m_armKraken.getPosition().getValueAsDouble());
+        m_armCANCoder.getPosition().refresh();
+        m_armKraken.getPosition().refresh();
+        //System.out.println("CAN Coder reading"+m_armCANCoder.getPosition().getValueAsDouble());
+        //System.out.println("Motor Reading:   "+m_armKraken.getPosition().getValueAsDouble());
+        //System.out.println();
         return m_armCANCoder.getPosition().getValueAsDouble();
 
     }
@@ -105,11 +123,11 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void manualControl(double speed) {
-            m_armKraken.set(speed);        
+            m_armKraken.set(speed);
     }
 
     public double getArmAngle_Rotation() {
-        return m_armKraken.getPosition().getValueAsDouble() / ArmConstant.ArmGearRatio;
+        return m_armKraken.getPosition().getValueAsDouble();
     }
 
     public void resetEncoder() {
