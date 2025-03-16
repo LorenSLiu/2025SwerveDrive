@@ -7,6 +7,7 @@ import frc.robot.commands.ArmCommand.ArmSetPositionCommand;
 import frc.robot.commands.ArmCommand.youParyArm;
 import frc.robot.commands.AutoCommands.ElevatorAutonComomands;
 import frc.robot.commands.AutoCommands.ArmAutonCommands;
+import frc.robot.commands.AutoCommands.AutoAlign;
 import frc.robot.commands.AutoCommands.AutonIntakeWithDetectionCommand;
 import frc.robot.commands.ElevatorCommand.ElevatorSetPositionCommand;
 import frc.robot.commands.ElevatorCommand.youPary;
@@ -102,6 +103,7 @@ public class RobotContainer {
 
     private boolean sadMode = false;
     private final SendableChooser<Command> autoChooser;
+
 
     Command AEI_Scoring_L4 = new SequentialCommandGroup(
         new ParallelCommandGroup(
@@ -292,6 +294,10 @@ public class RobotContainer {
         // }));
                 
         // auxRightTrigger.onTrue(new RunCommand(() -> {arm.setState(0);}, arm));
+
+        driveRightBumper.onTrue(
+                new AutoAlign(sadMode, drivetrain)
+        );
         
         //SADMODE TRIGGER
         auxLeftBumper.onTrue(new InstantCommand(() -> {
