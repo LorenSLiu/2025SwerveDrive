@@ -36,6 +36,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.math.geometry.Rotation2d;
 
 import edu.wpi.first.units.Units;
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -295,8 +296,12 @@ public class RobotContainer {
                 
         // auxRightTrigger.onTrue(new RunCommand(() -> {arm.setState(0);}, arm));
 
-        driveRightBumper.onTrue(
-                new AutoAlign(sadMode, drivetrain)
+        driveRightBumper.whileTrue(
+                new AutoAlign(true, drivetrain)
+        );
+
+        driveLeftBumper.whileTrue(
+                new AutoAlign(false, drivetrain)
         );
         
         //SADMODE TRIGGER
@@ -562,23 +567,20 @@ public class RobotContainer {
         arm.Arm_Coast();
     }
 
-    private void handleIntakeByArmState(ArmState state, double speed) {
-    switch (state) {
-        case LEVEL1:
-        case LEVEL2:
-        case SAD_LEVEL3:
-        case SAD_LEVEL4:
-            intake.feedEast(speed);
-            break;
-        case SAD_LEVEL1:
-        case SAD_LEVEL2:
-        case LEVEL3:
-        case LEVEL4:
-            intake.feedWest(speed);
-            break;
-        default:
-            intake.stop();
-            break;
+    private Command CreateSoringCommand(
+        Distance elevatorDelta,
+        double armAngle,
+        double parallelTimeout,
+        double feedTimeout,
+        Runnable feedAction
+    ){
+        return new SequentialCommandGroup(
+                new ParallelCommandGroup(
+                        new ElevatorAutonComomands(elevatorSubsystem, elevatorDelta),
+                        new ArmAutonCommands(arm, armAngle)
+                ).withTimeout(parallelTimeout),
+                new InstantCommand(feedAction).withTimeout(feedTimeout)
+        ).withTimeout(parallelTimeout + feedTimeout);
     }
-}
+
 }

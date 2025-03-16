@@ -20,9 +20,9 @@ public class AutoAlign extends Command {
 
 
   public AutoAlign(boolean isRightScore, CommandSwerveDrivetrain drivebase) {
-    xController = new PIDController(Constants.AutonConstants.X_REEF_ALIGNMENT_P, 0.0, 0);  // Vertical movement
-    yController = new PIDController(Constants.AutonConstants.Y_REEF_ALIGNMENT_P, 0.0, 0);  // Horitontal movement
-    rotController = new PIDController(Constants.AutonConstants.ROT_REEF_ALIGNMENT_P, 0, 0);  // Rotation
+    xController = new PIDController(Constants.AutonConstants.X_REEF_ALIGNMENT_P, 0.01, 0);  // Vertical movement
+    yController = new PIDController(Constants.AutonConstants.Y_REEF_ALIGNMENT_P, 0.01, 0);  // Horitontal movement
+    rotController = new PIDController(Constants.AutonConstants.ROT_REEF_ALIGNMENT_P, 0.01, 0);  // Rotation
 
     this.isRightScore = isRightScore;
     this.drivebase = drivebase;
@@ -56,10 +56,10 @@ public class AutoAlign extends Command {
       double[] postions = LimelightHelpers.getBotPose_TargetSpace("limelight-happy");
       SmartDashboard.putNumber("x", postions[2]);
 
-      double xSpeed = xController.calculate(postions[2]);
+      double xSpeed = -xController.calculate(postions[2]);
       SmartDashboard.putNumber("xspee", xSpeed);
-      double ySpeed = -yController.calculate(postions[0]);
-      double rotValue = -rotController.calculate(postions[4]);
+      double ySpeed = yController.calculate(postions[0]);
+      double rotValue = rotController.calculate(postions[4]);
 
       drivebase.setControl(
         m_driveRequest.withVelocityX(xSpeed)

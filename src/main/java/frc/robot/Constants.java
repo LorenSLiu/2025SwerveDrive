@@ -28,8 +28,8 @@ import com.ctre.phoenix6.CANBus;
  */
 public final class Constants {
   public static class AutonConstants{
-    public static final double X_REEF_ALIGNMENT_P = 3.3;
-	public static final double Y_REEF_ALIGNMENT_P = 3.3;
+    public static final double X_REEF_ALIGNMENT_P = 1.3;
+	public static final double Y_REEF_ALIGNMENT_P = 1.3;
 	public static final double ROT_REEF_ALIGNMENT_P = 0.058;
 
 	public static final double ROT_SETPOINT_REEF_ALIGNMENT = 0;  // Rotation
