@@ -1,6 +1,7 @@
 package frc.robot;
 
 import frc.robot.Constants.ArmConstant;
+import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArmCommand.ArmSetPositionCommand;
 import frc.robot.commands.ArmCommand.youParyArm;
@@ -414,14 +415,17 @@ public class RobotContainer {
         m_auxController.start().whileTrue(new youPary(elevatorSubsystem));
         elevatorSubsystem.setDefaultCommand(new RunCommand(() -> {
             double rightXAxis = m_auxController.getRightY();
-            elevatorSubsystem.manualControl(-rightXAxis*0.25+0.035);
+            double calculatedOutput = -rightXAxis*0.25 + ElevatorConstants.kElevatorG;
+                System.out.println("calculated output for elevator: "+calculatedOutput);
+            elevatorSubsystem.manualControl(calculatedOutput);
         }, elevatorSubsystem)
         .alongWith(Commands.print("Elevator Manual Controlling: " + m_auxController.getRightX())));
 
         m_auxController.back().whileTrue(new youParyArm(arm));
         arm.setDefaultCommand(new RunCommand(() -> {
             double leftYAxis = m_auxController.getLeftX();
-            arm.manualControl(-leftYAxis*0.2);
+            double V_components = (0.02033*Math.sin(arm.getArmAngle_Rotation()*2*Math.PI));
+            arm.manualControl(-leftYAxis*0.2 + V_components);
         }, arm)
         .alongWith(Commands.print("Arm Manual Controlling: "+m_auxController.getLeftY())));
 
@@ -434,8 +438,8 @@ public class RobotContainer {
         // auxPovDOWN.onTrue(new RunCommand(() -> {climb.retract();}, climb));
 
 
-        auxPovLEFT.onTrue(new RunCommand(() -> {intake.feedEast(0.1);}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
-        auxPovRIGHT.onTrue(new RunCommand(() -> {intake.feedWest(0.1);}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
+        auxPovLEFT.onTrue(new RunCommand(() -> {intake.feedWest(0.1);}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
+        auxPovRIGHT.onTrue(new RunCommand(() -> {intake.feedEast(0.1);}, intake)).onFalse(new RunCommand(() -> {intake.stop();}, intake));
 
 
         //aux control the intake from the source

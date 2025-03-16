@@ -31,22 +31,26 @@ public class ArmSubsystem extends SubsystemBase {
         m_armCANCoder = new CANcoder(ArmConstant.kArmCANCoderID, ArmConstant.kArmCANbus);
 
         var CANCoderConfig = new CANcoderConfiguration();
-        CANCoderConfig.MagnetSensor.MagnetOffset = 0.14819;
+        CANCoderConfig.MagnetSensor.MagnetOffset = 0.148926;
         m_armCANCoder.getConfigurator().apply(CANCoderConfig);
         var talonFXConfigs = new TalonFXConfiguration();
 
         // set slot 0 gains
-        var slot0Configs = talonFXConfigs.Slot0;
-        slot0Configs.kP = ArmConstant.kArmP; // A position error of 2.5 rotations results in 12 V output
-        slot0Configs.kI = ArmConstant.kArmI; // no output for integrated error
-        slot0Configs.kD = ArmConstant.kArmD; // A velocity error of 1 rps results in 0.1 V output
-        m_armKraken.getConfigurator().apply(slot0Configs);
+        // var slot0Configs = talonFXConfigs.Slot0;
+        // slot0Configs.kP = ArmConstant.kArmP; // A position error of 2.5 rotations results in 12 V output
+        // slot0Configs.kI = ArmConstant.kArmI; // no output for integrated error
+        // slot0Configs.kD = ArmConstant.kArmD; // A velocity error of 1 rps results in 0.1 V outputeID();e.FusedCANcoder;       
+        // m_armKraken.getConfigurator().apply(slot0Configs);
         
         TalonFXConfiguration fx_cfg = new TalonFXConfiguration();
         fx_cfg.Feedback.FeedbackRemoteSensorID = m_armCANCoder.getDeviceID();
         fx_cfg.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
         fx_cfg.Feedback.SensorToMechanismRatio = 1;
         fx_cfg.Feedback.RotorToSensorRatio = ArmConstant.ArmGearRatio;
+        fx_cfg.Slot0.withKP(ArmConstant.kArmP);
+        fx_cfg.Slot0.withKI(ArmConstant.kArmI);
+        fx_cfg.Slot0.withKD(ArmConstant.kArmD);
+
 
         m_armKraken.getConfigurator().apply(fx_cfg);
 
@@ -83,8 +87,8 @@ public class ArmSubsystem extends SubsystemBase {
     
 
     public void setArmAngle(double targetAngle) {
-        m_armCANCoder.getPosition().refresh();
-        m_armKraken.getPosition().refresh();
+        // m_armCANCoder.getPosition().refresh();
+        // m_armKraken.getPosition().refresh();
         System.out.println("you are in set arm angle");
 
         double Rotations = (targetAngle/360);
@@ -104,18 +108,10 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void Arm_Coast(){
-        m_armKraken.setNeutralMode(NeutralModeValue.Coast);
+       // m_armKraken.setNeutralMode(NeutralModeValue.Coast);
     }
 
-    public double getArmAngle(){
-        m_armCANCoder.getPosition().refresh();
-        m_armKraken.getPosition().refresh();
-        //System.out.println("CAN Coder reading"+m_armCANCoder.getPosition().getValueAsDouble());
-        //System.out.println("Motor Reading:   "+m_armKraken.getPosition().getValueAsDouble());
-        //System.out.println();
-        return m_armCANCoder.getPosition().getValueAsDouble();
-
-    }
+    
 
     public void setState(int newState){
         state = newState;
@@ -147,12 +143,10 @@ public class ArmSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
     //    SmartDashboard.putNumber("Arm Angle (Rotations)", getArmAngle());
-        SmartDashboard.putNumber("Arm Motor Output", m_armKraken.getMotorVoltage().getValueAsDouble());
-        SmartDashboard.putNumber("Arm Degrees", getArmAngle_Rotation());
-        SmartDashboard.putNumber("Measured", m_pidPosition.getPositionMeasure().in(Degree));
-        SmartDashboard.putNumber("Kraken", m_armKraken.getPosition().getValueAsDouble());
-        getArmAngle();
-        
+        SmartDashboard.putNumber("Arm Motor Voltage", m_armKraken.getMotorVoltage().getValueAsDouble());
+        SmartDashboard.putNumber("Arm Position Rotation", getArmAngle_Rotation());
+        SmartDashboard.putNumber("Arm Position Degree", getArmAngle_Rotation());
+        SmartDashboard.putNumber("Arm PID Position(Rotation)", m_pidPosition.getPositionMeasure().in(Degree));        
     }
 
 }

@@ -11,6 +11,8 @@ public class IntakeWithDetectionCommand extends Command {
     private final IntakeSubsystem intake;
     private final CANrange CANrangeLeft;
     private final CANrange CANrangeRight;
+    private double distanceR;
+    private double distanceL;
 
     private boolean isSad;
 
@@ -19,6 +21,8 @@ public class IntakeWithDetectionCommand extends Command {
         this.CANrangeLeft = CANrangeLeft;
         this.CANrangeRight = CANrangeERight;
         this.isSad = isSad;
+        distanceR = 100;
+        distanceL = 100;
         addRequirements(intake);
         System.out.println("Intake With Detection Command Initialized");
     }
@@ -30,6 +34,7 @@ public class IntakeWithDetectionCommand extends Command {
 
     @Override
     public void execute(){
+        /*
         System.out.println("weird yayy");
         if(isSad){
             System.out.println("sad yayyyyy");
@@ -39,15 +44,37 @@ public class IntakeWithDetectionCommand extends Command {
             System.out.println("no sad yayyyyy");
             intake.manualControl(-0.3);
         }
+        */
+
+        
+        distanceR = CANrangeRight.getDistance().getValue().in(Centimeters);
+        distanceL = CANrangeLeft.getDistance().getValue().in(Centimeters);
+        if(distanceR <= 15 && distanceL <= 15){
+            intake.stop();
+        }
+        else if(distanceR <= 15){
+            intake.manualControl(-0.1);    
+        }
+        else if(distanceL <= 15){
+            intake.manualControl(0.1);
+        }
+        else{
+            if(isSad){
+                intake.manualControl(0.3);
+            }   
+            else{
+                intake.manualControl(-0.3);
+            }      
+        }
+        
     }
 
     @Override
     public boolean isFinished(){
+        /*
         double distance = isSad 
         ? CANrangeRight.getDistance().getValue().in(Centimeters) 
         : CANrangeLeft.getDistance().getValue().in(Centimeters);
-
-        
 
         if(distance <= 15){
             try {
@@ -57,6 +84,21 @@ public class IntakeWithDetectionCommand extends Command {
             }
             System.out.println("current distance is leess than 18");
             intake.stop();
+
+            intake.holdPositionStore(intake.getCurrentPosition_Rotations());
+            return true;
+        }
+        else{
+            return false;
+        }*/
+
+        
+        double distanceR = CANrangeRight.getDistance().getValue().in(Centimeters);
+        double distanceL = CANrangeLeft.getDistance().getValue().in(Centimeters);
+        if(distanceR <= 10 && distanceL <= 10){
+            System.out.println("current distance is leess than 15");
+            intake.stop();
+
             intake.holdPositionStore(intake.getCurrentPosition_Rotations());
             return true;
         }
@@ -64,6 +106,7 @@ public class IntakeWithDetectionCommand extends Command {
             return false;
         }
 
+        
 
 
         // //can you simplify the logic, if it's sad mode, we are constantly check for Right CANRange, and if it's not sad mode, we are constantly checking for Left CANRange, if the distance greater than 4, return false, else return true
