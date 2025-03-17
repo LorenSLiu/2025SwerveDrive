@@ -13,6 +13,9 @@ public class IntakeWithDetectionCommand extends Command {
     private final CANrange CANrangeRight;
     private double distanceR;
     private double distanceL;
+    private double thresh;
+    private boolean detectedR;
+    private boolean detectedL;
 
     private boolean isSad;
 
@@ -23,6 +26,9 @@ public class IntakeWithDetectionCommand extends Command {
         this.isSad = isSad;
         distanceR = 100;
         distanceL = 100;
+        detectedR = false;
+        detectedL = false;
+        thresh = 4;
         addRequirements(intake);
         System.out.println("Intake With Detection Command Initialized");
     }
@@ -46,21 +52,26 @@ public class IntakeWithDetectionCommand extends Command {
         }
         */
 
-        
         distanceR = CANrangeRight.getDistance().getValue().in(Centimeters);
         distanceL = CANrangeLeft.getDistance().getValue().in(Centimeters);
-        if(distanceR <= 15 && distanceL <= 15){
+        detectedR = CANrangeRight.getIsDetected().getValue();
+        detectedL = CANrangeLeft.getIsDetected().getValue();
+        if(detectedR && detectedL){
             intake.stop();
+            System.out.println("detected");
         }
-        else if(distanceR <= 15){
-            intake.manualControl(-0.1);    
+        else if(detectedR){
+            intake.manualControl(-0.2); 
+            System.out.println("adjusting left");   
         }
-        else if(distanceL <= 15){
-            intake.manualControl(0.1);
+        else if(detectedL){
+            intake.manualControl(0.2);
+            System.out.println("adjusting right");
         }
         else{
             if(isSad){
                 intake.manualControl(0.3);
+                System.out.println("running");
             }   
             else{
                 intake.manualControl(-0.3);
@@ -93,10 +104,8 @@ public class IntakeWithDetectionCommand extends Command {
         }*/
 
         
-        double distanceR = CANrangeRight.getDistance().getValue().in(Centimeters);
-        double distanceL = CANrangeLeft.getDistance().getValue().in(Centimeters);
-        if(distanceR <= 10 && distanceL <= 10){
-            System.out.println("current distance is leess than 15");
+        if(detectedR && detectedL){
+            System.out.println("detected");
             intake.stop();
 
             intake.holdPositionStore(intake.getCurrentPosition_Rotations());

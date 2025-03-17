@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.SignalLogger;
+
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,6 +20,7 @@ public class Robot extends TimedRobot {
   private final boolean kUseLimelight = true;
 
   public Robot() {
+    SignalLogger.stop();
     m_robotContainer = new RobotContainer();
   }
 
