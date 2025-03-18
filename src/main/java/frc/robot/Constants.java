@@ -102,7 +102,7 @@ public final class Constants {
 
     //random stuff
     public static final double test = 0.0;
-    public static final double kArmP = 4.5;
+    public static final double kArmP = 4.4;
     public static final double kArmI = 0.003;
     public static final double kArmD = 0.001;
 
@@ -178,7 +178,7 @@ public final class Constants {
     public static final Distance STAGE_1_HEIGHT_DELTA  = Inches.of(0); 
     public static final Distance STAGE_2_HEIGHT_DELTA  = Inches.of(10); 
     public static final Distance STAGE_3_HEIGHT_DELTA  = Inches.of(0);
-    public static final Distance STAGE_4_HEIGHT_DELTA  = Inches.of(27);
+    public static final Distance STAGE_4_HEIGHT_DELTA  = Inches.of(27.4);
 
   }
 
