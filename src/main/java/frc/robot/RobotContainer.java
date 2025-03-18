@@ -430,6 +430,9 @@ public class RobotContainer {
                 }
         }));
 
+        auxLeftTrigger.onTrue(new InstantCommand(() ->
+                new ArmSetPositionCommand(arm, ArmConstant.Arm_ClimbingAngle.in(Degrees))
+                ));
         //SADNESS aura
         /*auxLeftBumper.onTrue(new RunCommand(() -> { //sad commands
 
@@ -467,7 +470,6 @@ public class RobotContainer {
         elevatorSubsystem.setDefaultCommand(new RunCommand(() -> {
             double rightXAxis = m_auxController.getRightY();
             double calculatedOutput = -rightXAxis*0.25 + ElevatorConstants.kElevatorG;
-                System.out.println("calculated output for elevator: "+calculatedOutput);
             elevatorSubsystem.manualControl(calculatedOutput);
         }, elevatorSubsystem)
         .alongWith(Commands.print("Elevator Manual Controlling: " + m_auxController.getRightX())));

@@ -19,13 +19,14 @@ public class Robot extends TimedRobot {
   private final boolean kUseLimelight = true;
 
   public Robot() {
-    SignalLogger.stop();
     m_robotContainer = new RobotContainer();
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+    SignalLogger.stop();
+
     if (kUseLimelight) {
       var driveState = m_robotContainer.drivetrain.getState();
       double headingDeg = driveState.Pose.getRotation().getDegrees();
