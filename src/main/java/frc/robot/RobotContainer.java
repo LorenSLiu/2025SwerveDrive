@@ -3,12 +3,14 @@ package frc.robot;
 import frc.robot.Constants.ArmConstant;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.AutoAlign;
 import frc.robot.commands.ArmCommand.ArmSetPositionCommand;
 import frc.robot.commands.ArmCommand.youParyArm;
 import frc.robot.commands.AutoCommands.ElevatorAutonComomands;
 import frc.robot.commands.AutoCommands.ArmAutonCommands;
-import frc.robot.commands.AutoCommands.AutoAlign;
 import frc.robot.commands.AutoCommands.AutonIntakeWithDetectionCommand;
+import frc.robot.commands.AutoCommands.AutonAutoAlign;
+
 import frc.robot.commands.ElevatorCommand.ElevatorSetPositionCommand;
 import frc.robot.commands.ElevatorCommand.youPary;
 import frc.robot.commands.IntakeCommand.IntakeWithDetectionCommand;
@@ -217,6 +219,9 @@ public class RobotContainer {
 
 
     public RobotContainer() {
+
+        NamedCommands.registerCommand("AutoAlignLeft",  new AutonAutoAlign(false, drivetrain));
+        NamedCommands.registerCommand("AutoAlignRight", new AutonAutoAlign(true, drivetrain));
 
         NamedCommands.registerCommand("Elevator_L4_Happy", new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA).withTimeout(1));
 
