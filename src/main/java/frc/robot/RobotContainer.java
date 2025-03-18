@@ -106,50 +106,90 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
 
 
-    Command AEI_Scoring_L4 = new SequentialCommandGroup(
-        new ParallelCommandGroup(
-                new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA), 
-                new ArmAutonCommands(arm,ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))
-                ).withTimeout(2),
-        new InstantCommand(() -> intake.feedWest()).withTimeout(2)
-        );
-    Command AEI_Scoring_L3 = new SequentialCommandGroup(
-            new ParallelCommandGroup(
-                                     new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_3_HEIGHT_DELTA), 
-                                     new ArmAutonCommands(arm,ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees))
-                                    ).withTimeout(1.8),
-            new InstantCommand(() -> intake.feedWest()).withTimeout(2)
-                                            ).withTimeout(4);
-    Command AEI_Scoring_L2 = new SequentialCommandGroup(
-            new ParallelCommandGroup(
-                                     new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT_DELTA), 
-                                     new ArmAutonCommands(arm,ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees))
-                                    ).withTimeout(1.7),
-            new InstantCommand(() -> intake.feedWest()).withTimeout(2)
-                                            ).withTimeout(4);
-    Command AEI_Scoring_L1 = new SequentialCommandGroup(
-            new ParallelCommandGroup(
-                                     new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_DELTA), 
-                                     new ArmAutonCommands(arm,ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees))
-                                    ).withTimeout(1.6),
-            new InstantCommand(() -> intake.feedWest()).withTimeout(2)
-                                            ).withTimeout(4);
-    Command AEI_Source = new SequentialCommandGroup(
-            new ParallelCommandGroup(
-                                     new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA), 
-                                     new ArmAutonCommands(arm,ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
-                                    ).withTimeout(1.9),
-            new InstantCommand(() -> intake.feedEast()).withTimeout(2)
-                                            ).withTimeout(4);
-        Command AEI_Zero = new SequentialCommandGroup(
-            new ParallelCommandGroup(
-                                     new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_BASE_DELTA), 
-                                     new ArmAutonCommands(arm,ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees))
-                                     ).withTimeout(1.6),
-            new InstantCommand(() -> intake.stop()).withTimeout(2)
-                                       );
+//     Command AEI_Scoring_L4 = new SequentialCommandGroup(
+//         new ParallelCommandGroup(
+//                 new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA), 
+//                 new ArmAutonCommands(arm,ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees))
+//                 ).withTimeout(2),
+//         new InstantCommand(() -> intake.feedWest()).withTimeout(2)
+//         );
+    Command AEI_Scoring_L4 = CreateSoringCommand(
+        Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA, 
+        ArmConstant.STAGE_4_ANGLE_VERTICAL.in(Degrees), 
+        2, 2, 
+        () -> intake.feedWest());
 
-                                       
+
+//     Command AEI_Scoring_L3 = new SequentialCommandGroup(
+//             new ParallelCommandGroup(
+//                                      new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_3_HEIGHT_DELTA), 
+//                                      new ArmAutonCommands(arm,ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees))
+//                                     ).withTimeout(1.8),
+//             new InstantCommand(() -> intake.feedWest()).withTimeout(2)
+//                                             ).withTimeout(4);
+    Command AEI_Scoring_L3 = CreateSoringCommand(
+        Constants.ElevatorConstants.STAGE_3_HEIGHT_DELTA, 
+        ArmConstant.STAGE_3_ANGLE_VERTICAL.in(Degrees), 
+        1.8, 2, 
+        () -> intake.feedWest());
+
+//     Command AEI_Scoring_L2 = new SequentialCommandGroup(
+//             new ParallelCommandGroup(
+//                                      new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_2_HEIGHT_DELTA), 
+//                                      new ArmAutonCommands(arm,ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees))
+//                                     ).withTimeout(1.7),
+//             new InstantCommand(() -> intake.feedWest()).withTimeout(2)
+//                                             ).withTimeout(4);
+
+
+    Command AEI_Scoring_L2 = CreateSoringCommand(
+        Constants.ElevatorConstants.STAGE_2_HEIGHT_DELTA, 
+        ArmConstant.STAGE_2_ANGLE_VERTICAL.in(Degrees), 
+        1.7, 2, 
+        () -> intake.feedWest());
+
+//     Command AEI_Scoring_L1 = new SequentialCommandGroup(
+//             new ParallelCommandGroup(
+//                                      new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_1_HEIGHT_DELTA), 
+//                                      new ArmAutonCommands(arm,ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees))
+//                                     ).withTimeout(1.6),
+//             new InstantCommand(() -> intake.feedWest()).withTimeout(2)
+//                                             ).withTimeout(4);
+
+     Command AEI_Scoring_L1 = CreateSoringCommand(
+         Constants.ElevatorConstants.STAGE_1_HEIGHT_DELTA, 
+         ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees), 
+         1.6, 2, 
+         () -> intake.feedWest());
+    
+//     Command AEI_Source = new SequentialCommandGroup(
+//             new ParallelCommandGroup(
+//                                      new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA), 
+//                                      new ArmAutonCommands(arm,ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
+//                                     ).withTimeout(1.9),
+//             new InstantCommand(() -> intake.feedEast()).withTimeout(2)
+//                                             ).withTimeout(4);
+        Command AEI_Source = CreateSoringCommand(
+            Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA, 
+            ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees), 
+            1.9, 2, 
+            () -> intake.feedEast());
+
+        // Command AEI_Zero = new SequentialCommandGroup(
+        //     new ParallelCommandGroup(
+        //                              new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_BASE_DELTA), 
+        //                              new ArmAutonCommands(arm,ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees))
+        //                              ).withTimeout(1.6),
+        //     new InstantCommand(() -> intake.stop()).withTimeout(2)
+        //                                );
+
+        Command AEI_Zero = CreateSoringCommand(
+            Constants.ElevatorConstants.ELEVATOR_BASE_DELTA, 
+            ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees), 
+            1.6, 2, 
+            () -> intake.stop());
+            
+            
         Command AEI_Scoring_L4_OCR_FIX = new SequentialCommandGroup(
                 new ParallelCommandGroup(
                         new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA), 
