@@ -3,47 +3,35 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.254769736842105,
-        "y": 0.4361019736842104
+        "x": 1.366282894736842,
+        "y": 0.6477796052631584
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.742550916042017,
-        "y": 1.0075446298774482
+        "x": 1.8511070918094754,
+        "y": 1.1147070196201887
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.0796052631578945,
-        "y": 4.621546052631579
+        "x": 3.916036184210526,
+        "y": 3.091694078947368
       },
       "prevControl": {
-        "x": 5.12744458163878,
-        "y": 3.2227133495116713
+        "x": 3.4962642794631824,
+        "y": 2.7349348590054525
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1,
-      "rotationDegrees": 0.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "Elevator_L4_Happy",
-      "waypointRelativePos": 1.0,
-      "endWaypointRelativePos": null,
-      "command": null
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -54,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -60.25511870305781
+    "rotation": -122.0053832080835
   },
   "reversed": false,
   "folder": "B_BLUEPATH",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -129.01940047523658
   },
   "useDefaultConstraints": true
 }

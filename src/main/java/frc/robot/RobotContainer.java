@@ -164,18 +164,20 @@ public class RobotContainer {
          1.6, 2, 
          () -> intake.feedWest());
     
-//     Command AEI_Source = new SequentialCommandGroup(
-//             new ParallelCommandGroup(
-//                                      new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA), 
-//                                      new ArmAutonCommands(arm,ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
-//                                     ).withTimeout(1.9),
-//             new InstantCommand(() -> intake.feedEast()).withTimeout(2)
-//                                             ).withTimeout(4);
-        Command AEI_Source = CreateSoringCommand(
-            Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA, 
-            ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees), 
-            1.9, 2, 
-            () -> intake.feedEast());
+    Command AEI_Source = new SequentialCommandGroup(
+            new ParallelCommandGroup(
+                                     new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA), 
+                                     new ArmAutonCommands(arm,ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
+                                    ).withTimeout(1.9),
+                                    new AutonIntakeWithDetectionCommand(intake, intake.getCANrangeLeft(),intake.getCANrangeRight(), true).withTimeout(3), 
+                                    new IntakeHoldPositionCommand(intake).withTimeout(0.1)
+                                    
+        ).withTimeout(5);
+        // Command AEI_Source = CreateSoringCommand(
+        //     Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA, 
+        //     ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees), 
+        //     1.9, 2, 
+        //     () -> intake.feedEast());
 
         // Command AEI_Zero = new SequentialCommandGroup(
         //     new ParallelCommandGroup(
@@ -200,6 +202,15 @@ public class RobotContainer {
                         Commands.startEnd(()->intake.feedWest(),() -> intake.stop(),intake).withTimeout(2),
                         AEI_Zero
                 );
+
+                // Command AEI_Scoring_Source_OCR_FIX = new SequentialCommandGroup(
+                //         new ParallelCommandGroup(
+                //                 new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA), 
+                //                 new ArmAutonCommands(arm,ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
+                //                 ).withTimeout(1.3),
+                //                 // Commands.startEnd(i,intake.getCANrangeRight(), false),() -> intake.stop(),intake).withTimeout(2),
+                //                 AEI_Zero
+                //         );
         // Command SourceLoading = new SequentialCommandGroup(
         //         new ParallelCommandGroup(
         //                 new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA), 
@@ -345,8 +356,15 @@ public class RobotContainer {
                 new AutoAlign(true, drivetrain)
         );
 
-        driveLeftBumper.whileTrue(
-                new AutoAlign(false, drivetrain)
+        driveLeftBumper.whileTrue(new InstantCommand(() -> {
+        new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.SP_ELEVATOR_SOURCE_DELTA)
+                        .alongWith(Commands.print("Elevator Source, Height: " + Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA.in(Units.Meters))).schedule();
+                        new ArmSetPositionCommand(arm, ArmConstant.SP_CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
+                        .alongWith(Commands.print("Arm Source, Angles: " + ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))).schedule();
+                        arm.setState(5);
+
+        })
+                //new AutoAlign(false, drivetrain)
         );
         
         //SADMODE TRIGGER
@@ -436,7 +454,7 @@ public class RobotContainer {
         }));
 
         auxLeftTrigger.onTrue(new InstantCommand(() ->
-                new ArmSetPositionCommand(arm, ArmConstant.Arm_ClimbingAngle.in(Degrees))
+                new ArmSetPositionCommand(arm, ArmConstant.Arm_ClimbingAngle.in(Degrees)).schedule()
                 ));
         //SADNESS aura
         /*auxLeftBumper.onTrue(new RunCommand(() -> { //sad commands
@@ -474,7 +492,7 @@ public class RobotContainer {
         m_auxController.start().whileTrue(new youPary(elevatorSubsystem));
         elevatorSubsystem.setDefaultCommand(new RunCommand(() -> {
             double rightXAxis = m_auxController.getRightY();
-            double calculatedOutput = -rightXAxis*0.25 + ElevatorConstants.kElevatorG;
+            double calculatedOutput = -rightXAxis*0.25;
             elevatorSubsystem.manualControl(calculatedOutput);
         }, elevatorSubsystem)
         .alongWith(Commands.print("Elevator Manual Controlling: " + m_auxController.getRightX())));

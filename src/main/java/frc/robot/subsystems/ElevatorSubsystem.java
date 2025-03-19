@@ -53,7 +53,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         slot0Configs.kP = ElevatorConstants.kElevatorP; 
         slot0Configs.kI = ElevatorConstants.kElevatorI; 
         slot0Configs.kD = ElevatorConstants.kElevatorD; 
-        //slot0Configs.kG = ElevatorConstants.kElevatorG;
+        slot0Configs.kG = ElevatorConstants.kElevatorG;
         //slot0Configs.kG = 0;
 
         m_elevatorKraken.getConfigurator().apply(slot0Configs);

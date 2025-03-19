@@ -85,11 +85,14 @@ public final class Constants {
 
     public static final Angle ARM_BASE_ANGLE_VERTICAL       = Degrees.of(0);
 
-    public static final Angle CORAL_STATION_ANGLE_VERTICAL  = Degrees.of(40);
+    public static final Angle CORAL_STATION_ANGLE_VERTICAL  = Degrees.of(32);
+
+    public static final Angle SP_CORAL_STATION_ANGLE_VERTICAL  = Degrees.of(40);
+
     public static final Angle STAGE_1_ANGLE_VERTICAL        = Degrees.of(-28); 
     public static final Angle STAGE_2_ANGLE_VERTICAL        = Degrees.of(-26);
     public static final Angle STAGE_3_ANGLE_VERTICAL        = Degrees.of(220);
-    public static final Angle STAGE_4_ANGLE_VERTICAL        = Degrees.of(225);
+    public static final Angle STAGE_4_ANGLE_VERTICAL        = Degrees.of(222);
 
     public static final Angle Arm_ClimbingAngle             = Degrees.of(-90);
 
@@ -127,10 +130,10 @@ public final class Constants {
     public static final int kElevatorMotorID = 21;
     public static final int kElevatorMotorFollowerID = 20;
 
-    public static final double kElevatorP = 0.05;
-    public static final double kElevatorI = 0.001;
+    public static final double kElevatorP = 0.13;
+    public static final double kElevatorI = 0.01;
     public static final double kElevatorD = 0.0;
-    public static final double kElevatorG = 0.0308;
+    public static final double kElevatorG = 0.0403;
     // public static final double kElevatorS = 0.1;
 
 
@@ -174,6 +177,8 @@ public final class Constants {
 
     //Elevator stages effective data
     public static final Distance ELEVATOR_SOURCE_DELTA = Inches.of(13);//check
+
+    public static final Distance SP_ELEVATOR_SOURCE_DELTA = Inches.of(10.5);
     public static final Distance ELEVATOR_BASE_DELTA = Inches.of(0);
     public static final Distance STAGE_1_HEIGHT_DELTA  = Inches.of(0); 
     public static final Distance STAGE_2_HEIGHT_DELTA  = Inches.of(10); 
