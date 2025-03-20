@@ -164,7 +164,7 @@ public class RobotContainer {
          1.6, 2, 
          () -> intake.feedWest());
     
-    Command AEI_Source = new SequentialCommandGroup(
+    Command AEI_Source = Commands.sequence(
             new ParallelCommandGroup(
                                      new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA), 
                                      new ArmAutonCommands(arm,ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))

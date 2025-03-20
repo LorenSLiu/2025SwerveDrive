@@ -16,7 +16,9 @@ public class AutonAutoAlign extends Command {
   private Timer dontSeeTagTimer, stopTimer;
   private CommandSwerveDrivetrain drivebase;
   private double tagID = -1;
-  private final SwerveRequest.FieldCentric m_driveRequest = new SwerveRequest.FieldCentric();
+  private final SwerveRequest.RobotCentric m_driveRequest = new SwerveRequest.RobotCentric();
+
+
 
 
   public AutonAutoAlign(boolean isRightScore, CommandSwerveDrivetrain drivebase) {
