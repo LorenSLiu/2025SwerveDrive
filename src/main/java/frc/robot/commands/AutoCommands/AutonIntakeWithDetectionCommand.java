@@ -12,10 +12,10 @@ public class AutonIntakeWithDetectionCommand extends Command {
 
     private boolean isSad;
 
-    public AutonIntakeWithDetectionCommand(IntakeSubsystem intake, CANrange CANrangeLeft, CANrange CANrangeERight, boolean isSad){
+    public AutonIntakeWithDetectionCommand(IntakeSubsystem intake, boolean isSad){
         this.intake = intake;
-        this.CANrangeELeft = CANrangeLeft;
-        this.CANrangeERight = CANrangeERight;
+        this.CANrangeELeft = intake.getCANrangeLeft();
+        this.CANrangeERight = intake.getCANrangeRight();
         this.isSad = isSad;
         addRequirements(intake);
         System.out.println("Intake With Detection Command Initialized");
