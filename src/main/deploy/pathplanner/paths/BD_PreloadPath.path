@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 5.1187499999999995,
-        "y": 3.1205592105263156
+        "x": 5.532483552631578,
+        "y": 2.456661184210526
       },
       "prevControl": {
-        "x": 6.166589318480885,
-        "y": 1.7217265074064083
+        "x": 6.580322871112464,
+        "y": 1.0578284810906187
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "FirstCoral"
     }
   ],
   "rotationTargets": [
@@ -45,8 +45,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 5.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -54,13 +54,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -60.25511870305781
+    "rotation": -60.01836063115059
   },
   "reversed": false,
   "folder": "B_BLUEPATH",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -60.01836063115059
   },
   "useDefaultConstraints": true
 }

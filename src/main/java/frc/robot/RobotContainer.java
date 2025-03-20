@@ -176,8 +176,8 @@ public class RobotContainer {
                         new ArmAutonCommands(arm,ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees)),
                         new IntakeWithDetectionCommand(intake, false)
                 ),
-                        Commands.startEnd(()->intake.intakeCoralPerfect(false),() -> intake.stop(),intake).withTimeout(2)
-                );
+                        Commands.startEnd(()->intake.intakeCoralPerfect(false),() -> intake.stop(),intake).withTimeout(5)
+                ).onlyWhile(intake::hasCoralAuto);
 
 
         // Command AEI_Source = CreateSoringCommand(
@@ -202,7 +202,6 @@ public class RobotContainer {
             
             
 
-
         //good Match 19th
         Command AEI_Scoring_L4_OCR_FIX = new SequentialCommandGroup(
                 new ParallelCommandGroup(
@@ -212,6 +211,12 @@ public class RobotContainer {
                         Commands.startEnd(()->intake.feedWest(),() -> intake.stop(),intake).withTimeout(2),
                         AEI_Zero
                 );
+
+                Command Auto_Align_L4 = Commands.sequence(
+                        new AutoAlign(true, drivetrain),
+                        AEI_Scoring_L4_OCR_FIX
+                );
+        
 
                 // Command AEI_Scoring_Source_OCR_FIX = new SequentialCommandGroup(
                 //         new ParallelCommandGroup(
@@ -271,6 +276,7 @@ public class RobotContainer {
 
 
 
+        NamedCommands.registerCommand("AEI_Source", AEI_Source);
 
 
 
@@ -284,9 +290,10 @@ public class RobotContainer {
         NamedCommands.registerCommand("AEI_Scoring_L2", AEI_Scoring_L2);
         NamedCommands.registerCommand("AEI_Scoring_L3", AEI_Scoring_L3);
         NamedCommands.registerCommand("AEI_Scoring_L4", AEI_Scoring_L4);
-        NamedCommands.registerCommand("AEI_Source", AEI_Source);
         NamedCommands.registerCommand("AEI_Zero", AEI_Zero);
         NamedCommands.registerCommand("AEI_Scoring_L4_OCR_FIX", AEI_Scoring_L4_OCR_FIX);
+        NamedCommands.registerCommand("Auto_Align_L4", Auto_Align_L4);
+
         
 
         autoChooser = AutoBuilder.buildAutoChooser("Taxi");
@@ -598,7 +605,7 @@ public class RobotContainer {
         }, intake));
 
         
-        
+
 
             //delete if enum works
         
@@ -620,7 +627,7 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
 //        return new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA);
         // return autoChooser.getSelected();
-        return AEI_Source;//bro it's  not detection it to stop, spin all the way, none stop
+        return autoChooser.getSelected();//bro it's  not detection it to stop, spin all the way, none stop
         // try {
         //         PathPlannerPath path = PathPlannerPath.fromPathFile("blueUpPreloadPath");
         //         return AutoBuilder.followPath(path);

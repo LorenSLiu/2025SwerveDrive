@@ -139,7 +139,14 @@ public class IntakeSubsystem extends SubsystemBase {
 
     //detect coral
     public boolean hasCoral() {
-        return CANrangeERight.getDistance().getValueAsDouble() > 18;//bro we cook this la
+        boolean detectedR = getCANrangeRight().getIsDetected().getValue();
+        boolean detectedL = getCANrangeLeft().getIsDetected().getValue();
+
+        return detectedR && detectedL;//bro we cook this la
+    }
+
+    public boolean hasCoralAuto() {
+        return !hasCoral();
     }
 
     @Override
