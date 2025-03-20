@@ -30,22 +30,26 @@ public class Robot extends TimedRobot {
     SignalLogger.stop();
 
     if (kUseLimelight) {
-      var driveState = m_robotContainer.drivetrain.getState();
-      double headingDeg = driveState.Pose.getRotation().getDegrees();
-      LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-happy");
+    var driveState = m_robotContainer.drivetrain.getState();
+    double headingDeg = driveState.Pose.getRotation().getDegrees();
+    LimelightHelpers.SetRobotOrientation("limelight-happy", headingDeg, 0, 0, 0, 0, 0);
+
+    LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-happy");
+    LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-happy");
+
     boolean doRejectUpdate = false;
-    if(mt1.tagCount == 1 && mt1.rawFiducials.length == 1)
+    if(mt2.tagCount == 1 && mt2.rawFiducials.length == 1)
       {
-        if(mt1.rawFiducials[0].ambiguity > .7)
+        if(mt2.rawFiducials[0].ambiguity > .7)
         {
           doRejectUpdate = true;
         }
-        if(mt1.rawFiducials[0].distToCamera > 3)
+        if(mt2.rawFiducials[0].distToCamera > 3)
         {
           doRejectUpdate = true;
         }
       }
-      if(mt1.tagCount == 0)
+      if(mt2.tagCount == 0)
       {
         doRejectUpdate = true;
       }
@@ -57,7 +61,6 @@ public class Robot extends TimedRobot {
             mt1.pose,
             mt1.timestampSeconds);
       }
-      m_robotContainer.drivetrain.addVisionMeasurement(mt1.pose, mt1.timestampSeconds);
 
       
     }

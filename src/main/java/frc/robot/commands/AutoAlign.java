@@ -16,7 +16,7 @@ public class AutoAlign extends Command {
   private Timer dontSeeTagTimer, stopTimer;
   private CommandSwerveDrivetrain drivebase;
   private double tagID = -1;
-  private final SwerveRequest.FieldCentric m_driveRequest = new SwerveRequest.FieldCentric();
+  private final SwerveRequest.RobotCentric m_driveRequest = new SwerveRequest.RobotCentric();
 
 
   public AutoAlign(boolean isRightScore, CommandSwerveDrivetrain drivebase) {
@@ -56,11 +56,13 @@ public class AutoAlign extends Command {
       double[] postions = LimelightHelpers.getBotPose_TargetSpace("limelight-happy");
       SmartDashboard.putNumber("x", postions[2]);
 
-      double xSpeed = -xController.calculate(postions[2]);
+      double xSpeed = xController.calculate(-postions[2]);
       SmartDashboard.putNumber("xspee", xSpeed);
       double ySpeed = yController.calculate(postions[0]);
       double rotValue = rotController.calculate(postions[4]);
+    
 
+    
       drivebase.setControl(
         m_driveRequest.withVelocityX(xSpeed)
            .withVelocityY(ySpeed)

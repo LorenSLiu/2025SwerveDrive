@@ -49,7 +49,6 @@ public class AutonAutoAlign extends Command {
 
     tagID = LimelightHelpers.getFiducialID("limelight-happy");
   }
-
   @Override
   public void execute() {
     if (LimelightHelpers.getTV("limelight-happy") && LimelightHelpers.getFiducialID("limelight-happy") == tagID) {
@@ -65,7 +64,7 @@ public class AutonAutoAlign extends Command {
 
       drivebase.setControl(
         m_driveRequest.withVelocityX(xSpeed)
-           .withVelocityY(ySpeed)
+           .withVelocityY(-ySpeed)
            .withRotationalRate(rotValue)
      );
       
