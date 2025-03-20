@@ -19,8 +19,6 @@ public class AutonAutoAlign extends Command {
   private final SwerveRequest.RobotCentric m_driveRequest = new SwerveRequest.RobotCentric();
 
 
-
-
   public AutonAutoAlign(boolean isRightScore, CommandSwerveDrivetrain drivebase) {
     xController = new PIDController(Constants.AutonConstants.X_REEF_ALIGNMENT_P, 0.01, 0);  // Vertical movement
     yController = new PIDController(Constants.AutonConstants.Y_REEF_ALIGNMENT_P, 0.01, 0);  // Horitontal movement
@@ -49,6 +47,7 @@ public class AutonAutoAlign extends Command {
 
     tagID = LimelightHelpers.getFiducialID("limelight-happy");
   }
+
   @Override
   public void execute() {
     if (LimelightHelpers.getTV("limelight-happy") && LimelightHelpers.getFiducialID("limelight-happy") == tagID) {
@@ -57,14 +56,16 @@ public class AutonAutoAlign extends Command {
       double[] postions = LimelightHelpers.getBotPose_TargetSpace("limelight-happy");
       SmartDashboard.putNumber("x", postions[2]);
 
-      double xSpeed = -xController.calculate(postions[2]);
+      double xSpeed = xController.calculate(-postions[2]);
       SmartDashboard.putNumber("xspee", xSpeed);
       double ySpeed = yController.calculate(postions[0]);
       double rotValue = rotController.calculate(postions[4]);
+    
 
+    
       drivebase.setControl(
         m_driveRequest.withVelocityX(xSpeed)
-           .withVelocityY(-ySpeed)
+           .withVelocityY(ySpeed)
            .withRotationalRate(rotValue)
      );
       

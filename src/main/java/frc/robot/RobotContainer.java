@@ -193,7 +193,6 @@ public class RobotContainer {
             1.6, 2, 
             () -> intake.stop());
             
-            
         Command AEI_Scoring_L4_OCR_FIX = new SequentialCommandGroup(
                 new ParallelCommandGroup(
                         new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA), 
@@ -202,6 +201,11 @@ public class RobotContainer {
                         Commands.startEnd(()->intake.feedWest(),() -> intake.stop(),intake).withTimeout(2),
                         AEI_Zero
                 );
+                Command Auton_L4 = new SequentialCommandGroup(
+                        new AutonAutoAlign(true, drivetrain),
+                        AEI_Scoring_L4_OCR_FIX
+                );
+                    
 
                 // Command AEI_Scoring_Source_OCR_FIX = new SequentialCommandGroup(
                 //         new ParallelCommandGroup(
@@ -259,6 +263,7 @@ public class RobotContainer {
 
         NamedCommands.registerCommand("AE_Zero", new ParallelCommandGroup( new ArmAutonCommands(arm, ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees)),new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_BASE_DELTA)).withTimeout(2));
 
+        NamedCommands.registerCommand("Auton_L4", Auton_L4);
 
 
 
@@ -608,8 +613,8 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-//        return new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA);
-        return autoChooser.getSelected();
+        return Auton_L4;
+        // return autoChooser.getSelected();
         // try {
         //         PathPlannerPath path = PathPlannerPath.fromPathFile("blueUpPreloadPath");
         //         return AutoBuilder.followPath(path);
