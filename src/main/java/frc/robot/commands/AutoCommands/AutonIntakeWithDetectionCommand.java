@@ -7,16 +7,26 @@ import com.ctre.phoenix6.hardware.CANrange;
 
 public class AutonIntakeWithDetectionCommand extends Command {
     private final IntakeSubsystem intake;
-    private final CANrange CANrangeELeft;
-    private final CANrange CANrangeERight;
+    private final CANrange CANrangeLeft;
+    private final CANrange CANrangeRight;
+    private double distanceR;
+    private double distanceL;
+    private double thresh;
+    private boolean detectedR;
+    private boolean detectedL;
 
     private boolean isSad;
 
-    public AutonIntakeWithDetectionCommand(IntakeSubsystem intake, boolean isSad){
+    public AutonIntakeWithDetectionCommand(IntakeSubsystem intake, CANrange CANrangeLeft, CANrange CANrangeERight, boolean isSad){
         this.intake = intake;
-        this.CANrangeELeft = intake.getCANrangeLeft();
-        this.CANrangeERight = intake.getCANrangeRight();
+        this.CANrangeLeft = CANrangeLeft;
+        this.CANrangeRight = CANrangeERight;
         this.isSad = isSad;
+        distanceR = 100;
+        distanceL = 100;
+        detectedR = false;
+        detectedL = false;
+        thresh = 4;
         addRequirements(intake);
         System.out.println("Intake With Detection Command Initialized");
     }
@@ -28,6 +38,7 @@ public class AutonIntakeWithDetectionCommand extends Command {
 
     @Override
     public void execute(){
+        /*
         System.out.println("weird yayy");
         if(isSad){
             System.out.println("sad yayyyyy");
@@ -37,16 +48,65 @@ public class AutonIntakeWithDetectionCommand extends Command {
             System.out.println("no sad yayyyyy");
             intake.manualControl(-0.3);
         }
+        */
+
+        distanceR = CANrangeRight.getDistance().getValue().in(Centimeters);
+        distanceL = CANrangeLeft.getDistance().getValue().in(Centimeters);
+        detectedR = CANrangeRight.getIsDetected().getValue();
+        detectedL = CANrangeLeft.getIsDetected().getValue();
+        
+        if(detectedR && detectedL){
+            intake.stop();
+            System.out.println("detected");
+        }
+        else if(detectedR){
+            intake.manualControl(-0.2); 
+            System.out.println("adjusting left");   
+        }
+        else if(detectedL){
+            intake.manualControl(0.2);
+            System.out.println("adjusting right");
+        }
+        else{
+            if(isSad){
+                intake.manualControl(0.3);
+                System.out.println("running");
+            }   
+            else{
+                intake.manualControl(-0.3);
+            }      
+        }
+        
     }
 
     @Override
     public boolean isFinished(){
+        /*
         double distance = isSad 
-        ? CANrangeERight.getDistance().getValue().in(Centimeters) 
-        : CANrangeELeft.getDistance().getValue().in(Centimeters);
+        ? CANrangeRight.getDistance().getValue().in(Centimeters) 
+        : CANrangeLeft.getDistance().getValue().in(Centimeters);
 
-        if(distance <= 18){
+        if(distance <= 15){
+            try {
+                TimeUnit.MILLISECONDS.sleep(11);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("current distance is leess than 18");
             intake.stop();
+
+            intake.holdPositionStore(intake.getCurrentPosition_Rotations());
+            return true;
+        }
+        else{
+            return false;
+        }*/
+
+        
+        if(detectedR && detectedL){
+            System.out.println("detected");
+            intake.stop();
+
             intake.holdPositionStore(intake.getCurrentPosition_Rotations());
             return true;
         }
@@ -54,6 +114,7 @@ public class AutonIntakeWithDetectionCommand extends Command {
             return false;
         }
 
+        
 
 
         // //can you simplify the logic, if it's sad mode, we are constantly check for Right CANRange, and if it's not sad mode, we are constantly checking for Left CANRange, if the distance greater than 4, return false, else return true

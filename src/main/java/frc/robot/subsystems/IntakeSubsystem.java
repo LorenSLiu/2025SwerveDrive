@@ -9,6 +9,8 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstant;
+import static edu.wpi.first.units.Units.Centimeters;
+
 
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.hardware.CANrange;
@@ -105,9 +107,34 @@ public class IntakeSubsystem extends SubsystemBase {
     public void feedEast(double speed){
         m_IntakeKraken.set(speed);
 
+
     }
     public void manualControl(double speed) {
         m_IntakeKraken.set(speed);        
+    }
+
+    public void intakeCoralPerfect(boolean isSad) {
+        boolean detectedR = getCANrangeRight().getIsDetected().getValue();
+        boolean detectedL = getCANrangeLeft().getIsDetected().getValue();
+
+        // Sensor-based control logic.
+        if (detectedR && detectedL) {
+            stop();
+            System.out.println("detected");
+        } else if (detectedR) {
+            manualControl(-0.2);
+            System.out.println("adjusting left");
+        } else if (detectedL) {
+            manualControl(0.2);
+            System.out.println("adjusting right");
+        } else {
+            if (isSad) {
+                manualControl(0.3);
+                System.out.println("running");
+            } else {
+                manualControl(-0.3);
+            }
+        }
     }
 
     //detect coral
@@ -117,6 +144,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("Can Range Right", CANrangeERight.getDistance().getValueAsDouble());
+        SmartDashboard.putNumber("Can Range Left", CANrangeELeft.getDistance().getValueAsDouble());
+
        // SmartDashboard.putBoolean("Has Coral", )
 
     }

@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.ctre.phoenix6.hardware.CANrange;
 
-public class IntakeWithDetectionCommand extends Command {
+public class IntakeWithDetectionCommand extends Command {//this is the one
     private final IntakeSubsystem intake;
     private final CANrange CANrangeLeft;
     private final CANrange CANrangeRight;
@@ -19,10 +19,10 @@ public class IntakeWithDetectionCommand extends Command {
 
     private boolean isSad;
 
-    public IntakeWithDetectionCommand(IntakeSubsystem intake, CANrange CANrangeLeft, CANrange CANrangeERight, boolean isSad){
+    public IntakeWithDetectionCommand(IntakeSubsystem intake, boolean isSad){
+        this.CANrangeLeft = intake.getCANrangeLeft();
+        this.CANrangeRight = intake.getCANrangeRight();
         this.intake = intake;
-        this.CANrangeLeft = CANrangeLeft;
-        this.CANrangeRight = CANrangeERight;
         this.isSad = isSad;
         distanceR = 100;
         distanceL = 100;
@@ -56,6 +56,7 @@ public class IntakeWithDetectionCommand extends Command {
         distanceL = CANrangeLeft.getDistance().getValue().in(Centimeters);
         detectedR = CANrangeRight.getIsDetected().getValue();
         detectedL = CANrangeLeft.getIsDetected().getValue();
+
         if(detectedR && detectedL){
             intake.stop();
             System.out.println("detected");

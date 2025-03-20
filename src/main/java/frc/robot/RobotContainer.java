@@ -10,7 +10,7 @@ import frc.robot.commands.AutoCommands.ElevatorAutonComomands;
 import frc.robot.commands.AutoCommands.ArmAutonCommands;
 import frc.robot.commands.AutoCommands.AutonIntakeWithDetectionCommand;
 import frc.robot.commands.AutoCommands.AutonAutoAlign;
-
+import frc.robot.commands.AutoCommands.AutonIntakeHoldPositionCommand;
 import frc.robot.commands.ElevatorCommand.ElevatorSetPositionCommand;
 import frc.robot.commands.ElevatorCommand.youPary;
 import frc.robot.commands.IntakeCommand.IntakeWithDetectionCommand;
@@ -107,6 +107,12 @@ public class RobotContainer {
     private boolean sadMode = false;
     private final SendableChooser<Command> autoChooser;
 
+    
+    //good, happy side scoring(ik it says the isSad True)
+    Command Intake_Source =  Commands.sequence(
+                new IntakeWithDetectionCommand(intake, true),
+                new AutonIntakeHoldPositionCommand(intake, true)
+        ).withTimeout(3);
 
 //     Command AEI_Scoring_L4 = new SequentialCommandGroup(
 //         new ParallelCommandGroup(
@@ -163,16 +169,17 @@ public class RobotContainer {
          ArmConstant.STAGE_1_ANGLE_VERTICAL.in(Degrees), 
          1.6, 2, 
          () -> intake.feedWest());
-    
-    Command AEI_Source = new SequentialCommandGroup(
-            new ParallelCommandGroup(
-                                     new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA), 
-                                     new ArmAutonCommands(arm,ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
-                                    ).withTimeout(1.9),
-                                    new AutonIntakeWithDetectionCommand(intake, true).withTimeout(3), 
-                                    new IntakeHoldPositionCommand(intake).withTimeout(0.1)
-                                    
-        ).withTimeout(5);
+         
+         Command AEI_Source = new SequentialCommandGroup(
+                new ParallelCommandGroup(
+                        new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA),
+                        new ArmAutonCommands(arm,ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees)),
+                        new IntakeWithDetectionCommand(intake, false)
+                ),
+                        Commands.startEnd(()->intake.intakeCoralPerfect(false),() -> intake.stop(),intake).withTimeout(2)
+                );
+
+
         // Command AEI_Source = CreateSoringCommand(
         //     Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA, 
         //     ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees), 
@@ -269,9 +276,9 @@ public class RobotContainer {
 
         NamedCommands.registerCommand("Intake_Scoring_West", new InstantCommand(() -> intake.feedWest()).withTimeout(300));
 
-        NamedCommands.registerCommand("Intake_Source", 
-        new SequentialCommandGroup(new AutonIntakeWithDetectionCommand(intake, true), 
-                                   new IntakeHoldPositionCommand(intake)));
+        // NamedCommands.registerCommand("Intake_Source", 
+        // new SequentialCommandGroup(new AutonIntakeWithDetectionCommand(intake, true), 
+        //                            new IntakeHoldPositionCommand(intake)));
 
         NamedCommands.registerCommand("AEI_Scoring_L1", AEI_Scoring_L1);
         NamedCommands.registerCommand("AEI_Scoring_L2", AEI_Scoring_L2);
@@ -543,14 +550,14 @@ public class RobotContainer {
                 if(arm.getState() == 5){
                         System.out.println("arm source state 5, sad is false");
                         new SequentialCommandGroup(
-                        new IntakeWithDetectionCommand(intake, intake.getCANrangeLeft(),intake.getCANrangeRight(), false), //sad is false
+                        new IntakeWithDetectionCommand(intake,  false), //sad is false
                         new IntakeHoldPositionCommand(intake)
                         ).schedule();
                 }
                 else if(arm.getState() == -5){
                         System.out.println("arm source state -5, sad is true");
                         new SequentialCommandGroup(
-                        new IntakeWithDetectionCommand(intake, intake.getCANrangeLeft(),intake.getCANrangeRight(), true), //sad is true
+                        new IntakeWithDetectionCommand(intake,  true), //sad is true
                         new IntakeHoldPositionCommand(intake)
                         ).schedule();
 
@@ -613,7 +620,7 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
 //        return new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA);
         // return autoChooser.getSelected();
-        return AEI_Scoring_L4_OCR_FIX;
+        return AEI_Source;//bro it's  not detection it to stop, spin all the way, none stop
         // try {
         //         PathPlannerPath path = PathPlannerPath.fromPathFile("blueUpPreloadPath");
         //         return AutoBuilder.followPath(path);
