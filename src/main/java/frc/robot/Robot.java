@@ -7,6 +7,7 @@ package frc.robot;
 import com.ctre.phoenix6.SignalLogger;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -31,8 +32,7 @@ public class Robot extends TimedRobot {
       var driveState = m_robotContainer.drivetrain.getState();
       double headingDeg = driveState.Pose.getRotation().getDegrees();
       double omegaRps = Units.radiansToRotations(driveState.Speeds.omegaRadiansPerSecond);
-      LimelightHelpers.SetRobotOrientation("limelight-happy",  -headingDeg, 0, 0, 0, 0, 0);
-      //LimelightHelpers.SetRobotOrientation("limelight-happy", 0, 0, 0, 0, 0, 0);
+      LimelightHelpers.SetRobotOrientation("limelight-happy", headingDeg, 0, 0, 0, 0, 0);
 
       var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-happy");
       if (llMeasurement != null && llMeasurement.tagCount > 0 && Math.abs(omegaRps) < 2.0) {

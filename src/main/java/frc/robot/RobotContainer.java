@@ -356,15 +356,15 @@ public class RobotContainer {
                 new AutoAlign(true, drivetrain)
         );
 
-        driveLeftBumper.whileTrue(new InstantCommand(() -> {
-        new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.SP_ELEVATOR_SOURCE_DELTA)
-                        .alongWith(Commands.print("Elevator Source, Height: " + Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA.in(Units.Meters))).schedule();
-                        new ArmSetPositionCommand(arm, ArmConstant.SP_CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
-                        .alongWith(Commands.print("Arm Source, Angles: " + ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))).schedule();
-                        arm.setState(5);
+        driveLeftBumper.whileTrue(//new InstantCommand(() -> {
+        // new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.SP_ELEVATOR_SOURCE_DELTA)
+        //                 .alongWith(Commands.print("Elevator Source, Height: " + Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA.in(Units.Meters))).schedule();
+        //                 new ArmSetPositionCommand(arm, ArmConstant.SP_CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
+        //                 .alongWith(Commands.print("Arm Source, Angles: " + ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))).schedule();
+        //                 arm.setState(5);
 
-        })
-                //new AutoAlign(false, drivetrain)
+        // })
+                new AutoAlign(false, drivetrain)
         );
         
         //SADMODE TRIGGER
