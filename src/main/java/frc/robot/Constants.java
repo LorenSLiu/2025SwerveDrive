@@ -130,7 +130,7 @@ public final class Constants {
     public static final int kElevatorMotorID = 21;
     public static final int kElevatorMotorFollowerID = 20;
 
-    public static final double kElevatorP = 0.13;
+    public static final double kElevatorP = 0.11;
     public static final double kElevatorI = 0.01;
     public static final double kElevatorD = 0.0;
     public static final double kElevatorG = 0.0403;
@@ -176,7 +176,7 @@ public final class Constants {
     public static final Distance SOURCE_HEIGHT          = Meters.of(0.95); // 95cm
 
     //Elevator stages effective data
-    public static final Distance ELEVATOR_SOURCE_DELTA = Inches.of(13);//check
+    public static final Distance ELEVATOR_SOURCE_DELTA = Inches.of(11.5);//check
 
     public static final Distance SP_ELEVATOR_SOURCE_DELTA = Inches.of(10.5);
     public static final Distance ELEVATOR_BASE_DELTA = Inches.of(0);

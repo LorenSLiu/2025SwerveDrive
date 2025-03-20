@@ -31,6 +31,11 @@ public class ElevatorAutonComomands extends Command {
     }
 
     @Override
+    public void end(boolean interrupted) {
+        elevator.setElevatorPosition(targetPosition);
+    }
+
+    @Override
     public boolean isFinished() {
         return false;
     }

@@ -110,6 +110,11 @@ public class IntakeSubsystem extends SubsystemBase {
         m_IntakeKraken.set(speed);        
     }
 
+    //detect coral
+    public boolean hasCoral() {
+        return CANrangeERight.getDistance().getValueAsDouble() > 18;//bro we cook this la
+    }
+
     @Override
     public void periodic() {
        // SmartDashboard.putBoolean("Has Coral", )

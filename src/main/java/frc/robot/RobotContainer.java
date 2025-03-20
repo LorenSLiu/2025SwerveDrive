@@ -10,7 +10,7 @@ import frc.robot.commands.AutoCommands.ElevatorAutonComomands;
 import frc.robot.commands.AutoCommands.ArmAutonCommands;
 import frc.robot.commands.AutoCommands.AutonIntakeWithDetectionCommand;
 import frc.robot.commands.AutoCommands.AutonAutoAlign;
-import frc.robot.commands.AutoCommands.AutonIntakeHoldPositionCommand;
+
 import frc.robot.commands.ElevatorCommand.ElevatorSetPositionCommand;
 import frc.robot.commands.ElevatorCommand.youPary;
 import frc.robot.commands.IntakeCommand.IntakeWithDetectionCommand;
@@ -50,7 +50,6 @@ import java.io.IOException;
 import org.json.simple.parser.ParseException;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
-import com.ctre.phoenix6.hardware.CANrange;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -109,12 +108,6 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
 
 
-    Command Intake_Source =  Commands.sequence(
-                new AutonIntakeWithDetectionCommand(intake, false),
-                new AutonIntakeHoldPositionCommand(intake, false)
-        ).withTimeout(3);
-
-
 //     Command AEI_Scoring_L4 = new SequentialCommandGroup(
 //         new ParallelCommandGroup(
 //                 new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA), 
@@ -171,11 +164,12 @@ public class RobotContainer {
          1.6, 2, 
          () -> intake.feedWest());
     
-    Command AEI_Source = Commands.sequence(
+    Command AEI_Source = new SequentialCommandGroup(
             new ParallelCommandGroup(
                                      new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA), 
                                      new ArmAutonCommands(arm,ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
                                     ).withTimeout(1.9),
+                                    new AutonIntakeWithDetectionCommand(intake, true).withTimeout(3), 
                                     new IntakeHoldPositionCommand(intake).withTimeout(0.1)
                                     
         ).withTimeout(5);
@@ -199,6 +193,10 @@ public class RobotContainer {
             1.6, 2, 
             () -> intake.stop());
             
+            
+
+
+        //good Match 19th
         Command AEI_Scoring_L4_OCR_FIX = new SequentialCommandGroup(
                 new ParallelCommandGroup(
                         new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA), 
@@ -207,13 +205,6 @@ public class RobotContainer {
                         Commands.startEnd(()->intake.feedWest(),() -> intake.stop(),intake).withTimeout(2),
                         AEI_Zero
                 );
-        Command Auton_L4 = new SequentialCommandGroup(
-                new AutonAutoAlign(true, drivetrain),
-                AEI_Scoring_L4_OCR_FIX
-        );
-
-        
-                    
 
                 // Command AEI_Scoring_Source_OCR_FIX = new SequentialCommandGroup(
                 //         new ParallelCommandGroup(
@@ -271,8 +262,16 @@ public class RobotContainer {
 
         NamedCommands.registerCommand("AE_Zero", new ParallelCommandGroup( new ArmAutonCommands(arm, ArmConstant.ARM_BASE_ANGLE_VERTICAL.in(Degrees)),new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_BASE_DELTA)).withTimeout(2));
 
-        NamedCommands.registerCommand("Auton_L4", Auton_L4);
 
+
+
+
+
+        NamedCommands.registerCommand("Intake_Scoring_West", new InstantCommand(() -> intake.feedWest()).withTimeout(300));
+
+        NamedCommands.registerCommand("Intake_Source", 
+        new SequentialCommandGroup(new AutonIntakeWithDetectionCommand(intake, true), 
+                                   new IntakeHoldPositionCommand(intake)));
 
         NamedCommands.registerCommand("AEI_Scoring_L1", AEI_Scoring_L1);
         NamedCommands.registerCommand("AEI_Scoring_L2", AEI_Scoring_L2);
@@ -612,8 +611,23 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return Intake_Source;
-        //return autoChooser.getSelected();
+//        return new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA);
+        // return autoChooser.getSelected();
+        return AEI_Scoring_L4_OCR_FIX;
+        // try {
+        //         PathPlannerPath path = PathPlannerPath.fromPathFile("blueUpPreloadPath");
+        //         return AutoBuilder.followPath(path);
+        // } catch (FileVersionException e) {
+        //         // TODO Auto-generated catch block
+        //         e.printStackTrace();
+        // } catch (IOException e) {
+        //         // TODO Auto-generated catch block
+        //         e.printStackTrace();
+        // } catch (ParseException e) {
+        //         // TODO Auto-generated catch block
+        //         e.printStackTrace();
+        // }
+        // return Commands.none();
 
 
     }
