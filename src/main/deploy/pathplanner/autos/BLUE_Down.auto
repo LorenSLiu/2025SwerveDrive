@@ -48,7 +48,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "D_blueSidePreReefToSource"
+                  "pathName": null
                 }
               },
               {
@@ -85,7 +85,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "D_blueSideSourceToReef"
+                  "pathName": null
                 }
               },
               {

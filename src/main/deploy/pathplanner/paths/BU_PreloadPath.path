@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 4.897,
-        "y": 5.006
+        "x": 5.330427631578947,
+        "y": 5.477878289473683
       },
       "prevControl": {
-        "x": 6.023597277914357,
-        "y": 6.375634227619323
+        "x": 6.457024909493303,
+        "y": 6.847512517093006
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "BU_FirstCoral"
     }
   ],
   "rotationTargets": [
@@ -57,7 +57,7 @@
     "rotation": 59.26451229807993
   },
   "reversed": false,
-  "folder": "B_BLUEPATH",
+  "folder": "BU_Path",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

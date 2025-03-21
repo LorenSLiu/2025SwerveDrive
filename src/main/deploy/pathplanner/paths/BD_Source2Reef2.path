@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6442987964599065,
-        "y": 5.38463051636167
+        "x": 1.2315789473684209,
+        "y": 0.6958881578947365
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.9059115352077782,
-        "y": 5.961692963662339
+        "x": 1.9628289473684208,
+        "y": 1.6773026315789479
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "BD_Reef2Source"
     },
     {
       "anchor": {
-        "x": 1.3026065371802245,
-        "y": 7.185873444690356
+        "x": 2.8865131578947363,
+        "y": 4.053865131578948
       },
       "prevControl": {
-        "x": 1.1040010384499537,
-        "y": 7.337714993266825
+        "x": 2.4439144736842104,
+        "y": 3.3611019736842103
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 35.61448173995684
+    "rotation": 180.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "BD_Path",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 29.931622376794465
+    "rotation": -128.39516450324606
   },
   "useDefaultConstraints": true
 }

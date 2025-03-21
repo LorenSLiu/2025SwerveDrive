@@ -202,7 +202,7 @@ public class RobotContainer {
             
             
 
-        //good Match 19th
+        //good March 19th
         Command AEI_Scoring_L4_OCR_FIX = new SequentialCommandGroup(
                 new ParallelCommandGroup(
                         new ElevatorAutonComomands(elevatorSubsystem, Constants.ElevatorConstants.STAGE_4_HEIGHT_DELTA), 
@@ -509,7 +509,7 @@ public class RobotContainer {
         m_auxController.start().whileTrue(new youPary(elevatorSubsystem));
         elevatorSubsystem.setDefaultCommand(new RunCommand(() -> {
             double rightXAxis = m_auxController.getRightY();
-            double calculatedOutput = -rightXAxis*0.25;
+            double calculatedOutput = -rightXAxis*0.25 + Constants.ElevatorConstants.kElevatorG -0.002;
             elevatorSubsystem.manualControl(calculatedOutput);
         }, elevatorSubsystem)
         .alongWith(Commands.print("Elevator Manual Controlling: " + m_auxController.getRightX())));

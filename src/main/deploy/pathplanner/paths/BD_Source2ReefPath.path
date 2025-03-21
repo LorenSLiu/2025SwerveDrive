@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.366282894736842,
-        "y": 0.6477796052631584
+        "x": 1.3759046052631578,
+        "y": 0.7247532894736843
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8511070918094754,
-        "y": 1.1147070196201887
+        "x": 1.8607288023357915,
+        "y": 1.1916807038307147
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Source"
     },
     {
       "anchor": {
@@ -25,7 +25,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "BD_2Source"
     }
   ],
   "rotationTargets": [],
@@ -45,10 +45,10 @@
     "rotation": -122.0053832080835
   },
   "reversed": false,
-  "folder": "B_BLUEPATH",
+  "folder": "BD_Path",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -129.01940047523658
+    "rotation": -125.39479584498709
   },
   "useDefaultConstraints": true
 }

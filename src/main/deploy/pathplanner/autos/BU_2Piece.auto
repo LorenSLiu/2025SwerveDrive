@@ -13,19 +13,31 @@
         {
           "type": "named",
           "data": {
-            "name": "AEI_Scoring_L4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AEI_Zero"
+            "name": "Auto_Align_L4"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "BU_Preload2SourcePath"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AEI_Source"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BU_Source2Reef"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Auto_Align_L4"
           }
         }
       ]

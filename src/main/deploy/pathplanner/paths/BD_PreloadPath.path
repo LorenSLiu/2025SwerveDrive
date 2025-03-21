@@ -57,10 +57,10 @@
     "rotation": -60.01836063115059
   },
   "reversed": false,
-  "folder": "B_BLUEPATH",
+  "folder": "BD_Path",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -60.01836063115059
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

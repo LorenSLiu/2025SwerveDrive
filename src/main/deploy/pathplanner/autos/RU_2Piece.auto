@@ -13,7 +13,7 @@
         {
           "type": "named",
           "data": {
-            "name": "AEI_Scoring_L4_OCR_FIX"
+            "name": "Auto_Align_L4"
           }
         },
         {
@@ -25,25 +25,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Elevator_Source"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Arm_Source_Happy"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake_Source"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AEI_Zero"
+            "name": "AEI_Source"
           }
         },
         {
@@ -55,7 +37,7 @@
         {
           "type": "named",
           "data": {
-            "name": "AEI_Scoring_L4_OCR_FIX"
+            "name": "Auto_Align_L4"
           }
         }
       ]

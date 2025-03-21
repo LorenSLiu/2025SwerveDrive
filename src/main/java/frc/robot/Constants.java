@@ -85,11 +85,18 @@ public final class Constants {
 
     public static final Angle ARM_BASE_ANGLE_VERTICAL       = Degrees.of(0);
 
-    public static final Angle CORAL_STATION_ANGLE_VERTICAL  = Degrees.of(32);
+    // public static final Angle CORAL_STATION_ANGLE_VERTICAL  = Degrees.of(32);
+    public static final Angle CORAL_STATION_ANGLE_VERTICAL  = Degrees.of(30);
 
     public static final Angle SP_CORAL_STATION_ANGLE_VERTICAL  = Degrees.of(40);
 
-    public static final Angle STAGE_1_ANGLE_VERTICAL        = Degrees.of(-28); 
+    // public static final Angle STAGE_1_ANGLE_VERTICAL        = Degrees.of(-28); 
+    // public static final Angle STAGE_2_ANGLE_VERTICAL        = Degrees.of(-26);
+    // public static final Angle STAGE_3_ANGLE_VERTICAL        = Degrees.of(220);
+    // public static final Angle STAGE_4_ANGLE_VERTICAL        = Degrees.of(222);
+
+    // public static final Angle Arm_ClimbingAngle             = Degrees.of(-90);
+    public static final Angle STAGE_1_ANGLE_VERTICAL        = Degrees.of(-18); 
     public static final Angle STAGE_2_ANGLE_VERTICAL        = Degrees.of(-26);
     public static final Angle STAGE_3_ANGLE_VERTICAL        = Degrees.of(220);
     public static final Angle STAGE_4_ANGLE_VERTICAL        = Degrees.of(222);
@@ -176,9 +183,17 @@ public final class Constants {
     public static final Distance SOURCE_HEIGHT          = Meters.of(0.95); // 95cm
 
     //Elevator stages effective data
-    public static final Distance ELEVATOR_SOURCE_DELTA = Inches.of(11.5);//check
+    // public static final Distance ELEVATOR_SOURCE_DELTA = Inches.of(11.5);//check
+    // public static final Distance SP_ELEVATOR_SOURCE_DELTA = Inches.of(10.5);
+    // public static final Distance ELEVATOR_BASE_DELTA = Inches.of(0);
+    // public static final Distance STAGE_1_HEIGHT_DELTA  = Inches.of(0); 
+    // public static final Distance STAGE_2_HEIGHT_DELTA  = Inches.of(10); 
+    // public static final Distance STAGE_3_HEIGHT_DELTA  = Inches.of(0);
+    // public static final Distance STAGE_4_HEIGHT_DELTA  = Inches.of(27.4);
 
-    public static final Distance SP_ELEVATOR_SOURCE_DELTA = Inches.of(10.5);
+
+    public static final Distance SP_ELEVATOR_SOURCE_DELTA = Inches.of(15.5);
+    public static final Distance ELEVATOR_SOURCE_DELTA = Inches.of(16.5);//check
     public static final Distance ELEVATOR_BASE_DELTA = Inches.of(0);
     public static final Distance STAGE_1_HEIGHT_DELTA  = Inches.of(0); 
     public static final Distance STAGE_2_HEIGHT_DELTA  = Inches.of(10); 

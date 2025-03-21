@@ -3,7 +3,11 @@
   "robotLength": 0.772,
   "holonomicMode": true,
   "pathFolders": [
+    "BD_Path",
+    "BM_Path",
     "B_BLUEPATH",
+    "New Folder",
+    "BU_Path",
     "R_REDPATH"
   ],
   "autoFolders": [

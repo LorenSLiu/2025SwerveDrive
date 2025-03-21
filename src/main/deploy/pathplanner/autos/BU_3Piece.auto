@@ -7,49 +7,67 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BD_PreloadPath"
+            "pathName": "BU_PreloadPath"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AE_L4_Happy"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake_Scoring_West"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AE_Zero"
+            "name": "Auto_Align_L4"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "BU_Preload2SourcePath"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AE_Source_Happy"
+            "name": "AEI_Source"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BU_Source2Reef"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Intake_Source"
+            "name": "Auto_Align_L4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BU_Reef2Source"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AEI_Source"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BU_Source2Reef2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Auto_Align_L4"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "BLUEAUTO",
   "choreoAuto": false
 }
