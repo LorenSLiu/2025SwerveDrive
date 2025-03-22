@@ -10,7 +10,6 @@ import frc.robot.commands.ArmCommand.ArmSetPositionCommand;
 import frc.robot.commands.ArmCommand.youParyArm;
 import frc.robot.commands.AutoCommands.ElevatorAutonComomands;
 import frc.robot.commands.AutoCommands.ArmAutonCommands;
-import frc.robot.commands.AutoCommands.AutonIntakeWithDetectionCommand;
 import frc.robot.commands.AutoCommands.AutonAutoAlign;
 import frc.robot.commands.AutoCommands.AutonIntakeHoldPositionCommand;
 import frc.robot.commands.ElevatorCommand.ElevatorSetPositionCommand;
@@ -19,7 +18,6 @@ import frc.robot.commands.IntakeCommand.IntakeWithDetectionCommand;
 import frc.robot.commands.IntakeCommand.IntakeHoldPositionCommand;
 
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.ArmSubsystem.ArmState;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -53,7 +51,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
-import org.json.simple.parser.ParseException;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
@@ -293,7 +290,8 @@ public class RobotContainer {
         }, Set.of(drivetrain));
                 Command Auto_Align_L4 = Commands.sequence(
                 new RecordLastPose(drivetrain).withTimeout(0.5),
-                new AutoAlignSim(true, drivetrain),
+                new AutoAlign(true, drivetrain),
+                AEI_Scoring_L4_OCR_FIX,
                 returnToPathCommand2
         );
 
