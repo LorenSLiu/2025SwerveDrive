@@ -103,6 +103,9 @@ public class RobotContainer {
     private final Trigger driveLeftBumper = m_driverController.leftBumper();
     private final Trigger driveLeftTrigger = m_driverController.leftTrigger();
     private final Trigger drivePovDOWN = m_driverController.povDown();
+    private final Trigger drivePovUP = m_driverController.povUp();
+
+    private Distance SOURCE_HEIGHT = Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA;
 
     private boolean sadMode = false;
     private final SendableChooser<Command> autoChooser;
@@ -180,6 +183,7 @@ public class RobotContainer {
                 ).onlyWhile(intake::hasCoralAuto);
 
 
+        
         // Command AEI_Source = CreateSoringCommand(
         //     Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA, 
         //     ArmConstant.CORAL_STATION_ANGLE_VERTICAL.in(Degrees), 
@@ -331,10 +335,10 @@ public class RobotContainer {
         // )
         );
 
-        m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        m_driverController.b().whileTrue(drivetrain
-                .applyRequest(() -> point.withModuleDirection(
-                        new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))));
+        // m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
+        // m_driverController.b().whileTrue(drivetrain
+        //         .applyRequest(() -> point.withModuleDirection(
+        //                 new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))));
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
@@ -383,6 +387,30 @@ public class RobotContainer {
         // })
                 new AutoAlign(false, drivetrain)
         );
+        drivePovUP.whileTrue(new InstantCommand(() -> {
+                new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.SP_ELEVATOR_SOURCE_DELTA)
+                                .alongWith(Commands.print("Elevator Source, Height: " + Constants.ElevatorConstants.SP_ELEVATOR_SOURCE_DELTA.in(Units.Meters))).schedule();
+                                new ArmSetPositionCommand(arm, ArmConstant.SP_CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
+                                .alongWith(Commands.print("Arm Source, Angles: " + ArmConstant.SP_CORAL_STATION_ANGLE_VERTICAL.in(Degrees))).schedule();
+                                arm.setState(5);
+        
+                }));
+
+        driveA.onTrue(new InstantCommand(() -> {SOURCE_HEIGHT = Inches.of(SOURCE_HEIGHT.in(Inches) - 0.25);
+                
+                new ElevatorSetPositionCommand(elevatorSubsystem, SOURCE_HEIGHT)
+                        .alongWith(Commands.print("Elevator Source, Height: " + Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA.in(Units.Meters))).schedule();
+
+                System.out.println("Source Height: " + SOURCE_HEIGHT.in(Inches));}
+                ));
+
+        driveY.onTrue(new InstantCommand(() -> {SOURCE_HEIGHT = Inches.of(SOURCE_HEIGHT.in(Inches) + 0.25);
+
+                new ElevatorSetPositionCommand(elevatorSubsystem, SOURCE_HEIGHT)
+                        .alongWith(Commands.print("Elevator Source, Height: " + Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA.in(Units.Meters))).schedule();
+                System.out.println("Source Height: " + SOURCE_HEIGHT.in(Inches));}
+                ));
+        
         
         //SADMODE TRIGGER
         auxLeftBumper.onTrue(new InstantCommand(() -> {
@@ -395,7 +423,7 @@ public class RobotContainer {
         }));
         //SOURCE
         auxRightBumper.onTrue(new InstantCommand(() -> {
-                new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA)
+                new ElevatorSetPositionCommand(elevatorSubsystem, SOURCE_HEIGHT)
                         .alongWith(Commands.print("Elevator Source, Height: " + Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA.in(Units.Meters))).schedule();
                 if(sadMode){
                         new ArmSetPositionCommand(arm, ArmConstant.SAD_CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
