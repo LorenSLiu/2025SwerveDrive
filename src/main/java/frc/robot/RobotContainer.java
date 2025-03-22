@@ -261,6 +261,11 @@ public class RobotContainer {
                 return Commands.none();
         }
         
+
+        if(lastPoseToGo.getX() == 0.0 && lastPoseToGo.getY() == 0.0 && lastPoseToGo.getRotation().getRadians() == 0.0){
+                System.out.println("Recorded pose is default(0.0.0), returning none coommand");
+                return Commands.none();
+        }
         // Get the current pose from the drivetrain
         Pose2d currentPose = drivetrain.getState().Pose;
         System.out.println("Generating on-the-fly path from current pose " + currentPose + " to: " + lastPoseToGo);
@@ -775,9 +780,11 @@ public class RobotContainer {
 
                         } else {
                                 System.out.println("nothing for now");
-                                intake.stop();
-                        }
-                }, intake))
+                                new SequentialCommandGroup(
+                                        new IntakeWithDetectionCommand(intake, false), // sad is false
+                                        new IntakeHoldPositionCommand(intake)).schedule();
+                                               }
+                         }, intake))
                                 .onFalse(new RunCommand(() -> {
                                         intake.stop();
                                 }, intake));
