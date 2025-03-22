@@ -325,8 +325,8 @@ public class RobotContainer {
         return AutoBuilder.followPath(path);
         }, Set.of(drivetrain));
                 Command Auto_Align_L4 = Commands.sequence(
-                new RecordLastPose(drivetrain).withTimeout(0.5),
-                new AutoAlign(true, drivetrain),
+                new RecordLastPose(drivetrain).withTimeout(0.1),
+                new AutoAlign(true, drivetrain).withTimeout(3),
                 AEI_Scoring_L4_OCR_FIX,
                 returnToPathCommand
         );
