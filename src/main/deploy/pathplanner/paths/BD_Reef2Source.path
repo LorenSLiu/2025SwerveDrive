@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0676241209700947,
-        "y": 1.3381600643875013
+        "x": 3.422597050350551,
+        "y": 2.458287862005312
       },
       "isLocked": false,
       "linkedName": "BD_2Source"
     },
     {
       "anchor": {
-        "x": 1.2315789473684209,
-        "y": 0.6958881578947365
+        "x": 1.2471318493150685,
+        "y": 0.6442208904109589
       },
       "prevControl": {
-        "x": 2.2842875319710507,
-        "y": 1.5553384641566586
+        "x": 1.523338860852487,
+        "y": 0.8722004444749031
       },
       "nextControl": null,
-      "isLocked": frmlse,
-      "linkedName": "BD_Reef2Source"
+      "isLocked": false,
+      "linkedName": "BD_Source2"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -128.39516450324606
+    "rotation": -125.62790729142091
   },
   "reversed": false,
   "folder": "BD_Path",

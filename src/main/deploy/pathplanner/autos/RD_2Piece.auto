@@ -7,49 +7,43 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BD_PreloadPath"
+            "pathName": "RD_PreloadPath"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AE_L4_Happy"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake_Scoring_West"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AE_Zero"
+            "name": "Auto_Align_L4"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "RD_Preload2Source"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AE_Source_Happy"
+            "name": "AEI_Source"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RD_Source2Reef"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Intake_Source"
+            "name": "Auto_Align_L4"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "REDAUTO",
   "choreoAuto": false
 }
