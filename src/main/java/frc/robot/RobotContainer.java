@@ -570,15 +570,13 @@ public class RobotContainer {
 
 
                 }
-                else{
-                        System.out.println("nothing for now");
+                else {
                         intake.stop();
                 }
         }, intake))
-        .onFalse(new RunCommand(() -> {
-                intake.stop();
-        }, intake));
-
+                        .onFalse(new RunCommand(() -> {
+                                intake.stop();
+                        }, intake));
 
         // //driver scoring, only control the
         driveRightTrigger.onTrue(new RunCommand(() ->{ //only scoring

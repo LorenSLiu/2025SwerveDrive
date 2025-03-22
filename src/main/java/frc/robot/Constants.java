@@ -34,7 +34,7 @@ public final class Constants {
 
 	public static final double ROT_SETPOINT_REEF_ALIGNMENT = 0;  // Rotation
 	public static final double ROT_TOLERANCE_REEF_ALIGNMENT = 1;
-	public static final double X_SETPOINT_REEF_ALIGNMENT = 0.199;  // Vertical pose
+	public static final double X_SETPOINT_REEF_ALIGNMENT = 0.204;  // Vertical pose 0.199
 	public static final double X_TOLERANCE_REEF_ALIGNMENT = 0.02;
 	public static final double Y_SETPOINT_REEF_ALIGNMENT = 0.32;  // Horizontal pose //0.331 
 	public static final double Y_TOLERANCE_REEF_ALIGNMENT = 0.01;
@@ -97,7 +97,7 @@ public final class Constants {
 
     // public static final Angle Arm_ClimbingAngle             = Degrees.of(-90);
     public static final Angle STAGE_1_ANGLE_VERTICAL        = Degrees.of(-18); 
-    public static final Angle STAGE_2_ANGLE_VERTICAL        = Degrees.of(-26);
+    public static final Angle STAGE_2_ANGLE_VERTICAL        = Degrees.of(-17);
     public static final Angle STAGE_3_ANGLE_VERTICAL        = Degrees.of(220);
     public static final Angle STAGE_4_ANGLE_VERTICAL        = Degrees.of(222);
 
@@ -138,7 +138,7 @@ public final class Constants {
     public static final int kElevatorMotorFollowerID = 20;
 
     public static final double kElevatorP = 0.11;
-    public static final double kElevatorI = 0.01;
+    public static final double kElevatorI = 0.02;
     public static final double kElevatorD = 0.0;
     public static final double kElevatorG = 0.0403;
     // public static final double kElevatorS = 0.1;
@@ -192,8 +192,8 @@ public final class Constants {
     // public static final Distance STAGE_4_HEIGHT_DELTA  = Inches.of(27.4);
 
 
-    public static final Distance SP_ELEVATOR_SOURCE_DELTA = Inches.of(15.5);
-    public static final Distance ELEVATOR_SOURCE_DELTA = Inches.of(16.5);//check
+    public static final Distance SP_ELEVATOR_SOURCE_DELTA = Inches.of(13.5);
+    public static final Distance ELEVATOR_SOURCE_DELTA = Inches.of(15);//check
     public static final Distance ELEVATOR_BASE_DELTA = Inches.of(0);
     public static final Distance STAGE_1_HEIGHT_DELTA  = Inches.of(0); 
     public static final Distance STAGE_2_HEIGHT_DELTA  = Inches.of(10); 
