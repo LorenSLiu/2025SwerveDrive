@@ -29,12 +29,6 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "BD_Source2ReefPath"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "Auto_Align_L4"
@@ -43,7 +37,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BD_Reef2Source"
+            "pathName": "BD_Source2ReelLower"
           }
         },
         {
@@ -55,13 +49,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BD_Source2Reef2"
+            "pathName": "BD_Reef2Source"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "Auto_Align_L4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Third Coral"
           }
         }
       ]

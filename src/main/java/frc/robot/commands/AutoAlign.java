@@ -89,6 +89,8 @@ public class AutoAlign extends Command {
     drivebase.setControl(m_driveRequest.withVelocityX(0)
     .withVelocityY(0)
     .withRotationalRate(0));
+
+
     }
 
   @Override

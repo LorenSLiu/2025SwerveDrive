@@ -12,7 +12,7 @@
         "y": 2.458287862005312
       },
       "isLocked": false,
-      "linkedName": "BD_2Source"
+      "linkedName": "BottomCoralLeft"
     },
     {
       "anchor": {
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 5.0,
+    "maxVelocity": 5.5,
     "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,

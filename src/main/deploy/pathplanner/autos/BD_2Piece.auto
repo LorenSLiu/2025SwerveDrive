@@ -29,9 +29,27 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Auto_Align_L4"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "BD_Source2ReefPath"
+            "pathName": "Copy of BD_Source2Load"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AEI_Source"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Third Coral"
           }
         },
         {

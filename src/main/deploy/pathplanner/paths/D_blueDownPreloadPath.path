@@ -3,43 +3,47 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2604440789473683,
-        "y": 0.5996710526315792
+        "x": 7.254769736842105,
+        "y": 0.4361019736842104
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.745268276020002,
-        "y": 1.0665984669886095
+        "x": 6.742550916042017,
+        "y": 1.0075446298774482
       },
       "isLocked": false,
-<<<<<<< HEAD
-      "linkedName": "Source"
-=======
-      "linkedName": "FromSource"
->>>>>>> SDR-HELP-EXP
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.6754934210526313,
-        "y": 2.6875822368421054
+        "x": 5.07,
+        "y": 3.05
       },
       "prevControl": {
-        "x": 3.2557215163052877,
-        "y": 2.33082301690019
+        "x": 6.117839318480886,
+        "y": 1.6511672968800926
       },
       "nextControl": null,
       "isLocked": false,
-<<<<<<< HEAD
-      "linkedName": "BD_2Source"
-=======
-      "linkedName": "BottomCoralLeft"
->>>>>>> SDR-HELP-EXP
+      "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 0.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Elevator_L4_Happy",
+      "waypointRelativePos": 1.0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 5.5,
     "maxAcceleration": 4.0,
@@ -50,13 +54,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -122.0053832080835
+    "rotation": -60.25511870305781
   },
   "reversed": false,
-  "folder": "BD_Path",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -125.39479584498709
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

@@ -3,20 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2604440789473683,
-        "y": 0.5996710526315792
+        "x": 1.2471318493150685,
+        "y": 0.6442208904109589
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.745268276020002,
-        "y": 1.0665984669886095
+        "x": 2.9305310285118584,
+        "y": 0.5903220537369871
       },
       "isLocked": false,
-<<<<<<< HEAD
-      "linkedName": "Source"
-=======
-      "linkedName": "FromSource"
->>>>>>> SDR-HELP-EXP
+      "linkedName": "BD_Source2"
     },
     {
       "anchor": {
@@ -24,16 +20,12 @@
         "y": 2.6875822368421054
       },
       "prevControl": {
-        "x": 3.2557215163052877,
-        "y": 2.33082301690019
+        "x": 3.1775528407944345,
+        "y": 2.3625070777311326
       },
       "nextControl": null,
       "isLocked": false,
-<<<<<<< HEAD
-      "linkedName": "BD_2Source"
-=======
       "linkedName": "BottomCoralLeft"
->>>>>>> SDR-HELP-EXP
     }
   ],
   "rotationTargets": [],
@@ -56,7 +48,7 @@
   "folder": "BD_Path",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -125.39479584498709
+    "rotation": -125.62790729142091
   },
   "useDefaultConstraints": true
 }

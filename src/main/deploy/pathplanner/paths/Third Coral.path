@@ -3,37 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2604440789473683,
-        "y": 0.5996710526315792
+        "x": 1.366282894736842,
+        "y": 0.6477796052631584
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.745268276020002,
-        "y": 1.0665984669886095
+        "x": 1.5910325645263703,
+        "y": 0.8190447847631694
       },
       "isLocked": false,
-<<<<<<< HEAD
-      "linkedName": "Source"
-=======
       "linkedName": "FromSource"
->>>>>>> SDR-HELP-EXP
     },
     {
       "anchor": {
-        "x": 3.6754934210526313,
-        "y": 2.6875822368421054
+        "x": 3.5009845890410958,
+        "y": 5.550107020547944
       },
       "prevControl": {
-        "x": 3.2557215163052877,
-        "y": 2.33082301690019
+        "x": 3.1909090909090905,
+        "y": 6.11903409090909
       },
       "nextControl": null,
       "isLocked": false,
-<<<<<<< HEAD
-      "linkedName": "BD_2Source"
-=======
-      "linkedName": "BottomCoralLeft"
->>>>>>> SDR-HELP-EXP
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -50,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -122.0053832080835
+    "rotation": 119.3355024101008
   },
   "reversed": false,
-  "folder": "BD_Path",
+  "folder": "B_BLUEPATH",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -125.39479584498709
+    "rotation": -129.01940047523658
   },
   "useDefaultConstraints": true
 }
