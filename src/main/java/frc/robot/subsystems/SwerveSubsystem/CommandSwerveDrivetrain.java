@@ -21,6 +21,7 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
@@ -55,7 +56,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     private final SwerveRequest.ApplyRobotSpeeds m_pathApplyRobotSpeeds = new SwerveRequest.ApplyRobotSpeeds();
 
-   
+    public PPHolonomicDriveController holonomicController; // new variable
+
+    private Pose2d lastPose = new Pose2d(); // add field to store the latest pose
+
+    //field2d
+    private final Field2d field = new Field2d();
 
     /* SysId routine for characterizing translation. This is used to find PID gains for the drive motors. */
     private final SysIdRoutine m_sysIdRoutineTranslation = new SysIdRoutine(
@@ -134,6 +140,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SwerveModuleConstants<?, ?, ?>... modules
     ) {
         super(drivetrainConstants, modules);
+        this.holonomicController = new PPHolonomicDriveController(
+            new PIDConstants(10, 0, 0),
+            new PIDConstants(7, 0, 0)
+        );
         if (Utils.isSimulation()) {
             startSimThread();
         }
@@ -159,6 +169,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SwerveModuleConstants<?, ?, ?>... modules
     ) {
         super(drivetrainConstants, odometryUpdateFrequency, modules);
+        this.holonomicController = new PPHolonomicDriveController(
+            new PIDConstants(10, 0, 0),
+            new PIDConstants(7, 0, 0)
+        );
         if (Utils.isSimulation()) {
             startSimThread();
         }
@@ -192,6 +206,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SwerveModuleConstants<?, ?, ?>... modules
     ) {
         super(drivetrainConstants, odometryUpdateFrequency, odometryStandardDeviation, visionStandardDeviation, modules);
+        this.holonomicController = new PPHolonomicDriveController(
+            new PIDConstants(10, 0, 0),
+            new PIDConstants(7, 0, 0)
+        );
         if (Utils.isSimulation()) {
             startSimThread();
         }
@@ -254,7 +272,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 m_hasAppliedOperatorPerspective = true;
             });
         }
-    }
+        SmartDashboard.putData("Field", field);
+        field.setRobotPose(AutoBuilder.getCurrentPose());}
+
 
     private void startSimThread() {
         m_lastSimTime = Utils.getCurrentTimeSeconds();
@@ -318,12 +338,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                         .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesXNewtons())
                         .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesYNewtons())
                 ),
-                new PPHolonomicDriveController(
-                    // PID constants for translation
-                    new PIDConstants(10, 0, 0),
-                    // PID constants for rotation
-                    new PIDConstants(7, 0, 0)
-                ),
+                // use the new holonomicController variable instead of inline creation
+                holonomicController,
                 config,
                 // Assume the path needs to be flipped for Red vs Blue, this is normally the case
                 () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,

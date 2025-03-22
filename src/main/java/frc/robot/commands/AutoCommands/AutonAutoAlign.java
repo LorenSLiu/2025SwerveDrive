@@ -60,6 +60,7 @@ public class AutonAutoAlign extends Command {
       SmartDashboard.putNumber("xspee", xSpeed);
       double ySpeed = yController.calculate(postions[0]);
       double rotValue = rotController.calculate(postions[4]);
+
     
 
     

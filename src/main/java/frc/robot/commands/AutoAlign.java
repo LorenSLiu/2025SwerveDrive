@@ -1,6 +1,9 @@
 package frc.robot.commands;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
@@ -89,8 +92,11 @@ public class AutoAlign extends Command {
     drivebase.setControl(m_driveRequest.withVelocityX(0)
     .withVelocityY(0)
     .withRotationalRate(0));
+
+    PPHolonomicDriveController.clearFeedbackOverrides();
+    AutoBuilder.resetOdom(drivebase.getState().Pose);    
+  }
     
-    Path
 
   @Override
   public boolean isFinished() {
