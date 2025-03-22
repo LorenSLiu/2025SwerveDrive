@@ -62,6 +62,8 @@ import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.path.Waypoint;
 
+
+
 public class RobotContainer {
         // swerve drive stuff
         private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top
@@ -115,6 +117,10 @@ public class RobotContainer {
         private final Trigger driveLeftBumper = m_driverController.leftBumper();
         private final Trigger driveLeftTrigger = m_driverController.leftTrigger();
         private final Trigger drivePovDOWN = m_driverController.povDown();
+        private final Trigger drivePovUP = m_driverController.povUp();
+
+
+        private Distance SOURCE_HEIGHT = Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA;
 
         private boolean sadMode = false;
         private final SendableChooser<Command> autoChooser;
@@ -193,18 +199,22 @@ public class RobotContainer {
                         .onlyWhile(intake::hasCoralAuto);
 
         public Command returnToPathFromAutoLine() {
-                return new InstantCommand(() -> {
-                        Pose2d lastPoseToGo = RecordLastPose.getRecordedPose();
-                        if (lastPoseToGo == null) {
-                                System.out.println("No valid recorded pose yet!");
-                                return;
-                        }
-                        PathConstraints constraints = new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI);
-                        Command returnCommand = AutoBuilder.pathfindToPose(lastPoseToGo, constraints);
-                        // Schedule or run the command as needed
-                        returnCommand.schedule();
-                }, drivetrain);
-        }
+                return Commands.defer(() -> {
+                                Pose2d lastPoseToGo = RecordLastPose.getRecordedPose();
+                                if (lastPoseToGo == null) {
+                                                System.out.println("No valid recorded pose yet!");
+                                                return Commands.none();
+                                }
+
+                                if (lastPoseToGo.equals(new Pose2d(0, 0, new Rotation2d(0)))) {
+                                                System.out.println("Recorded pose is default(0.0.0), returning none command");
+                                                return Commands.none();
+                                }
+
+                                PathConstraints constraints = new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI);
+                                        return AutoBuilder.pathfindToPose(lastPoseToGo, constraints);
+                        }, Set.of(drivetrain));
+                }
 
         // Command AEI_Source = CreateSoringCommand(
         // Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA,
@@ -244,6 +254,13 @@ public class RobotContainer {
         System.out.println("No recorded pose available; returning a no-op command.");
         return Commands.none();
         }
+
+        if(lastPoseToGo.equals(new Pose2d(0,0, new Rotation2d(0)))){
+                System.out.println("Recorded pose is default(0.0.0), returning none coommand");
+                return Commands.none();
+        }
+
+
         System.out.println("Generating on the fly path from current pose to: " + lastPoseToGo);
 
         // Define path constraints (max velocity, acceleration, etc.)
@@ -253,6 +270,8 @@ public class RobotContainer {
         // AutoBuilder.pathfindToPose will internally use the current robot pose from your drivetrain.
         return AutoBuilder.pathfindToPose(lastPoseToGo, constraints);
         }, Set.of(drivetrain));
+
+
         Command returnToPathCommand2 = Commands.defer(() -> {
         // Get the latest recorded pose
         Pose2d lastPoseToGo = RecordLastPose.getRecordedPose();
@@ -262,12 +281,24 @@ public class RobotContainer {
         }
         
 
-        if(lastPoseToGo.getX() == 0.0 && lastPoseToGo.getY() == 0.0 && lastPoseToGo.getRotation().getRadians() == 0.0){
+        if(lastPoseToGo.equals(new Pose2d(0,0, new Rotation2d(0)))){
                 System.out.println("Recorded pose is default(0.0.0), returning none coommand");
                 return Commands.none();
         }
         // Get the current pose from the drivetrain
         Pose2d currentPose = drivetrain.getState().Pose;
+
+        if(currentPose == null){
+                System.out.println("Current pose is null, returning none command");
+                return Commands.none();
+        }
+
+        if(currentPose.equals(new Pose2d(0,0, new Rotation2d(0)))){
+                System.out.println("Current pose is default(0.0.0), returning none coommand");
+                return Commands.none();
+        }
+
+
         System.out.println("Generating on-the-fly path from current pose " + currentPose + " to: " + lastPoseToGo);
         
         // Create a list of waypoints from the current and target poses.
@@ -297,9 +328,8 @@ public class RobotContainer {
                 new RecordLastPose(drivetrain).withTimeout(0.5),
                 new AutoAlign(true, drivetrain),
                 AEI_Scoring_L4_OCR_FIX,
-                returnToPathCommand2
+                returnToPathCommand
         );
-
         // Command AEI_Scoring_Source_OCR_FIX = new SequentialCommandGroup(
         // new ParallelCommandGroup(
         // new ElevatorAutonComomands(elevatorSubsystem,
@@ -460,12 +490,27 @@ public class RobotContainer {
                 // counterclockwise with negative X (left)
                 // )
                 );
+                driveA.onTrue(new InstantCommand(() -> {SOURCE_HEIGHT = Inches.of(SOURCE_HEIGHT.in(Inches) - 0.25);
+                
+                        new ElevatorSetPositionCommand(elevatorSubsystem, SOURCE_HEIGHT)
+                                .alongWith(Commands.print("Elevator Source, Height: " + Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA.in(Units.Meters))).schedule();
+        
+                        System.out.println("Source Height: " + SOURCE_HEIGHT.in(Inches));}
+                        ));
+        
+                driveY.onTrue(new InstantCommand(() -> {SOURCE_HEIGHT = Inches.of(SOURCE_HEIGHT.in(Inches) + 0.25);
+        
+                        new ElevatorSetPositionCommand(elevatorSubsystem, SOURCE_HEIGHT)
+                                .alongWith(Commands.print("Elevator Source, Height: " + Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA.in(Units.Meters))).schedule();
+                        System.out.println("Source Height: " + SOURCE_HEIGHT.in(Inches));}
+                        ));
+                
 
-                m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
-                m_driverController.b().whileTrue(drivetrain
-                                .applyRequest(() -> point.withModuleDirection(
-                                                new Rotation2d(-m_driverController.getLeftY(),
-                                                                -m_driverController.getLeftX()))));
+                //m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
+                // m_driverController.b().whileTrue(drivetrain
+                //                 .applyRequest(() -> point.withModuleDirection(
+                //                                 new Rotation2d(-m_driverController.getLeftY(),
+                //                                                 -m_driverController.getLeftX()))));
 
                 // Run SysId routines when holding back/start and X/Y.
                 // Note that each routine should be run exactly once in a single log.
@@ -480,6 +525,15 @@ public class RobotContainer {
 
                 // reset the field-centric heading on POV down press
                 drivePovDOWN.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+
+                drivePovUP.whileTrue(new InstantCommand(() -> {
+                        new ElevatorSetPositionCommand(elevatorSubsystem, Constants.ElevatorConstants.SP_ELEVATOR_SOURCE_DELTA)
+                                        .alongWith(Commands.print("Elevator Source, Height: " + Constants.ElevatorConstants.SP_ELEVATOR_SOURCE_DELTA.in(Units.Meters))).schedule();
+                                        new ArmSetPositionCommand(arm, ArmConstant.SP_CORAL_STATION_ANGLE_VERTICAL.in(Degrees))
+                                        .alongWith(Commands.print("Arm Source, Angles: " + ArmConstant.SP_CORAL_STATION_ANGLE_VERTICAL.in(Degrees))).schedule();
+                                        arm.setState(5);
+                
+                        }));
 
                 drivetrain.registerTelemetry(logger::telemeterize);
                 // end of swerve drive bindings
@@ -540,7 +594,7 @@ public class RobotContainer {
                 // SOURCE
                 auxRightBumper.onTrue(new InstantCommand(() -> {
                         new ElevatorSetPositionCommand(elevatorSubsystem,
-                                        Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA)
+                        SOURCE_HEIGHT)
                                         .alongWith(Commands.print("Elevator Source, Height: "
                                                         + Constants.ElevatorConstants.ELEVATOR_SOURCE_DELTA
                                                                         .in(Units.Meters)))

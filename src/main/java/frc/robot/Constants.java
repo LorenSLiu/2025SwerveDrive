@@ -200,7 +200,7 @@ public final class Constants {
     // public static final Distance STAGE_3_HEIGHT_DELTA  = Inches.of(0);
     // public static final Distance STAGE_4_HEIGHT_DELTA  = Inches.of(27.4);
 
-    public static final Distance ELEVATOR_SOURCE_DELTA = Inches.of(13);//check
+    public static final Distance ELEVATOR_SOURCE_DELTA = Inches.of(13.5);//check
 
     public static final Distance SP_ELEVATOR_SOURCE_DELTA = Inches.of(10.5);
     public static final Distance ELEVATOR_BASE_DELTA = Inches.of(0);
