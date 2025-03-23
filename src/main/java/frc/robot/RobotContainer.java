@@ -294,7 +294,10 @@ public class RobotContainer {
         }, Set.of(drivetrain));
                 Command Auto_Align_L4 = Commands.sequence(
                 new RecordLastPose(drivetrain).withTimeout(0.1),
+                
                 new AutoAlign(drivetrain).withTimeout(3),
+
+
                 returnToPathCommand
         );
 
