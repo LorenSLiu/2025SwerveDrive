@@ -293,8 +293,7 @@ public class RobotContainer {
         }, Set.of(drivetrain));
                 Command Auto_Align_L4 = Commands.sequence(
                 new RecordLastPose(drivetrain).withTimeout(0.5),
-                new AutoAlignSim(true, drivetrain),
-                returnToPathCommand2
+                new AutoAlign(drivetrain).withTimeout(2)
         );
 
         // Command AEI_Scoring_Source_OCR_FIX = new SequentialCommandGroup(
@@ -509,7 +508,7 @@ public class RobotContainer {
                 // auxRightTrigger.onTrue(new RunCommand(() -> {arm.setState(0);}, arm));
 
                 driveRightBumper.whileTrue(
-                                new AutoAlign(true, drivetrain));
+                                new AutoAlign(drivetrain));
 
                 driveLeftBumper.whileTrue(// new InstantCommand(() -> {
                                 // new ElevatorSetPositionCommand(elevatorSubsystem,
@@ -523,7 +522,7 @@ public class RobotContainer {
                                 // arm.setState(5);
 
                                 // })
-                                new AutoAlign(false, drivetrain));
+                                new AutoAlign(drivetrain));
 
                 // SADMODE TRIGGER
                 auxLeftBumper.onTrue(new InstantCommand(() -> {
