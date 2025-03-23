@@ -6,6 +6,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.AutoAlign;
 import frc.robot.commands.AutoAlignSim;
 import frc.robot.commands.RecordLastPose;
+import frc.robot.commands.ReturnToPreviousPose;
 import frc.robot.commands.ArmCommand.ArmSetPositionCommand;
 import frc.robot.commands.ArmCommand.youParyArm;
 import frc.robot.commands.AutoCommands.ElevatorAutonComomands;
@@ -292,8 +293,9 @@ public class RobotContainer {
         return AutoBuilder.followPath(path);
         }, Set.of(drivetrain));
                 Command Auto_Align_L4 = Commands.sequence(
-                new RecordLastPose(drivetrain).withTimeout(0.5),
-                new AutoAlign(drivetrain).withTimeout(2)
+                new RecordLastPose(drivetrain).withTimeout(0.1),
+                new AutoAlign(drivetrain).withTimeout(3),
+                returnToPathCommand
         );
 
         // Command AEI_Scoring_Source_OCR_FIX = new SequentialCommandGroup(
