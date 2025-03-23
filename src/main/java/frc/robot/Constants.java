@@ -34,9 +34,9 @@ public final class Constants {
 
 	public static final double ROT_SETPOINT_REEF_ALIGNMENT = 0;  // Rotation
 	public static final double ROT_TOLERANCE_REEF_ALIGNMENT = 1;
-	public static final double X_SETPOINT_REEF_ALIGNMENT = 0.189;  // Vertical pose 0.199
+	public static final double X_SETPOINT_REEF_ALIGNMENT = -0.146;  // Vertical pose 0.199
 	public static final double X_TOLERANCE_REEF_ALIGNMENT = 0.02;
-	public static final double Y_SETPOINT_REEF_ALIGNMENT = 0.336;  // Horizontal pose //0.331 
+	public static final double Y_SETPOINT_REEF_ALIGNMENT = 0.345;  // Horizontal pose //0.331 
 	public static final double Y_TOLERANCE_REEF_ALIGNMENT = 0.01;
   public static final double DONT_SEE_TAG_WAIT_TIME = 1;
 	public static final double POSE_VALIDATION_TIME = 0.3;
@@ -98,7 +98,7 @@ public final class Constants {
     // public static final Angle Arm_ClimbingAngle             = Degrees.of(-90);
     public static final Angle STAGE_1_ANGLE_VERTICAL        = Degrees.of(-18); 
     public static final Angle STAGE_2_ANGLE_VERTICAL        = Degrees.of(-17);
-    public static final Angle STAGE_3_ANGLE_VERTICAL        = Degrees.of(220);
+    public static final Angle STAGE_3_ANGLE_VERTICAL        = Degrees.of(218);
     public static final Angle STAGE_4_ANGLE_VERTICAL        = Degrees.of(222);
 
     public static final Angle Arm_ClimbingAngle             = Degrees.of(-90);
@@ -114,7 +114,7 @@ public final class Constants {
     public static final double test = 0.0;
     public static final double kArmP = 4.4;
     public static final double kArmI = 0.003;
-    public static final double kArmD = 0.001;
+    public static final double kArmD = 0.002;
 
     public static final double kMaxAngle = 225;
     public static final double kMinAngle = -225;

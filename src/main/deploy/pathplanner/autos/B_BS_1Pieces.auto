@@ -9,6 +9,12 @@
           "data": {
             "pathName": "B_BS_Path"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AEI_Scoring_L4_OCR_FIX"
+          }
         }
       ]
     }
