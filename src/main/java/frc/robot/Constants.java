@@ -112,9 +112,9 @@ public final class Constants {
 
     //random stuff
     public static final double test = 0.0;
-    public static final double kArmP = 4.4;
-    public static final double kArmI = 0.003;
-    public static final double kArmD = 0.002;
+    public static final double kArmP = 2.8;
+    public static final double kArmI = 0.002;
+    public static final double kArmD = 0.001;
 
     public static final double kMaxAngle = 225;
     public static final double kMinAngle = -225;
